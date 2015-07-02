@@ -19,6 +19,10 @@
  *
  */
 
+#ifndef BOVTODAT_H
+#define BOVTODAT_H
+#include "libQccPack.h"
+#endif /* BOVTODAT_H */
 
 #include "bovtodat.h"
 
@@ -140,6 +144,9 @@ int main(int argc, char *argv[])
       QccErrorExit();
     }
 
+/* 
+ * Old implementation reading from ascii files
+ *
   for (entry = 0; entry < Dataset.num_vectors * VectorDimension; entry++) {
       for (component = 0; component < VectorDimension; component++)
       {
@@ -161,6 +168,13 @@ int main(int argc, char *argv[])
           QccErrorExit();
       }
   }
+*/
+
+/* 
+ * Sam's implementation reading from binary files
+ */
+    for( entry = 0; entry < Dataset.num_vectors
+
 
   if (QccDatasetEndWrite(&Dataset))
   {
