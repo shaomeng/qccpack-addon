@@ -43,6 +43,16 @@ int ImageCubeReadData( QccString filename, QccIMGImageCube* image_cube )
         printf( "Input file read error!\n");
         exit(1);
     }  
+
+    double min = MAXDOUBLE;
+    double max = -MAXDOUBLE;
+    for( long i = 0; i < size; i++ ) {
+        if( buf[i] < min )      min = buf[i];
+        if( buf[i] > max )      max = buf[i];
+    }
+    image_cube -> min_val = min;
+    image_cube -> max_val = max;
+        
     
     int frame, row, col;
     long idx = 0;
@@ -75,6 +85,8 @@ int main (int argc, char* argv[] )
     ImageCubeReadData( input_name, &imagecube );
 
     QccIMGImageCubePrint( &imagecube );
+
+    QccIMGImageCubeWrite( &imagecube );
 
     return 0;
 }
