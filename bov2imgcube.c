@@ -13,6 +13,7 @@
 
 #define USG_STRING "%d:num_cols %d:num_rows %d:num_frames %s:input_name %s:output_name"
 
+
 int ImageCubeReadData( QccString filename, QccIMGImageCube* image_cube )
 {
     FILE* infile = fopen( filename, "rb" );
@@ -36,32 +37,32 @@ int ImageCubeReadData( QccString filename, QccIMGImageCube* image_cube )
         exit(1);
     }
 
-    fseek( infile, 0, SEEK_SET );
-    float* buf = malloc( sizeof(float) * size );
-    long result = fread( buf, sizeof(float), size, infile );
-    fclose( infile );
-    if( result != size ) {
-        printf( "Input file read error!\n");
-        exit(1);
-    }  
-
     double min = MAXDOUBLE;
     double max = -MAXDOUBLE;
-    for( long i = 0; i < size; i++ ) {
-        if( buf[i] < min )      min = buf[i];
-        if( buf[i] > max )      max = buf[i];
-    }
-    image_cube -> min_val = min;
-    image_cube -> max_val = max;
-        
-    
     int frame, row, col;
-    long idx = 0;
-    for (frame = 0; frame < image_cube->num_frames; frame++)
+    long planeSize = (image_cube -> num_cols) * (image_cube -> num_rows);
+    float* buf = malloc( sizeof(float) * planeSize );
+
+    for( frame = 0; frame < image_cube -> num_frames; frame++ ) {
+        fseek( infile, sizeof(float) * frame * planeSize, SEEK_SET );
+        long result = fread( buf, sizeof(float), planeSize, infile );
+        if( result != planeSize ) {
+            printf( "Input file read error!\n");
+            exit(1);
+        }
+        long i;
+        for( i = 0; i < planeSize; i++ ) {
+            if( buf[i] < min )      min = buf[i];
+            if( buf[i] > max )      max = buf[i];
+        }
+        i = 0;
         for (row = 0; row < image_cube->num_rows; row++)
             for (col = 0; col < image_cube->num_cols; col++)
-                image_cube -> volume[frame][row][col] = buf[ idx++ ]; 
+                image_cube -> volume[frame][row][col] = buf[ i++ ]; 
+    }
 
+    image_cube -> min_val = min;
+    image_cube -> max_val = max;
     free( buf );
     return 0;
 }

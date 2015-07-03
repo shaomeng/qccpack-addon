@@ -14,26 +14,30 @@
 
 int ImageCubeWriteData( QccString filename, QccIMGImageCube* image_cube )
 {
-    long size = (image_cube->num_frames) * (image_cube->num_rows) *
-                (image_cube->num_cols);
-    float* buf = malloc( sizeof(float) * size );
     int frame, row, col;
-    long idx = 0;
-    for (frame = 0; frame < image_cube->num_frames; frame++)
-        for (row = 0; row < image_cube->num_rows; row++)
-            for (col = 0; col < image_cube->num_cols; col++)
-                buf[ idx++ ] = image_cube -> volume[frame][row][col];
-
+    long idx;
+    long planeSize = (image_cube->num_cols) * (image_cube->num_rows);
+    float* buf = malloc( sizeof(float) * planeSize );
     FILE* outfile = fopen( filename, "wb" );
     if( outfile  == NULL ) {
         printf( "Read file open error!\n" );
         exit(1);
     }
-    long result = fwrite( buf, sizeof(float), size, outfile );
-    if( result != size ) {
-        printf( "Output file write error!\n");
-        exit(1);
-    }  
+
+    for (frame = 0; frame < image_cube->num_frames; frame++) {
+        idx = 0;
+        for (row = 0; row < image_cube->num_rows; row++)
+            for (col = 0; col < image_cube->num_cols; col++)
+                buf[ idx++ ] = image_cube -> volume[frame][row][col];
+
+        fseek( outfile, 0, SEEK_END );
+        long result = fwrite( buf, sizeof(float), planeSize, outfile );
+        if( result != planeSize ) {
+            printf( "Output file write error!\n");
+            exit(1);
+        }  
+    }
+
     fclose( outfile );
     free( buf );
     return 0;
