@@ -25,7 +25,8 @@ int ImageCubeReadData( QccString filename, QccIMGImageCube* image_cube )
     long size = ftell( infile );
     if( size % 4 == 0 ) {
         size /= 4;
-        if( size != image_cube -> num_cols * image_cube -> num_rows * image_cube -> num_frames ) {
+        if( size != (image_cube->num_cols) * (image_cube->num_rows) *
+                    (image_cube -> num_frames)  )   {
             printf( "Read file length error!\n" );
             exit(1);
         }
@@ -76,17 +77,14 @@ int main (int argc, char* argv[] )
         QccErrorExit();
  
 
-    printf( "Input filename: %s \n ", input_name );
-
     if( QccIMGImageCubeAlloc( &imagecube ) )
         QccErrorPrintMessages();
 
 
     ImageCubeReadData( input_name, &imagecube );
-
-    QccIMGImageCubePrint( &imagecube );
-
     QccIMGImageCubeWrite( &imagecube );
+
+//    QccIMGImageCubePrint( &imagecube );
 
     return 0;
 }
