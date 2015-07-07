@@ -1,0 +1,20 @@
+8 bit:
+	vx_512_8bit.float: min=-2.833816, max=2.807279
+	vx_512.float: min=-2.833806, max=2.807286
+	rmse=1.334582e-05, L-infy=8.589029e-05
+ 
+4 bit:
+	vx_512_4bit.float: min=-2.833483, max=2.807506
+	vx_512.float: min=-2.833806, max=2.807286
+	rmse=2.218591e-04, L-infy=1.480371e-03
+ 
+2 bit:
+	vx_512_2bit.float: min=-2.832834, max=2.809366
+	vx_512.float: min=-2.833806, max=2.807286
+	rmse=1.072607e-03, L-infy=9.348191e-03
+ 
+1 bit:
+	vx_512_1bit.float: min=-2.830488, max=2.812634
+	vx_512.float: min=-2.833806, max=2.807286
+	rmse=2.942536e-03, L-infy=2.380937e-02
+ 

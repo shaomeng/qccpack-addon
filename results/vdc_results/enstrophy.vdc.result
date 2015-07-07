@@ -1,0 +1,25 @@
+Lod 4:
+	enstrophy.lod4.float: min=0.000274, max=82842.945312
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=1.920353e-05, L-infy=9.765625e-04
+ 
+Lod 3:
+	enstrophy.lod3.float: min=0.000262, max=82842.945312
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=1.636393e+01, L-infy=1.505386e+02
+ 
+Lod 2:
+	enstrophy.lod2.float: min=0.000262, max=82842.945312
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=3.755861e+01, L-infy=4.597891e+02
+ 
+Lod 1:
+	enstrophy.lod1.float: min=0.000262, max=82818.578125
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=6.942231e+01, L-infy=9.253132e+02
+ 
+Lod 0:
+	enstrophy.lod0.float: min=0.000262, max=82842.945312
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=1.122826e+02, L-infy=1.724757e+03
+ 

@@ -1,0 +1,25 @@
+Lod 0:
+	wx.lod0.float: min=-293.911804, max=331.821136
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=3.009318e+00, L-infy=3.875494e+01
+ 
+Lod 1:
+	wx.lod1.float: min=-293.215210, max=332.248322
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=2.022416e+00, L-infy=2.549102e+01
+ 
+Lod 2:
+	wx.lod2.float: min=-291.982666, max=332.248322
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=1.236165e+00, L-infy=1.668758e+01
+ 
+Lod 3:
+	wx.lod3.float: min=-293.911804, max=332.248322
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=5.958079e-01, L-infy=7.020988e+00
+ 
+Lod 4:
+	wx.lod4.float: min=-293.911804, max=332.248322
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=6.301237e-07, L-infy=2.288818e-05
+ 

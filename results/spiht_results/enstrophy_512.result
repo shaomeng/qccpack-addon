@@ -1,0 +1,20 @@
+8 bit:
+	enstrophy_512_8bit.float: min=-0.532827, max=82842.976562
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=1.457495e-01, L-infy=8.539772e-01
+ 
+4 bit:
+	enstrophy_512_4bit.float: min=-13.476599, max=82842.789062
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=2.523492e+00, L-infy=2.125745e+01
+ 
+2 bit:
+	enstrophy_512_2bit.float: min=-66.887932, max=82849.843750
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=1.132082e+01, L-infy=9.349847e+01
+ 
+1 bit:
+	enstrophy_512_1bit.float: min=-244.805588, max=82842.656250
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=2.949100e+01, L-infy=3.345662e+02
+ 

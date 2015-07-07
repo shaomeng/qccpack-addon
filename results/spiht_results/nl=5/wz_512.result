@@ -1,0 +1,25 @@
+1 bit:
+	wz_512_1bit.float: min=-292.519073, max=291.844666
+	wz_512.float: min=-292.722351, max=291.399841
+	rmse=7.659336e-01, L-infy=5.628223e+00
+ 
+2 bit:
+	wz_512_2bit.float: min=-292.361176, max=291.488495
+	wz_512.float: min=-292.722351, max=291.399841
+	rmse=2.975916e-01, L-infy=2.452146e+00
+ 
+4 bit:
+	wz_512_4bit.float: min=-292.679749, max=291.480896
+	wz_512.float: min=-292.722351, max=291.399841
+	rmse=6.049703e-02, L-infy=3.680377e-01
+ 
+8 bit:
+	wz_512_8bit.float: min=-292.719025, max=291.400146
+	wz_512.float: min=-292.722351, max=291.399841
+	rmse=3.729477e-03, L-infy=2.277756e-02
+ 
+12 bit:
+	wz_512_12bit.float: min=-292.722595, max=291.399811
+	wz_512.float: min=-292.722351, max=291.399841
+	rmse=2.330187e-04, L-infy=1.412630e-03
+ 
