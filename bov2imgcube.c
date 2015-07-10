@@ -7,7 +7,6 @@
  */
 
 #include "libQccPack.h"
-#include "libQccPackIMG.h"
 #include <stdio.h>
 #include <stdlib.h>
 

@@ -6,7 +6,6 @@
  */
 
 #include "libQccPack.h"
-#include "libQccPackIMG.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -52,7 +51,10 @@ int main (int argc, char* argv[] )
     if( QccParseParameters( argc, argv, USG_STRING, imagecube.filename, output_name ) )
         QccErrorExit();
 
-    QccIMGImageCubeRead( &imagecube );
+    if( QccIMGImageCubeRead( &imagecube ) ) {
+        QccErrorAddMessage( "%s: Read input imagecube failed: %s", argv[0], argv[1] );
+        QccErrorExit();
+    }
     ImageCubeWriteData( output_name, &imagecube );
 
 //    QccIMGImageCubePrint( &imagecube );
