@@ -1,0 +1,20 @@
+1 bit:
+	spiht.enstrophy_512_1bit.float: min=-256.425812, max=82855.812500
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=3.558814e+01, L-infy=3.872850e+02
+ 
+2 bit:
+	spiht.enstrophy_512_2bit.float: min=-74.904823, max=82837.796875
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=1.346265e+01, L-infy=1.142086e+02
+ 
+4 bit:
+	spiht.enstrophy_512_4bit.float: min=-17.290373, max=82841.843750
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=2.972673e+00, L-infy=2.369653e+01
+ 
+8 bit:
+	spiht.enstrophy_512_8bit.float: min=-0.834540, max=82842.867188
+	enstrophy_512.float: min=0.000262, max=82842.945312
+	rmse=1.834384e-01, L-infy=1.394421e+00
+ 

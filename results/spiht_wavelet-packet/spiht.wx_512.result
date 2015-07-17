@@ -1,0 +1,20 @@
+1 bit:
+	spiht.wx_512_1bit.float: min=-294.277161, max=333.442200
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=7.750666e-01, L-infy=6.010475e+00
+ 
+2 bit:
+	spiht.wx_512_2bit.float: min=-293.973450, max=332.084473
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=2.970517e-01, L-infy=2.439081e+00
+ 
+4 bit:
+	spiht.wx_512_4bit.float: min=-293.907104, max=332.257843
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=6.031854e-02, L-infy=4.107621e-01
+ 
+8 bit:
+	spiht.wx_512_8bit.float: min=-293.908844, max=332.248627
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=3.699907e-03, L-infy=2.714491e-02
+ 

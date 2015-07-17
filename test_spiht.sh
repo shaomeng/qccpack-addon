@@ -3,7 +3,7 @@
 module load qccpack-test
 
 # number of bits per voxel
-num_bit=( 1 )
+num_bit=( 1 2 4 8 )
 
 cd /opt/flash_buffer/samuel
 prefix=vx_512

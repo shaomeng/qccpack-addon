@@ -7,8 +7,8 @@
  */
 
 #include "libQccPack.h"
-#include <stdio.h>
-#include <stdlib.h>
+// #include <stdio.h>
+// #include <stdlib.h>
 
 #define USG_STRING "%d:num_cols %d:num_rows %d:num_frames %s:input_name %s:output_name"
 

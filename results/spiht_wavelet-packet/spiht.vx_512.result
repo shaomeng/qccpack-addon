@@ -1,0 +1,21 @@
+Wavelet-Packet results:
+1 bit:
+	spiht.vx_512_1bit.float: min=-2.831902, max=2.806117
+	vx_512.float: min=-2.833806, max=2.807286
+	rmse=2.914214e-03, L-infy=2.073258e-02
+ 
+2 bit:
+	spiht.vx_512_2bit.float: min=-2.834018, max=2.807518
+	vx_512.float: min=-2.833806, max=2.807286
+	rmse=1.035853e-03, L-infy=8.589357e-03
+ 
+4 bit:
+	spiht.vx_512_4bit.float: min=-2.833787, max=2.807439
+	vx_512.float: min=-2.833806, max=2.807286
+	rmse=2.169849e-04, L-infy=1.474261e-03
+ 
+8 bit:
+	spiht.vx_512_8bit.float: min=-2.833805, max=2.807293
+	vx_512.float: min=-2.833806, max=2.807286
+	rmse=1.297313e-05, L-infy=8.617342e-05
+ 

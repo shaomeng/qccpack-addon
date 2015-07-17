@@ -1,0 +1,15 @@
+	wx_512.rect.float: min=-293.862457, max=332.627045
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=5.226075e-01, L-infy=4.049145e+00
+
+	wx_512.rect.float: min=-294.950165, max=332.630127
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=1.095908e+00, L-infy=8.477190e+00
+
+	wx_512.rect.float: min=-291.665558, max=334.308502
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=1.810629e+00, L-infy=1.419737e+01
+
+	wx_512.rect.float: min=-292.658508, max=331.801086
+	wx_512.float: min=-293.911804, max=332.248322
+	rmse=2.715359e+00, L-infy=2.446891e+01
