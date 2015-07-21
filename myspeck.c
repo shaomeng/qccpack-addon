@@ -1,6 +1,6 @@
-#include "myspiht.h"
+#include "myspeck.h"
 
-int myspihtencode3d( float* srcBuf,
+int myspeckencode3d( float* srcBuf,
                  int srcX,
                  int srcY,
                  int srcZ,
@@ -39,17 +39,16 @@ int myspihtencode3d( float* srcBuf,
     imagecube.max_val = max;
 
     /*
-     * Sets up parameters for DWT and SPIHT encoding.
+     * Sets up parameters for DWT and SPECK encoding.
      */
     int TransformType = QCCWAVSUBBANDPYRAMID3D_DYADIC;
-    int ZerotreeType = QCCSPIHT3D_ZEROTREE_DYADIC;
     int SpatialNumLevels = nLevels;
     int TemporalNumLevels = nLevels;
     QccWAVWavelet Wavelet;
     QccWAVWaveletInitialize(&Wavelet);
     QccString WaveletFilename = QCCWAVWAVELET_DEFAULT_WAVELET;
     QccString Boundary = "symmetric";
-    if (QccWAVWaveletCreate(&Wavelet, WaveletFilename, Boundary))
+    if (QccWAVWaveletCreate(&Wavelet, WaveletFilename, Boundary)) 
     {
       QccErrorAddMessage("Error calling QccWAVWaveletCreate()");
       QccErrorExit();
@@ -61,34 +60,11 @@ int myspihtencode3d( float* srcBuf,
     int ImageNumFrames = imagecube.num_frames;
     int ImageNumRows = imagecube.num_rows;
     int ImageNumCols = imagecube.num_cols;
-  if (ImageNumFrames !=
-      ((int)(ImageNumFrames >> (TemporalNumLevels + 1)) << (TemporalNumLevels + 1)))
-    {
-      QccErrorAddMessage("Image-cube size (%d x %d x %d) is not a multiple of %d (as needed for a temporal decomposition of %d levels)",
-                         ImageNumCols, ImageNumRows, ImageNumFrames,
-                         (1 << (TemporalNumLevels + 1)), TemporalNumLevels);
-      QccErrorExit();
-    }
-  if (ImageNumCols !=
-      ((int)(ImageNumCols >> (SpatialNumLevels + 1)) << (SpatialNumLevels + 1)))
-    {
-      QccErrorAddMessage("Image-cube size (%d x %d x %d) is not a multiple of %d (as needed for a spatial decomposition of %d levels)",
-                         ImageNumCols, ImageNumRows, ImageNumFrames,
-                         (1 << (SpatialNumLevels + 1)), SpatialNumLevels);
-      QccErrorExit();
-    }
-  if (ImageNumRows !=
-      ((int)(ImageNumRows >> (SpatialNumLevels + 1)) << (SpatialNumLevels + 1)))
-    {
-      QccErrorAddMessage("Image-cube size (%d x %d x %d) is not a multiple of %d (as needed for a spatial decomposition of %d levels)",
-                         ImageNumCols, ImageNumRows, ImageNumFrames,
-                         (1 << (SpatialNumLevels + 1)), SpatialNumLevels);
-      QccErrorExit();
-    }
     int NumPixels = ImageNumFrames * ImageNumRows * ImageNumCols;
     long long int pxlcount = (long long int)ImageNumFrames * ImageNumRows * ImageNumCols;
-    if( pxlcount > INT_MAX ) {
-        QccErrorAddMessage("TargetBitCnt overflow. Please try smaller data sets.");
+    if( pxlcount > INT_MAX ) 
+    {
+        QccErrorAddMessage("NumPixels overflow. Please try smaller data sets.");
         QccErrorExit();
     }
 
@@ -104,17 +80,23 @@ int myspihtencode3d( float* srcBuf,
         QccErrorAddMessage("Error calling QccBitBufferStart()");
         QccErrorExit();
     }
+    int TargetBitCnt = (int)(ceil((NumPixels * TargetRate)/8.0))*8;
     long long int bitcount = (long long int)(ceil((NumPixels * TargetRate)/8.0))*8;
-    if( bitcount > INT_MAX ) {
+    if( bitcount > INT_MAX ) 
+    {
         QccErrorAddMessage("TargetBitCnt overflow. Please try smaller data sets.");
         QccErrorExit();
     }
-    int TargetBitCnt = (int)(ceil((NumPixels * TargetRate)/8.0))*8;
-    int NoArithmeticCoding = 0;
-    if ( QccSPIHT3DEncode(&(imagecube), NULL, &OutputBuffer, TransformType, ZerotreeType,
-         TemporalNumLevels, SpatialNumLevels, &Wavelet, TargetBitCnt, NoArithmeticCoding) )
+    if ( QccSPECK3DEncode( &imagecube, 
+                           NULL, 
+                           TransformType, 
+                           TemporalNumLevels, 
+                           SpatialNumLevels, 
+                           &Wavelet, 
+                           &OutputBuffer, 
+                           TargetBitCnt ) )
     {
-      QccErrorAddMessage("Error calling QccSPIHT3DEncode()");
+      QccErrorAddMessage("Error calling QccSPECK3DEncode()");
       QccErrorExit();
     }
 
@@ -122,14 +104,15 @@ int myspihtencode3d( float* srcBuf,
      * Finish up
      */
     float ActualRate = (double)OutputBuffer.bit_cnt / NumPixels;
-    if (QccBitBufferEnd(&OutputBuffer)) {
+    if (QccBitBufferEnd(&OutputBuffer)) 
+    {
         QccErrorAddMessage("Error calling QccBitBufferEnd()" );
         QccErrorExit();
     }
     QccIMGImageCubeFree( &imagecube );
     QccWAVWaveletFree( &Wavelet );
 
-    printf("3D-SPIHT coding to output file: %s:\n", outputFilename );
+    printf("3D-SPECK coding to output file: %s:\n", outputFilename );
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
 
@@ -137,7 +120,7 @@ int myspihtencode3d( float* srcBuf,
     return 0;
 }
 
-int myspihtencode2p1d( float* srcBuf,
+int myspeckencode2p1d( float* srcBuf,
                  int srcX,
                  int srcY,
                  int srcZ,
@@ -177,56 +160,30 @@ int myspihtencode2p1d( float* srcBuf,
     imagecube.max_val = max;
 
     /*
-     * Sets up parameters for DWT and SPIHT encoding.
+     * Sets up parameters for DWT and SPECK encoding.
      * More details could be found in the QccPack documentation.
      */
     int TransformType = QCCWAVSUBBANDPYRAMID3D_PACKET;
-    int ZerotreeType  = QCCSPIHT3D_ZEROTREE_ASPACKET;
     int SpatialNumLevels = XYNumLevels;
     int TemporalNumLevels = ZNumLevels;
     QccWAVWavelet Wavelet;
     QccWAVWaveletInitialize(&Wavelet);
     QccString WaveletFilename = QCCWAVWAVELET_DEFAULT_WAVELET;
     QccString Boundary = "symmetric";
-    if (QccWAVWaveletCreate(&Wavelet, WaveletFilename, Boundary)) {
+    if (QccWAVWaveletCreate(&Wavelet, WaveletFilename, Boundary)) 
+    {
       QccErrorAddMessage("Error calling QccWAVWaveletCreate()");
       QccErrorExit();
     }    
 
-    /*
-     * Dimension check.
-     */
     int ImageNumFrames = imagecube.num_frames;
     int ImageNumRows = imagecube.num_rows;
     int ImageNumCols = imagecube.num_cols;
-  if (ImageNumFrames !=
-      ((int)(ImageNumFrames >> (TemporalNumLevels + 1)) << (TemporalNumLevels + 1)))
-    {
-      QccErrorAddMessage("Image-cube size (%d x %d x %d) is not a multiple of %d (as needed for a temporal decomposition of %d levels)",
-                         ImageNumCols, ImageNumRows, ImageNumFrames,
-                         (1 << (TemporalNumLevels + 1)), TemporalNumLevels);
-      QccErrorExit();
-    }
-  if (ImageNumCols !=
-      ((int)(ImageNumCols >> (SpatialNumLevels + 1)) << (SpatialNumLevels + 1)))
-    {
-      QccErrorAddMessage("Image-cube size (%d x %d x %d) is not a multiple of %d (as needed for a spatial decomposition of %d levels)",
-                         ImageNumCols, ImageNumRows, ImageNumFrames,
-                         (1 << (SpatialNumLevels + 1)), SpatialNumLevels);
-      QccErrorExit();
-    }
-  if (ImageNumRows !=
-      ((int)(ImageNumRows >> (SpatialNumLevels + 1)) << (SpatialNumLevels + 1)))
-    {
-      QccErrorAddMessage("Image-cube size (%d x %d x %d) is not a multiple of %d (as needed for a spatial decomposition of %d levels)",
-                         ImageNumCols, ImageNumRows, ImageNumFrames,
-                         (1 << (SpatialNumLevels + 1)), SpatialNumLevels);
-      QccErrorExit();
-    }
     int NumPixels = ImageNumFrames * ImageNumRows * ImageNumCols;
     long long int pxlcount = (long long int)ImageNumFrames * ImageNumRows * ImageNumCols;
-    if( pxlcount > INT_MAX ) {
-        QccErrorAddMessage("TargetBitCnt overflow. Please try smaller data sets.");
+    if( pxlcount > INT_MAX ) 
+    {
+        QccErrorAddMessage("NumPixels overflow. Please try smaller data sets.");
         QccErrorExit();
     }
 
@@ -242,17 +199,22 @@ int myspihtencode2p1d( float* srcBuf,
         QccErrorAddMessage("Error calling QccBitBufferStart()");
         QccErrorExit();
     }
+    int TargetBitCnt = (int)(ceil((NumPixels * TargetRate)/8.0))*8;
     long long int bitcount = (long long int)(ceil((NumPixels * TargetRate)/8.0))*8;
     if( bitcount > INT_MAX ) {
         QccErrorAddMessage("TargetBitCnt overflow. Please try smaller data sets.");
         QccErrorExit();
     }
-    int TargetBitCnt = (int)(ceil((NumPixels * TargetRate)/8.0))*8;
-    int NoArithmeticCoding = 0;
-    if ( QccSPIHT3DEncode(&(imagecube), NULL, &OutputBuffer, TransformType, ZerotreeType,
-         TemporalNumLevels, SpatialNumLevels, &Wavelet, TargetBitCnt, NoArithmeticCoding) )
+    if ( QccSPECK3DEncode( &imagecube, 
+                           NULL, 
+                           TransformType, 
+                           TemporalNumLevels, 
+                           SpatialNumLevels, 
+                           &Wavelet, 
+                           &OutputBuffer, 
+                           TargetBitCnt ) )
     {
-      QccErrorAddMessage("Error calling QccSPIHT3DEncode()");
+      QccErrorAddMessage("Error calling QccSPECK3DEncode()");
       QccErrorExit();
     }
 
@@ -267,16 +229,15 @@ int myspihtencode2p1d( float* srcBuf,
     QccIMGImageCubeFree( &imagecube );
     QccWAVWaveletFree( &Wavelet );
 
-    printf("3D-SPIHT coding to output file: %s:\n", outputFilename );
+    printf("3D-SPECK coding to output file: %s:\n", outputFilename );
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
-
 
     return 0;
 }
 
 
-int myspihtdecode( char*  inputFilename,
+int myspeckdecode( char*  inputFilename,
                    float* dstBuf,
                    int    outSize )
 {
@@ -294,54 +255,73 @@ int myspihtdecode( char*  inputFilename,
       QccErrorAddMessage("Error calling QccWAVWaveletCreate()");
       QccErrorExit();
     }    
-    
-    QccIMGImageCube imagecube;
-    QccIMGImageCubeInitialize( &imagecube );
-
-    if (QccBitBufferStart(&InputBuffer)) {
+    if (QccBitBufferStart(&InputBuffer)) 
+    {
         QccErrorAddMessage("Error calling QccBitBufferStart()" );
         QccErrorExit();
     }
 
     int TransformType;
-    int ZerotreeType;
     int TemporalNumLevels;
     int SpatialNumLevels;
     int NumFrames, NumRows, NumCols;
     double ImageMean;
     int MaxCoefficientBits;
-    int ArithmeticCoded;
-    
-    if (QccSPIHT3DDecodeHeader(&InputBuffer, &TransformType, &ZerotreeType,
-                             &TemporalNumLevels, &SpatialNumLevels,
-                             &NumFrames, &NumRows, &NumCols,
-                             &ImageMean, &MaxCoefficientBits, &ArithmeticCoded))
+    if (QccSPECK3DDecodeHeader( &InputBuffer, 
+                                &TransformType, 
+                                &TemporalNumLevels, 
+                                &SpatialNumLevels,
+                                &NumFrames, 
+                                &NumRows, 
+                                &NumCols,
+                                &ImageMean, 
+                                &MaxCoefficientBits ))
     {
-      QccErrorAddMessage("Error calling QccSPIHT3DDecodeHeader()");
+      QccErrorAddMessage("Error calling QccSPECK3DDecodeHeader()");
       QccErrorExit();
     }
 
     int NumPixels = NumFrames * NumRows * NumCols;
-    if( NumPixels != outSize ) {
+    long long int pxlcount = (long long int)NumFrames * NumRows * NumCols;
+    if( pxlcount > INT_MAX ) 
+    {
+        QccErrorAddMessage("NumPixels overflow. Please try smaller data sets.");
+        QccErrorExit();
+    }
+    if( outSize != NumPixels ) 
+    {
         QccErrorAddMessage("Decode output buffer size doesn't match signal length.");
         QccErrorExit();
     }    
+
+    QccIMGImageCube imagecube;
+    QccIMGImageCubeInitialize( &imagecube );
     imagecube.num_frames = NumFrames;
     imagecube.num_rows = NumRows;
     imagecube.num_cols = NumCols;
-    int TargetBitCnt = QCCENT_ANYNUMBITS;
-    if (QccIMGImageCubeAlloc(&imagecube) ) {
+    if (QccIMGImageCubeAlloc(&imagecube) ) 
+    {
       QccErrorAddMessage("Error calling QccIMGImageCubeAlloc()" );
       QccErrorExit();
     }
-    if (QccSPIHT3DDecode(&InputBuffer, &imagecube, NULL, TransformType, ZerotreeType,
-                       TemporalNumLevels, SpatialNumLevels, &Wavelet, ImageMean,
-                       MaxCoefficientBits, TargetBitCnt, ArithmeticCoded))
+    int TargetBitCnt = QCCENT_ANYNUMBITS;
+
+    if (QccSPECK3DDecode( &InputBuffer, 
+                          &imagecube, 
+                          NULL, 
+                          TransformType, 
+                          TemporalNumLevels, 
+                          SpatialNumLevels, 
+                          &Wavelet, 
+                          ImageMean,
+                          MaxCoefficientBits, 
+                          TargetBitCnt ))
     {
         QccErrorAddMessage("Error calling QccSPIHT3DDecode()" );
         QccErrorExit();
     }
-    if (QccBitBufferEnd(&InputBuffer)) {
+    if (QccBitBufferEnd(&InputBuffer)) 
+    {
       QccErrorAddMessage("Error calling QccBitBufferEnd()" );
       QccErrorExit();
     }

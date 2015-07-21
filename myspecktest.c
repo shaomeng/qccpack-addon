@@ -1,4 +1,7 @@
-#include "myspiht.h"
+/*
+ * #include "myspiht.h"
+ */
+#include "myspeck.h"
 #include "math.h"
 
 int main( int argc, char* argv[] )
@@ -19,12 +22,16 @@ int main( int argc, char* argv[] )
     int xynl = 3;
     int znl = 2;
 
+/*
     printf("encode return: %d\n", 
             myspihtencode2p1d(inputbuf, srcX, srcY, srcZ, filename, xynl, znl, rate) );
+*/
+    printf("encode return: %d\n", 
+            myspeckencode2p1d(inputbuf, srcX, srcY, srcZ, filename, xynl, znl, rate) );
 
     
     float* outputbuf = (float*) malloc( sizeof(float) * totalV );
-    printf("decode return: %d\n", myspihtdecode(filename, outputbuf, totalV) );
+    printf("decode return: %d\n", myspeckdecode(filename, outputbuf, totalV) );
 
     double rms, lmax;
     evaluate2arrays( inputbuf, outputbuf, totalV, &rms, &lmax );
