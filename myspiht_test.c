@@ -16,9 +16,11 @@ int main( int argc, char* argv[] )
         inputbuf[i] = sin( i / 10.0 );
 
     char* filename = "tmp.bitstream";
-    int nl = 3;
+    int xynl = 3;
+    int znl = 2;
 
-    printf("encode return: %d\n", myspihtencode(inputbuf, srcX, srcY, srcZ, filename, nl, rate) );
+    printf("encode return: %d\n", 
+            myspihtencode2p1d(inputbuf, srcX, srcY, srcZ, filename, xynl, znl, rate) );
 
     
     float* outputbuf = (float*) malloc( sizeof(float) * totalV );

@@ -20,6 +20,7 @@
  *  srcY  : Y dimension of src data
  *  srcZ  : Z dimension of src data
  *  nLevels: how many levels of wavelet transforms to perform.
+ *  TargetRate: how many bits to allocate to one voxel. 32 means no compression.
  *  
  * Output:
  *  outputFilename: the name of the file to write the output bitstream.
@@ -27,14 +28,22 @@
  * Note: even though the input data is in 1D array, it represents a 3D volume.
  *       Thus, the size of srcBuf should equal to srcX * srcY * srcZ.
  */
-int myspihtencode( float* srcBuf, 
-                 int srcX,
-                 int srcY,
-                 int srcZ,
-                 char* outputFilename,
-                 short nLevels,
-                 float TargetRate );
+int myspihtencode3d( float* srcBuf, 
+                   int srcX,
+                   int srcY,
+                   int srcZ,
+                   char* outputFilename,
+                   int nLevels,
+                   float TargetRate );
 
+int myspihtencode2p1d( float* srcBuf, 
+                   int srcX,
+                   int srcY,
+                   int srcZ,
+                   char* outputFilename,
+                   int XYNumLevels,
+                   int ZNumLevels,
+                   float TargetRate );
 
 /*
  * Modified API to apply SPIHT decoding.
@@ -51,7 +60,9 @@ int myspihtdecode( char*  inputFilename,
                  float* dstBuf,
                  int    outSize );
                  
-
+/*
+ * Evaluates two arrays using RMS and LMax criteria.
+ */
 void evaluate2arrays( float* A, float* B, int len, double* rms, double* lmax );
 
 #endif
