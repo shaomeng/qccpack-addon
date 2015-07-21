@@ -12,7 +12,7 @@ zeroout: zerooutsubbandpyramid.c
 myspiht.o: myspiht.h myspiht.c
 	gcc -O -Wall -fPIC -I/home/samuel/Tools/QccPack/include -I/usr/include  -DQCCCOMPRESS=/bin/gzip -DQCCUNCOMPRESS=/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:/home/samuel/Tools/QccPack/install/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:/home/samuel/Tools/QccPack/install/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK -c -o bin/myspiht.o myspiht.c 
 
-myspiht: myspiht.o myspiht_test.c
+myspiht_test: myspiht.o myspiht_test.c
 	gcc -O -Wall -o bin/myspiht_test bin/myspiht.o myspiht_test.c -I/home/samuel/Tools/QccPack/include -L/home/samuel/Tools/QccPack/lib -lQccPack  -L/usr/lib -lpthread  -lm
 
 

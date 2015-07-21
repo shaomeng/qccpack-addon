@@ -59,6 +59,7 @@ int main (int argc, char* argv[] )
 
 //    QccIMGImageCubePrint( &imagecube );
 
+    QccIMGImageCubeFree( &imagecube );
 
     return 0;
 }
