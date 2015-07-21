@@ -25,14 +25,15 @@
  *  outputFilename: the name of the file to write the output bitstream.
  *
  * Note: even though the input data is in 1D array, it represents a 3D volume.
- *       Thus, the size of srcBuf should equal to srcX x srcY x srcZ.
+ *       Thus, the size of srcBuf should equal to srcX * srcY * srcZ.
  */
-int spihtencode( float* srcBuf, 
+int myspihtencode( float* srcBuf, 
                  int srcX,
                  int srcY,
                  int srcZ,
                  char* outputFilename,
-                 short nLevels );
+                 short nLevels,
+                 float TargetRate );
 
 
 /*
@@ -43,13 +44,15 @@ int spihtencode( float* srcBuf,
  *  
  * Output:
  *  dstBuf:  buffer of floating points to keep the decoded data.
- *  outSize: size of the output buffer (in byte)
+ *  outSize: size of the output buffer (in number of floats)
  *
  */
-int spihtdecode( char*  inputFilename,
+int myspihtdecode( char*  inputFilename,
                  float* dstBuf,
                  int    outSize );
                  
+
+void evaluate2arrays( float* A, float* B, int len, double* rms, double* lmax );
 
 #endif
 
