@@ -18,6 +18,11 @@ myspeck.o: myspeck.h myspeck.c
 myspecktest: myspeck.o myspecktest.c
 	gcc -O -Wall -o bin/myspecktest bin/myspeck.o myspecktest.c -I/glade/u/home/shaomeng/QccPack/include -L/glade/u/home/shaomeng/QccPack/lib -lQccPack  -lpthread  -lm
 
+cam2raw: cam2raw.o
+	g++  -L/glade/u/home/shaomeng/vapor-2.4.2/bin -L/glade/u/home/shaomeng/vapor-2.4.2/lib  -o bin/cam2raw bin/cam2raw.o -lproj -lvdf -lcommon -ludunits2 -lnetcdf -lhdf5_hl
+
+cam2raw.o: cam2raw.cpp
+	g++  -I/glade/u/home/shaomeng/vapor-2.4.2/include -I/glade/apps/opt/netcdf/4.3.0/gnu/4.4.7/include -c cam2raw.cpp -o bin/cam2raw.o 
 
 testbov2imgcube: bov2imgcube
 	./bov2imgcube 3 3 3 3_cube.bin 3_imagecube.icb

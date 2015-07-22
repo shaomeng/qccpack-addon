@@ -9,9 +9,9 @@ int main( int argc, char* argv[] )
     float rate = 32.0;
     if( argc == 2 )
         rate = atof( argv[1] );
-    int srcX = 32;
-    int srcY = 32;
-    int srcZ = 32;
+    int srcX = 64;
+    int srcY = 64;
+    int srcZ = 64;
     int totalV = srcX * srcY * srcZ;
     float* inputbuf = (float*) malloc( sizeof(float) * totalV );
     int i;
