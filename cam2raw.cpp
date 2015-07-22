@@ -427,7 +427,6 @@ void dump_grid(size_t ts, string var, int face, float *data, size_t n)
 	fclose(fp);
 }
 
-/*
 void compress_var(
 	size_t ts,
 	string var,
@@ -564,9 +563,8 @@ void compress_var(
 	nc_close(ncid);
 
 }
-*/
 
-/*
+
 void compress_files(
 	vector <string> files,
 	const vector < vector <int> > &faceIndeciesAll
@@ -652,8 +650,45 @@ void compress_files(
 		}
 	}
 }
-*/
 
+int InitializeFaceIndeciesAll( string &mapfile,
+                                string &facefile,   
+                                vector < vector <int> > &faceIndeciesAll )
+{
+	vector <int> facemap;
+	int rc = getFaceMap(facefile, facemap);
+	if (rc < 0) 
+        return (1);
+
+	vector <neighbors_t> neighbormap;
+	rc = getNeighborMap(mapfile, neighbormap);
+	if (rc < 0) 
+        return (1);
+
+	vector <int> facecount(6);
+	for (int i=0; i<facemap.size(); i++) 
+		for (int face=0; face<6; face++) 
+			if (isOnFace(facemap[i],face)) 
+				facecount[face]++;
+
+	vector <int> startNodes;
+	for (int face=0; face<6; face++) {
+		int center = getFirstCenter(facemap, neighbormap, face);
+		assert(center >= 0 && center < neighbormap.size());
+		startNodes.push_back(neighbormap[center].n0);
+	}
+
+	int nx, ny;
+	for (int face=0; face<6; face++) {
+		vector <int> &faceIndecies = faceIndeciesAll[face];
+		rc = getFaceIndecies(
+			startNodes[face], facemap, neighbormap, face, faceIndecies, nx, ny );
+		if (rc < 0) 
+            return (1);
+		assert(faceIndecies.size() == nx*ny);
+	}
+}
+            
 int main (int argc, char **argv) {
 
 	MyBase::SetErrMsgFilePtr(stderr);
@@ -671,16 +706,6 @@ int main (int argc, char **argv) {
 	string camfile = argv[0];
 
 
-
-	
-	vector <int> facemap;
-	int rc = getFaceMap(facefile, facemap);
-	if (rc < 0) exit(1);
-
-	vector <neighbors_t> neighbormap;
-	rc = getNeighborMap(mapfile, neighbormap);
-	if (rc < 0) exit(1);
-
 	cout << "2D compression factor " << CRATIO_2D << endl;
 	cout << "3D compression factor " << CRATIO_3D << endl;
 #ifdef	DOUBLE
@@ -689,57 +714,15 @@ int main (int argc, char **argv) {
 	cout << "coefficient type : float" << endl;
 #endif
 	cout << "Building remapping table" << endl;
-	vector <int> facecount(6);
-	for (int i=0; i<facemap.size(); i++) {
-		int nfaces = 0;
-		for (int face=0; face<6; face++) {
-			if (isOnFace(facemap[i],face)) {
-				nfaces++;
-				facecount[face]++;
-			}
-		}
-		if (nfaces == 3) {
-//			cout << "node " << i << " has 3 faces" << endl;
-		}
 
-	}
-
-	for (int face=0; face<6; face++) {
-//		cout << "face " << face << " has " << facecount[face] << " nodes\n";
-	}
-
-	vector <int> startNodes;
-	for (int face=0; face<6; face++) {
-		int center = getFirstCenter(facemap, neighbormap, face);
-
-
-//		neighbors_t neighbor = neighbormap[center];
-		
-		assert(center >= 0 && center < neighbormap.size());
-		startNodes.push_back(neighbormap[center].n0);
-
-//		cout << "face " << face << " center " << center << " start node " << neighbormap[center].n0 << endl;
-		
-	}
 
 	vector < vector <int> > faceIndeciesAll(6);
-	int nx, ny;
-	for (int face=0; face<6; face++) {
-		vector <int> &faceIndecies = faceIndeciesAll[face];
-		rc = getFaceIndecies(
-			startNodes[face], facemap, neighbormap, face, faceIndecies, nx, ny
-		);
-		if (rc < 0) exit(1);
-
-		assert(faceIndecies.size() == nx*ny);
-//		cout << "nx, ny : " << nx << ", " << ny << endl;
-	}
-
+    InitializeFaceIndeciesAll( mapfile, facefile, faceIndeciesAll );
 
 	vector <string> files;
 	for (int i=0; i<argc; i++) {
 		files.push_back(argv[i]);
 	}
 
-//	compress_files(files, faceIndeciesAll);
+	compress_files(files, faceIndeciesAll);
 }
