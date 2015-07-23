@@ -1,13 +1,8 @@
-#include <cstdio>
-#include <iostream>
-#include <cassert>
-#include "vapor/NetCDFSimple.h"
-#include "vapor/NetCDFCollection.h"
-#include "vapor/Compressor.h"
-#include "netcdf.h"
+#include "CamHandler.h"
 
 using namespace VAPoR;
 using namespace VetsUtil;
+
 
 const size_t NX = 91;
 const size_t NY = 91;
@@ -470,12 +465,13 @@ void compress_var(
 	double l2sqr = 0.0;
 	double l2sqrerr = 0.0;
 	float min = 0.0, max = 0.0;
-	for (int face=0; face<6; face++) {
-		
+	for (int face=0; face<6; face++) 
+    {
 		const vector <int> &faceIndecies = faceIndeciesAll[face];
 		bool first = true;
 		float mymin = 0.0, mymax = 0.0;
-		for (int z = 0; z<nz; z++) {
+		for (int z = 0; z<nz; z++) 
+        {
 			for (int i = 0; i<faceIndecies.size(); i++) {
 				float t = homme_orig_buf[z*NCOL + faceIndecies[i]];
 				if (! (has_missing && t == mv)) {
@@ -484,7 +480,6 @@ void compress_var(
 						mymax = max = t;
 						first = false;
 					}
-				
 					if (t<mymin) mymin = t;
 					if (t>mymax) mymax = t;
 				}
@@ -648,6 +643,101 @@ void compress_files(
 				homme_orig_buf, homme_comp_buf, orig_buf, comp_buf
 			);
 		}
+	}
+}
+
+/*
+ * Converts a data array in "homme" order into the raw order.
+ * Input: 
+ *      faceIndeciesAll: auxiliary data structure from InitializeFaceIndeciesAll().
+ *      homme_orig_buf:  1D array containing homme ordered data points.
+ *      NX, NY, NZ:      dimension of the input data
+ * Output:
+ *      orig_buf:        1D array containing all data points in raw order.
+ *
+ * Note: both homme_orig_buf and orig_buf should have the size 6*NX*NY*NZ.
+ */
+void cam2raw( const vector < vector <int> > &faceIndeciesAll,
+	         float* homme_orig_buf,                
+             int    NX,
+             int    NY,
+             int    NZ,
+	         float* orig_buf )                     
+{
+// TODO: what is NCOL? NX * NY ?
+// TODO: what is nz?   NZ?
+	float min = 0.0, max = 0.0;
+	for (int face=0; face<6; face++) 
+    {
+		const vector <int> &faceIndecies = faceIndeciesAll[face];
+		bool first = true;
+		float mymin = 0.0, mymax = 0.0;
+		for (int z = 0; z < nz; z++) 
+        {
+			for (int i = 0; i<faceIndecies.size(); i++) {
+				float t = homme_orig_buf[z*NCOL + faceIndecies[i]];
+		        if (first) {
+				    mymin = min = t;
+				    mymax = max = t;
+					first = false;
+			    }
+				if (t<mymin) mymin = t;
+				if (t>mymax) mymax = t;
+				orig_buf[z*NX*NY + i] = t;
+			}
+		}
+		if (mymin<min) min = mymin;
+		if (mymax>max) max = mymax;
+
+		for (int z = 0; z<nz; z++) 
+			for (int i = 0; i<faceIndecies.size(); i++) 
+				homme_comp_buf[z*NCOL + faceIndecies[i]] = orig_buf[z*NX*NY + i];
+	}
+}
+
+/*
+ * Converts an data array in raw order into the "homme" order.
+ * Input: 
+ *      faceIndeciesAll: auxiliary data structure from InitializeFaceIndeciesAll().
+ *      orig_buf:        1D array containing raw ordered data points.
+ *      NX, NY, NZ:      dimension of the input data
+ * Output:
+ *      homme_orig_buf:  1D array containing all data points in homme order.
+ *
+ * Note: both orig_buf and homme_orig_buf should have the size 6*NX*NY*NZ.
+ */
+void raw2cam( const vector < vector <int> > &faceIndeciesAll,
+	         float* orig_buf,                
+             int    NX,
+             int    NY,
+             int    NZ,
+	         float* homme_orig_buf )                     
+{
+// TODO: what is NCOL? NX * NY ?
+// TODO: what is nz?   NZ?
+	float min = 0.0, max = 0.0;
+	for (int face=0; face<6; face++) 
+    {
+		const vector <int> &faceIndecies = faceIndeciesAll[face];
+		bool first = true;
+		float mymin = 0.0, mymax = 0.0;
+
+		for (int z = 0; z<nz; z++) 
+        {
+			for (int i = 0; i<faceIndecies.size(); i++) {
+                float t = orig_buf[ z*NX*NY + i ];
+                if( first ) {
+                    mymin = min = t;
+                    mymax = max = y;
+                    first = false;
+                }
+                if( t < mymin )     mymin = t;
+                if( t > mymax )     mymax = t;
+				homme_comp_buf[z*NCOL + faceIndecies[i]] = t;
+            }
+        }
+        if( mymin < min )       min = mymin;
+        if( mymax > max )       max = mymax;
 	}
 }
 
