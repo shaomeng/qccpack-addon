@@ -43,13 +43,13 @@ class CamHandler
 
         
     private:
-    size_t _NX, _NY, _NZ, _NCOL;
+    size_t _NX, _NY, _ILEV, _NCOL;
     /*
      * Auxiliary data structure from InitializeFaceIndeciesAll().
      */
     vector < vector <int> > _faceIndicesAll;
-    int InitializeFaceIndeciesAll( string &mapfile, 
-                                   string &facefile );
+    int InitializeFaceIndicesAll( string &mapfile, 
+                                  string &facefile );
     
 
 

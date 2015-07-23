@@ -7,28 +7,27 @@ CamHandler::CamHandler( string &mapfile, string &facefile )
 {
     _NX = 91;
     _NY = 91;
-    _NZ = 91;
+    _ILEV = 31;
     _NCOL = 48602;
 
     _faceIndicesAll.resize( 6 );
-    InitializeFaceIndeciesAll( string &mapfile, string &facefile );
+
+    InitializeFaceIndicesAll( mapfile, facefile );
 }
 
 void CamHandler::cam2raw( float* homme_orig_buf,                
                           float* orig_buf )                     
 {
-// TODO: what is NCOL? NX * NY ?
-// TODO: what is nz?   NZ?
 	float min = 0.0, max = 0.0;
 	for (int face=0; face<6; face++) 
     {
-		const vector <int> &faceIndecies = faceIndeciesAll[face];
+		const vector <int> &faceIndices = _faceIndicesAll[face];
 		bool first = true;
 		float mymin = 0.0, mymax = 0.0;
-		for (int z = 0; z < nz; z++) 
+		for (int z = 0; z < _ILEV; z++) 
         {
-			for (int i = 0; i<faceIndecies.size(); i++) {
-				float t = homme_orig_buf[z*NCOL + faceIndecies[i]];
+			for (int i = 0; i<faceIndices.size(); i++) {
+				float t = homme_orig_buf[z*_NCOL + faceIndices[i]];
 		        if (first) {
 				    mymin = min = t;
 				    mymax = max = t;
@@ -36,42 +35,36 @@ void CamHandler::cam2raw( float* homme_orig_buf,
 			    }
 				if (t<mymin) mymin = t;
 				if (t>mymax) mymax = t;
-				orig_buf[z*NX*NY + i] = t;
+				orig_buf[z*_NX*_NY + i] = t;
 			}
 		}
 		if (mymin<min) min = mymin;
 		if (mymax>max) max = mymax;
-
-		for (int z = 0; z<nz; z++) 
-			for (int i = 0; i<faceIndecies.size(); i++) 
-				homme_comp_buf[z*NCOL + faceIndecies[i]] = orig_buf[z*NX*NY + i];
 	}
 }
 
 void CamHandler::raw2cam( float* orig_buf,                
                           float* homme_orig_buf )                     
 {
-// TODO: what is NCOL? NX * NY ?
-// TODO: what is nz?   NZ?
 	float min = 0.0, max = 0.0;
 	for (int face=0; face<6; face++) 
     {
-		const vector <int> &faceIndecies = faceIndeciesAll[face];
+		const vector <int> &faceIndices = _faceIndicesAll[face];
 		bool first = true;
 		float mymin = 0.0, mymax = 0.0;
 
-		for (int z = 0; z<nz; z++) 
+		for (int z = 0; z<_ILEV; z++) 
         {
-			for (int i = 0; i<faceIndecies.size(); i++) {
-                float t = orig_buf[ z*NX*NY + i ];
+			for (int i = 0; i<faceIndices.size(); i++) {
+                float t = orig_buf[ z*_NX*_NY + i ];
                 if( first ) {
                     mymin = min = t;
-                    mymax = max = y;
+                    mymax = max = t;
                     first = false;
                 }
                 if( t < mymin )     mymin = t;
                 if( t > mymax )     mymax = t;
-				homme_comp_buf[z*NCOL + faceIndecies[i]] = t;
+				homme_orig_buf[z*_NCOL + faceIndices[i]] = t;
             }
         }
         if( mymin < min )       min = mymin;
@@ -381,21 +374,21 @@ int getYNeighbor(
 /*
  * Helper function for InitializeFaceIndeciesAll().
  */
-int getFaceIndecies(
+int getFaceIndices(
 	int startnode, 
 	const vector <int> &facemap,
 	const vector <neighbors_t> &neighbormap,
 	int face,
-	vector <int> &faceIndecies,
+	vector <int> &faceIndices,
 	int &nx,
 	int &ny
 ) {
-	faceIndecies.clear();
+	faceIndices.clear();
 	nx = 1;
 	ny = 1;
 
 	int nodej = startnode;
-	faceIndecies.push_back(startnode);
+	faceIndices.push_back(startnode);
 	bool done = false;
 	bool first = true;
 	assert(getFaces(facemap, nodej).size() == 3);
@@ -405,7 +398,7 @@ int getFaceIndecies(
 		assert(getFaces(facemap, node).size() >= 2);
 		int nodenext;
 		while ((nodenext = getXNeighbor(node, facemap, neighbormap, face)) >= 0) { 
-			faceIndecies.push_back(nodenext);
+			faceIndices.push_back(nodenext);
 			node = nodenext;
 			if (first) nx++;
 			mynx++;
@@ -424,18 +417,18 @@ int getFaceIndecies(
 		}
 		else {
 			assert(getFaces(facemap, nodenext).size() >= 2);
-			faceIndecies.push_back(nodenext);
+			faceIndices.push_back(nodenext);
 			nodej = nodenext;
 			ny++;
 		}
 	}
-	assert(faceIndecies.size() == nx*ny);
+	assert(faceIndices.size() == nx*ny);
 
 	return(0);
 }
 
 
-int CamHandler::InitializeFaceIndeciesAll( string &mapfile,
+int CamHandler::InitializeFaceIndicesAll( string &mapfile,
                                            string &facefile )
 {
 	vector <int> facemap;
@@ -463,12 +456,12 @@ int CamHandler::InitializeFaceIndeciesAll( string &mapfile,
 
 	int nx, ny;
 	for (int face=0; face<6; face++) {
-		vector <int> &faceIndecies = faceIndeciesAll[face];
-		rc = getFaceIndecies(
-			startNodes[face], facemap, neighbormap, face, faceIndecies, nx, ny );
+		vector <int> &faceIndices = _faceIndicesAll[face];
+		rc = getFaceIndices(
+			startNodes[face], facemap, neighbormap, face, faceIndices, nx, ny );
 		if (rc < 0) 
             return (1);
-		assert(faceIndecies.size() == nx*ny);
+		assert(faceIndices.size() == nx*ny);
 	}
 }
             
