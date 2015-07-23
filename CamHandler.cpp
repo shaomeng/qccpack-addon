@@ -3,28 +3,89 @@
 using namespace VAPoR;
 using namespace VetsUtil;
 
+CamHandler::CamHandler( string &mapfile, string &facefile )
+{
+    _NX = 91;
+    _NY = 91;
+    _NZ = 91;
+    _NCOL = 48602;
 
-const size_t NX = 91;
-const size_t NY = 91;
-const size_t NCOL = 48602;
-const size_t LEV = 30;
-const size_t ILEV = 31;
-const float CRATIO_2D = 5;
-const float CRATIO_3D = 5;
+    _faceIndicesAll.resize( 6 );
+    InitializeFaceIndeciesAll( string &mapfile, string &facefile );
+}
 
-//#define	DOUBLE
-#ifdef	DOUBLE
-typedef double coeff_t;
-#else
-typedef float coeff_t;
-#endif
+void CamHandler::cam2raw( float* homme_orig_buf,                
+                          float* orig_buf )                     
+{
+// TODO: what is NCOL? NX * NY ?
+// TODO: what is nz?   NZ?
+	float min = 0.0, max = 0.0;
+	for (int face=0; face<6; face++) 
+    {
+		const vector <int> &faceIndecies = faceIndeciesAll[face];
+		bool first = true;
+		float mymin = 0.0, mymax = 0.0;
+		for (int z = 0; z < nz; z++) 
+        {
+			for (int i = 0; i<faceIndecies.size(); i++) {
+				float t = homme_orig_buf[z*NCOL + faceIndecies[i]];
+		        if (first) {
+				    mymin = min = t;
+				    mymax = max = t;
+					first = false;
+			    }
+				if (t<mymin) mymin = t;
+				if (t>mymax) mymax = t;
+				orig_buf[z*NX*NY + i] = t;
+			}
+		}
+		if (mymin<min) min = mymin;
+		if (mymax>max) max = mymax;
 
+		for (int z = 0; z<nz; z++) 
+			for (int i = 0; i<faceIndecies.size(); i++) 
+				homme_comp_buf[z*NCOL + faceIndecies[i]] = orig_buf[z*NX*NY + i];
+	}
+}
 
-void Usage(string pname) {
-	cerr << pname << ": HommeMapping.nc faceIdsNeNp304.nc datafiles..." << endl;
+void CamHandler::raw2cam( float* orig_buf,                
+                          float* homme_orig_buf )                     
+{
+// TODO: what is NCOL? NX * NY ?
+// TODO: what is nz?   NZ?
+	float min = 0.0, max = 0.0;
+	for (int face=0; face<6; face++) 
+    {
+		const vector <int> &faceIndecies = faceIndeciesAll[face];
+		bool first = true;
+		float mymin = 0.0, mymax = 0.0;
+
+		for (int z = 0; z<nz; z++) 
+        {
+			for (int i = 0; i<faceIndecies.size(); i++) {
+                float t = orig_buf[ z*NX*NY + i ];
+                if( first ) {
+                    mymin = min = t;
+                    mymax = max = y;
+                    first = false;
+                }
+                if( t < mymin )     mymin = t;
+                if( t > mymax )     mymax = t;
+				homme_comp_buf[z*NCOL + faceIndecies[i]] = t;
+            }
+        }
+        if( mymin < min )       min = mymin;
+        if( mymax > max )       max = mymax;
+	}
 }
 
 
+
+
+
+/*
+ * Helper function for InitializeFaceIndeciesAll().
+ */
 int myExp10(int exponent) {
   int i;
   int expVal = 1;
@@ -34,6 +95,9 @@ int myExp10(int exponent) {
   return expVal; 
 }
 
+/*
+ * Helper function for InitializeFaceIndeciesAll().
+ */
 bool isOnFace(int faceId,int  faceIndex) {
   int val = (faceId / myExp10(faceIndex)) % 10;
   return (val != 0);
@@ -45,10 +109,16 @@ bool isOnFace(int faceId,int  faceIndex) {
 //  |     |
 //	n1----n2
 //
+/*
+ * Helper function for InitializeFaceIndeciesAll().
+ */
 typedef struct {
 	int n0, n1, n2, n3;
 } neighbors_t;
 
+/*
+ * Helper function for InitializeFaceIndeciesAll().
+ */
 int getNeighborMap(string facefile, vector <neighbors_t> &neighbormap) {
 	neighbormap.clear();
 
@@ -89,6 +159,9 @@ int getNeighborMap(string facefile, vector <neighbors_t> &neighbormap) {
 	return(0);
 }
 
+/*
+ * Helper function for InitializeFaceIndeciesAll().
+ */
 int getFaceMap(string file, vector <int> &facemap) {
 
 	NetCDFSimple ncsimple;
@@ -123,6 +196,9 @@ int getFaceMap(string file, vector <int> &facemap) {
 	return(0);
 }
 
+/*
+ * Helper function for InitializeFaceIndeciesAll().
+ */
 vector <int> getFaces(const vector <int> &facemap, int node) {
 
 	assert(node>=0 && node < facemap.size());
@@ -136,6 +212,9 @@ vector <int> getFaces(const vector <int> &facemap, int node) {
 	return(faces);
 }
 
+/*
+ * Helper function for InitializeFaceIndeciesAll().
+ */
 int getFirstCenter(
 	const vector <int> &facemap,
 	const vector <neighbors_t> &neighbormap,
@@ -174,6 +253,9 @@ int getFirstCenter(
 // Get the cell (element) that has node 'node' at the position
 // p (0,1,3,4)
 //
+/*
+ * Helper function for InitializeFaceIndeciesAll().
+ */
 int getCell(
 	int node,
 	int p,
@@ -237,6 +319,9 @@ int getCell(
 	return(-1);
 }
 
+/*
+ * Helper function for InitializeFaceIndeciesAll().
+ */
 int getXNeighbor(
 	int node,
 	const vector <int> &facemap,
@@ -270,6 +355,9 @@ int getXNeighbor(
 	return(-1);
 }
 
+/*
+ * Helper function for InitializeFaceIndeciesAll().
+ */
 int getYNeighbor(
 	int node,
 	const vector <int> &facemap,
@@ -290,6 +378,9 @@ int getYNeighbor(
 	return(-1);
 }
 
+/*
+ * Helper function for InitializeFaceIndeciesAll().
+ */
 int getFaceIndecies(
 	int startnode, 
 	const vector <int> &facemap,
@@ -343,407 +434,9 @@ int getFaceIndecies(
 	return(0);
 }
 
-void remove_missing(
-	coeff_t *data,
-	size_t n,
-	float mv,
-	SignificanceMap &smap
-) {
-	smap.Clear();
 
-	vector <size_t> dims;
-	dims.push_back(n);
-	smap.Reshape(dims);
-
-	double ave = 0.0;
-	double count = 0;
-	for (size_t i=0; i<n; i++) {
-		if (data[i] == mv) {
-			smap.Set(i);
-		}
-		else {
-			ave += data[i];
-			count++;
-		}
-	}
-	if (count) ave /= count;
-
-	for (size_t i=0; i<n; i++) {
-		if (data[i] == mv) data[i] = ave;
-	}
-}
-
-void replace_missing(
-	coeff_t *data,
-	float mv,
-	const SignificanceMap &smap
-) {
-	vector <size_t> dims;
-	smap.GetShape(dims);
-	assert(dims.size() == 1);
-
-	for (size_t i=0; i<dims[0]; i++) {
-		if (smap.Test(i)) data[i] = mv;
-	}
-}
-
-void compute_error(
-    const float *odata, const float *cdata, size_t nelements,
-	bool has_missing, float mv,
-    double *lmaxerr, double *lmax,
-    double *l2sqrerr, double *l2sqr
-) {
-    double delta;
-
-    *lmaxerr = 0.0;
-    *l2sqrerr = 0.0;
-    *lmax = 0.0;
-    *l2sqr = 0.0;
-    for (size_t idx=0; idx<nelements; idx++) {
-		if (has_missing && odata[idx] == mv) continue;
-
-        delta = fabs(odata[idx] - cdata[idx]);
-        if (delta > *lmaxerr) *lmaxerr = delta;
-        if (fabs(odata[idx]) > *lmax) *lmax = fabs(odata[idx]);
-
-        *l2sqrerr += (odata[idx] - cdata[idx]) * (odata[idx] - cdata[idx]);
-        *l2sqr += odata[idx] * odata[idx];
-    }
-}
-
-void dump_grid(size_t ts, string var, int face, float *data, size_t n) 
-{
-	char path[1024];
-	sprintf(path, "%s.%4.4d.%d", var.c_str(), (int) ts, face);
-	FILE *fp = fopen(path, "w");
-	assert(fp!=NULL);
-
-	fwrite(data, sizeof(data[0]), n, fp);
-	fclose(fp);
-}
-
-void compress_var(
-	size_t ts,
-	string var,
-	NetCDFCollection &ncdfc,
-	const vector < vector <int> > &faceIndeciesAll,
-	Compressor *cmp,
-	size_t num_wave_coef,
-	float *homme_orig_buf,
-	float *homme_comp_buf,
-	coeff_t *orig_buf,
-	coeff_t *comp_buf
-) {
-	int rc = ncdfc.OpenRead(ts,var);
-	if (rc<0) exit(1);
-
-	vector <size_t> dims = ncdfc.GetSpatialDims(var);
-	assert(dims.size() <= 2);
-
-	size_t start[3] = {0,0,0};
-	size_t count[3] = {1,1,1};
-	size_t nz = 0;
-	if (dims.size() == 1) {
-		count[0] = dims[0];
-		nz = 1;
-	}
-	else {
-		count[0] = dims[0];
-		count[1] = dims[1];
-		nz = dims[0];
-	}	
-	rc = ncdfc.ReadNative(start, count, homme_orig_buf);
-	ncdfc.Close();
-
-	double mv = 0.0;
-	bool has_missing = ncdfc.GetMissingValue(var, mv);
-
-	SignificanceMap mismap;
-	SignificanceMap sigmap(NX*NY*nz);
-	double lmax = 0.0;
-	double lmaxerr = 0.0;
-	double l2sqr = 0.0;
-	double l2sqrerr = 0.0;
-	float min = 0.0, max = 0.0;
-	for (int face=0; face<6; face++) 
-    {
-		const vector <int> &faceIndecies = faceIndeciesAll[face];
-		bool first = true;
-		float mymin = 0.0, mymax = 0.0;
-		for (int z = 0; z<nz; z++) 
-        {
-			for (int i = 0; i<faceIndecies.size(); i++) {
-				float t = homme_orig_buf[z*NCOL + faceIndecies[i]];
-				if (! (has_missing && t == mv)) {
-					if (first) {
-						mymin = min = t;
-						mymax = max = t;
-						first = false;
-					}
-					if (t<mymin) mymin = t;
-					if (t>mymax) mymax = t;
-				}
-				orig_buf[z*NX*NY + i] = t;
-			}
-		}
-		if (mymin<min) min = mymin;
-		if (mymax>max) max = mymax;
-
-		if (has_missing) {
-			remove_missing(orig_buf, nz * faceIndecies.size(), mv, mismap);
-		}
-
-
-		sigmap.Clear();
-		cmp->Compress(orig_buf, comp_buf, num_wave_coef, &sigmap);
-
-		cmp->ClampMinOnOff() = true;
-		cmp->ClampMaxOnOff() = true;
-		cmp->ClampMin() = mymin;
-		cmp->ClampMax() = mymax;
-		cmp->Decompress(comp_buf, orig_buf, &sigmap);
-
-		if (has_missing) {
-			replace_missing(orig_buf, mv, mismap);
-		}
-
-		for (int z = 0; z<nz; z++) {
-			for (int i = 0; i<faceIndecies.size(); i++) {
-				homme_comp_buf[z*NCOL + faceIndecies[i]] = orig_buf[z*NX*NY + i];
-			}
-		}
-	}
-
-	compute_error(
-		homme_orig_buf, homme_comp_buf, nz*NCOL,
-		has_missing, mv,
-		&lmaxerr, &lmax, &l2sqrerr, &l2sqr
-	);
-
-	double rmsErr = sqrt(l2sqrerr / (double) (6*nz*NCOL));
-	double nrms = ((max-min) != 0) ? rmsErr / (max-min) : 0.0;
-    double l2Err = sqrt(l2sqrerr);
-    double l2 = sqrt(l2sqr);
-    double lmaxrel = 0.0;
-    double l2rel = 0.0;
-    if ((max-min) != 0.0) lmaxrel = lmaxerr / (max-min);
-    if (l2 != 0.0) l2rel = l2Err / l2;
-
-	cout << "   range : " << min << " .. " << max << endl;
-	cout << "   Lmax : " << lmaxerr << endl;
-	cout << "   Lmax Relative: " << lmaxrel << endl;
-	cout << "   L2 : " << l2Err << endl;
-	cout << "   L2 Relative: " << l2rel << endl;
-	cout << "   RMS : " << rmsErr << endl;
-	cout << "   Normalized RMS : " << nrms << endl;
-
-	string file;
-	size_t localts;
-	ncdfc.GetFile(ts, var, file, localts);
-
-	NetCDFSimple::Variable varinfo;
-	ncdfc.GetVariableInfo(var, varinfo);
-	int varid = varinfo.GetVarID();
-
-	int ncid;
-	rc = nc_open(file.c_str(), NC_WRITE, &ncid);
-	assert (rc == NC_NOERR);
-
-	size_t mystart[3] = {localts,0,0};
-	size_t mycount[3] = {1,count[0],count[1]};
-
-	rc = nc_put_vara_float(ncid, varid, mystart, mycount, homme_comp_buf);
-	assert(rc == NC_NOERR);
-
-	nc_close(ncid);
-
-}
-
-
-void compress_files(
-	vector <string> files,
-	const vector < vector <int> > &faceIndeciesAll
-) {
-	const string wname = "bior3.3";
-
-	NetCDFCollection ncdfc;
-	
-	vector <string> time_dimnames;
-	time_dimnames.push_back("time");
-	vector <string> time_coordvars;
-	time_coordvars.push_back("time");
-
-	ncdfc.SetMissingValueAttName("_FillValue");
-	int rc = ncdfc.Initialize(files, time_dimnames, time_coordvars);
-	if (rc < 0) exit(1);
-
-	float *homme_orig_buf = new float[NCOL*ILEV];
-	float *homme_comp_buf = new float[NCOL*ILEV];
-	coeff_t *orig_buf = new coeff_t[NX*NY*ILEV];
-	coeff_t *comp_buf = new coeff_t[NX*NY*ILEV];
-
-	vector <size_t> dims_3dlev;
-	dims_3dlev.push_back(NX);
-	dims_3dlev.push_back(NY);
-	dims_3dlev.push_back(LEV);
-
-	vector <size_t> dims_3dilev;
-	dims_3dilev.push_back(NX);
-	dims_3dilev.push_back(NY);
-	dims_3dilev.push_back(ILEV);
-
-	vector <size_t> dims_2d;
-	dims_2d.push_back(NX);
-	dims_2d.push_back(NY);
-
-	Compressor cmp_3dlev(dims_3dlev, wname);
-	Compressor cmp_3dilev(dims_3dilev, wname);
-	Compressor cmp_2d(dims_2d, wname);
-
-
-	for (size_t ts = 0; ts<ncdfc.GetNumTimeSteps(); ts++) {
-
-		cout << "Processing time step " << ts << endl;
-		size_t num_wave_coef = (size_t) ((float) (NX*NY) /  (CRATIO_2D));
-		vector <string> vars = ncdfc.GetVariableNames(1, true);
-
-		for (int v = 0; v < vars.size(); v++) {
-			vector <size_t> dims = ncdfc.GetSpatialDims(vars[v]);
-			if (dims[dims.size()-1] != NCOL) continue; 
-
-			cout << "  Processing 2d variable " << vars[v] << endl;
-
-			compress_var(
-				ts, vars[v], ncdfc, faceIndeciesAll, &cmp_2d, num_wave_coef,
-				homme_orig_buf, homme_comp_buf, orig_buf, comp_buf
-			);
-		}
-
-		vars = ncdfc.GetVariableNames(2, true);
-		for (int v = 0; v < vars.size(); v++) {
-			vector <size_t> dims = ncdfc.GetSpatialDims(vars[v]);
-			if (dims[dims.size()-1] != NCOL) continue; 
-
-			cout << "  Processing 3d variable " << vars[v] << endl;
-
-			Compressor *cmp;
-			size_t num_wave_coef = 0;
-			if (ncdfc.GetSpatialDims(vars[v])[0] == ILEV) {
-				cmp = &cmp_3dilev;
-				num_wave_coef = (size_t) ((float) (NX*NY*ILEV) /  (CRATIO_3D));
-			}
-			else {
-				cmp = &cmp_3dlev;
-				num_wave_coef = (size_t) ((float) (NX*NY*LEV) /  (CRATIO_3D));
-			} 
-			
-
-			compress_var(
-				ts, vars[v], ncdfc, faceIndeciesAll, cmp, num_wave_coef,
-				homme_orig_buf, homme_comp_buf, orig_buf, comp_buf
-			);
-		}
-	}
-}
-
-/*
- * Converts a data array in "homme" order into the raw order.
- * Input: 
- *      faceIndeciesAll: auxiliary data structure from InitializeFaceIndeciesAll().
- *      homme_orig_buf:  1D array containing homme ordered data points.
- *      NX, NY, NZ:      dimension of the input data
- * Output:
- *      orig_buf:        1D array containing all data points in raw order.
- *
- * Note: both homme_orig_buf and orig_buf should have the size 6*NX*NY*NZ.
- */
-void cam2raw( const vector < vector <int> > &faceIndeciesAll,
-	         float* homme_orig_buf,                
-             int    NX,
-             int    NY,
-             int    NZ,
-	         float* orig_buf )                     
-{
-// TODO: what is NCOL? NX * NY ?
-// TODO: what is nz?   NZ?
-	float min = 0.0, max = 0.0;
-	for (int face=0; face<6; face++) 
-    {
-		const vector <int> &faceIndecies = faceIndeciesAll[face];
-		bool first = true;
-		float mymin = 0.0, mymax = 0.0;
-		for (int z = 0; z < nz; z++) 
-        {
-			for (int i = 0; i<faceIndecies.size(); i++) {
-				float t = homme_orig_buf[z*NCOL + faceIndecies[i]];
-		        if (first) {
-				    mymin = min = t;
-				    mymax = max = t;
-					first = false;
-			    }
-				if (t<mymin) mymin = t;
-				if (t>mymax) mymax = t;
-				orig_buf[z*NX*NY + i] = t;
-			}
-		}
-		if (mymin<min) min = mymin;
-		if (mymax>max) max = mymax;
-
-		for (int z = 0; z<nz; z++) 
-			for (int i = 0; i<faceIndecies.size(); i++) 
-				homme_comp_buf[z*NCOL + faceIndecies[i]] = orig_buf[z*NX*NY + i];
-	}
-}
-
-/*
- * Converts an data array in raw order into the "homme" order.
- * Input: 
- *      faceIndeciesAll: auxiliary data structure from InitializeFaceIndeciesAll().
- *      orig_buf:        1D array containing raw ordered data points.
- *      NX, NY, NZ:      dimension of the input data
- * Output:
- *      homme_orig_buf:  1D array containing all data points in homme order.
- *
- * Note: both orig_buf and homme_orig_buf should have the size 6*NX*NY*NZ.
- */
-void raw2cam( const vector < vector <int> > &faceIndeciesAll,
-	         float* orig_buf,                
-             int    NX,
-             int    NY,
-             int    NZ,
-	         float* homme_orig_buf )                     
-{
-// TODO: what is NCOL? NX * NY ?
-// TODO: what is nz?   NZ?
-	float min = 0.0, max = 0.0;
-	for (int face=0; face<6; face++) 
-    {
-		const vector <int> &faceIndecies = faceIndeciesAll[face];
-		bool first = true;
-		float mymin = 0.0, mymax = 0.0;
-
-		for (int z = 0; z<nz; z++) 
-        {
-			for (int i = 0; i<faceIndecies.size(); i++) {
-                float t = orig_buf[ z*NX*NY + i ];
-                if( first ) {
-                    mymin = min = t;
-                    mymax = max = y;
-                    first = false;
-                }
-                if( t < mymin )     mymin = t;
-                if( t > mymax )     mymax = t;
-				homme_comp_buf[z*NCOL + faceIndecies[i]] = t;
-            }
-        }
-        if( mymin < min )       min = mymin;
-        if( mymax > max )       max = mymax;
-	}
-}
-
-int InitializeFaceIndeciesAll( string &mapfile,
-                                string &facefile,   
-                                vector < vector <int> > &faceIndeciesAll )
+int CamHandler::InitializeFaceIndeciesAll( string &mapfile,
+                                           string &facefile )
 {
 	vector <int> facemap;
 	int rc = getFaceMap(facefile, facemap);
@@ -779,6 +472,7 @@ int InitializeFaceIndeciesAll( string &mapfile,
 	}
 }
             
+/*
 int main (int argc, char **argv) {
 
 	MyBase::SetErrMsgFilePtr(stderr);
@@ -816,3 +510,4 @@ int main (int argc, char **argv) {
 
 	compress_files(files, faceIndeciesAll);
 }
+*/
