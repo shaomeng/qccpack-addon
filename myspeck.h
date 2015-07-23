@@ -63,7 +63,11 @@ int myspeckdecode( char*  inputFilename,
 /*
  * Evaluates two arrays using RMS and LMax criteria.
  */
-void evaluate2arrays( float* A, float* B, int len, double* rms, double* lmax );
+void evaluate2arrays( float* A, 
+                      float* B, 
+                      int len, 
+                      double* rms, 
+                      double* lmax );
 
 #endif
 
