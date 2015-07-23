@@ -41,7 +41,27 @@ class CamHandler
     void raw2cam( float* orig_buf,                
                   float* homme_orig_buf );
 
+    int  speckEncode3D( float* srcBuf,
+                        char* outputFilename,
+                        int numLevels,
+                        float targetRate );
+                        
         
+    int  speckEncode2Dp1D( float* srcBuf,
+                           char* outputFilename,
+                           int XYNumLevels,
+                           int ZNumLevels,
+                           float targetRate );
+
+    int speckdecode( char*  inputFilename,
+                     float* dstBuf );
+
+    void evaluate2arrays( float* A, 
+                          float* B, 
+                          int len, 
+                          double* rms,
+                          double* lmax );
+                        
     private:
     size_t _NX, _NY, _ILEV, _NCOL;
     /*

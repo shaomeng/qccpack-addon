@@ -466,41 +466,79 @@ int CamHandler::InitializeFaceIndicesAll( string &mapfile,
 }
             
 /*
-int main (int argc, char **argv) {
+ * Helper functions for SPECK encoding and decoding.
+ */
+extern "C"
+{
+    int myspeckencode3d( float* srcBuf,
+                   int srcX,
+                   int srcY,
+                   int srcZ,
+                   char* outputFilename,
+                   int nLevels,
+                   float TargetRate );
 
-	MyBase::SetErrMsgFilePtr(stderr);
+    int myspeckencode2p1d( float* srcBuf,
+                       int srcX,
+                       int srcY,
+                       int srcZ,
+                       char* outputFilename,
+                       int XYNumLevels,
+                       int ZNumLevels,
+                       float TargetRate );
 
-	if (argc < 4) {
-		Usage(argv[0]);
-		exit (1);
-	}
-	argc--; argv++;
+    int myspeckdecode( char*  inputFilename,
+                     float* dstBuf,
+                     int    outSize );
+};
 
-	string mapfile = argv[0];
-	argc--; argv++;
-	string facefile = argv[0];
-	argc--; argv++;
-	string camfile = argv[0];
-
-
-	cout << "2D compression factor " << CRATIO_2D << endl;
-	cout << "3D compression factor " << CRATIO_3D << endl;
-#ifdef	DOUBLE
-	cout << "coefficient type : double" << endl;
-#else
-	cout << "coefficient type : float" << endl;
-#endif
-	cout << "Building remapping table" << endl;
-
-
-	vector < vector <int> > faceIndeciesAll(6);
-    InitializeFaceIndeciesAll( mapfile, facefile, faceIndeciesAll );
-
-	vector <string> files;
-	for (int i=0; i<argc; i++) {
-		files.push_back(argv[i]);
-	}
-
-	compress_files(files, faceIndeciesAll);
+int  CamHandler::speckEncode3D( float* srcBuf,
+                                char* outputFilename,
+                                int numLevels,
+                                float targetRate )
+{
+    return myspeckencode3d( srcBuf, _NX, _NY, _ILEV, 
+                            outputFilename, numLevels, targetRate );
 }
-*/
+
+int CamHandler::speckEncode2Dp1D( float* srcBuf,
+                                  char* outputFilename,
+                                  int XYNumLevels,
+                                  int ZNumLevels,
+                                  float targetRate )
+{
+    return myspeckencode2p1d( srcBuf, _NX, _NY, _ILEV, outputFilename, 
+                              XYNumLevels, ZNumLevels, targetRate );
+}
+
+int CamHandler::speckdecode( char*  inputFilename,
+                             float* dstBuf )
+{
+    return myspeckdecode( inputFilename, dstBuf,
+                          _NX * _NY * _ILEV );
+
+}
+
+void CamHandler::evaluate2arrays( float* A, float* B, int len, 
+                                  double* rms, double* lmax )
+{
+    double sum = 0.0;
+    double c = 0.0;
+    double max = 0.0;
+    double tmp;
+    int i;
+    for( i = 0; i < len; i++) {
+        tmp = (double)A[i] - (double)B[i];
+        if (tmp < 0)        tmp *= -1.0;
+        if (tmp > max)      max = tmp;
+        double y = tmp * tmp - c;
+        double t = sum + y;
+        c = (t - sum) - y;
+        sum = t;
+    }
+    sum /= (double)len;
+    sum = sqrt( sum );
+
+    *rms = sum;
+    *lmax = max;
+}
