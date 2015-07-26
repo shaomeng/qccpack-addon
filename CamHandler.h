@@ -21,6 +21,9 @@ class CamHandler
 
     /*
      * Converts a data array in "homme" order into the raw order.
+     * 
+     * Note that the homme array contains 6 faces. So does orig array.
+     *
      * Input: 
      *      homme_buf     :  1D array containing homme ordered data points.
      *      homme_size    :  size of the homme_orig_buf array
@@ -38,6 +41,9 @@ class CamHandler
 
     /*
      * Converts an data array in raw order into the "homme" order.
+     *
+     * Note that the raw array contains 6 faces. So does homme array.
+     * 
      * Input: 
      *      orig_buf      :   1D array containing raw ordered data points.
      *      orig_size     :   size of the orig_buf array
@@ -55,7 +61,11 @@ class CamHandler
 
 
     /*
-     * Takes an input homme array, applies speck3d encoding with dyadic DWT.
+     * Takes an input homme array, converts to a raw array,
+     * applies speck3d encoding with dyadic DWT, and writes to file.
+     *
+     * Note, don't include ".face1" part into the output filename.
+     * 
      * Input:
      *      homme_buf       :   input homme array
      *      homme_size      :   size of input homme array
@@ -65,7 +75,7 @@ class CamHandler
      * Output:
      *      outputFilename  :   output file name for compressed data.
      */
-    int  speckEncode3D( float* homme_buf,
+    void  speckEncode3D( float* homme_buf,
                         size_t homme_size,
                         int LEV,
                         int numDWTLevels,
@@ -76,7 +86,11 @@ class CamHandler
 
 
     /*
-     * Takes an input homme array, applies speck3d encoding with wavelet-packet DWT.
+     * Takes an input homme array, converts to a raw array,
+     * applies speck3d encoding with wavelet-packet DWT, and writes to file.
+     *
+     * Note, don't include ".face1" part into the output filename.
+     * 
      * Input:
      *      homme_buf       :   input homme array
      *      homme_size      :   size of input homme array
@@ -87,7 +101,7 @@ class CamHandler
      * Output:
      *      outputFilename  :   output file name for compressed data.
      */
-    int  speckEncode2Dp1D( float* homme_buf,
+    void  speckEncode2Dp1D( float* homme_buf,
                            size_t homme_size,
                            int LEV,
                            int XYNumDWTLevels,
@@ -96,15 +110,21 @@ class CamHandler
                            char* outputFilename );
 
     /*
-     * Reads in a speck encoded file, decodes, and return in cam array
+     * Reads in SIX speck encoded file, decodes into a raw array, 
+     * converts into a cam array, and return.
+     *
+     * Note, don't include ".face1" part into the input filename.
+     * 
      * Input:
-     *      inputFilename   :   input bit stream name
+     *      inputFilename   :   prefix of input files. 
      *      homme_size      :   size of output homme array.
+     *      LEV             :   number of levels (Z dimension) of cam data
      * Output:
      *      homme_buf       :   reconstructed homme array.
      */
-    int speckdecode( char*  inputFilename,
+    void speckdecode( char*  inputFilename,
                      size_t homme_size,
+                     int LEV,
                      float* homme_buf );
 
     /*
@@ -118,7 +138,7 @@ class CamHandler
      */
     void evaluate2arrays( const float* A, 
                           const float* B, 
-                          size_t len,, 
+                          size_t len,
                           double* rms,
                           double* lmax );
                         
