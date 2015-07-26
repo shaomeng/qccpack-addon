@@ -1,13 +1,19 @@
 #include "CamHandler.h"
 
+//TODO: 
+//  1. fix the dimension problems
+//  2. free up memory
+//  3. implement 2D transform functions
+//  4. sanity check for ilevels
+
 using namespace VAPoR;
 using namespace VetsUtil;
 
 CamHandler::CamHandler( string &mapfile, string &facefile )
 {
     _NX = 91;
-    _NY = 91;
-    _ILEV = 31;
+    _NY = 89;
+    _LEV = 30;
     _NCOL = 48602;
 
     _faceIndicesAll.resize( 6 );
@@ -15,16 +21,26 @@ CamHandler::CamHandler( string &mapfile, string &facefile )
     InitializeFaceIndicesAll( mapfile, facefile );
 }
 
+void CamHandler::SetLev( size_t lev )
+{
+    _LEV = lev;
+}
+
+
 void CamHandler::cam2raw( float* homme_orig_buf,                
+                          size_t homme_size,
                           float* orig_buf )                     
 {
+    /* sanity check on homme_orig_buf length */
+    assert( homme_size % _NCOL == 0 );
+    
 	float min = 0.0, max = 0.0;
 	for (int face=0; face<6; face++) 
     {
 		const vector <int> &faceIndices = _faceIndicesAll[face];
 		bool first = true;
 		float mymin = 0.0, mymax = 0.0;
-		for (int z = 0; z < _ILEV; z++) 
+		for (int z = 0; z < _LEV; z++) 
         {
 			for (int i = 0; i<faceIndices.size(); i++) {
 				float t = homme_orig_buf[z*_NCOL + faceIndices[i]];
@@ -53,7 +69,7 @@ void CamHandler::raw2cam( float* orig_buf,
 		bool first = true;
 		float mymin = 0.0, mymax = 0.0;
 
-		for (int z = 0; z<_ILEV; z++) 
+		for (int z = 0; z<_LEV; z++) 
         {
 			for (int i = 0; i<faceIndices.size(); i++) {
                 float t = orig_buf[ z*_NX*_NY + i ];
@@ -497,7 +513,7 @@ int  CamHandler::speckEncode3D( float* srcBuf,
                                 int numLevels,
                                 float targetRate )
 {
-    return myspeckencode3d( srcBuf, _NX, _NY, _ILEV, 
+    return myspeckencode3d( srcBuf, _NX, _NY, _LEV, 
                             outputFilename, numLevels, targetRate );
 }
 
@@ -507,7 +523,7 @@ int CamHandler::speckEncode2Dp1D( float* srcBuf,
                                   int ZNumLevels,
                                   float targetRate )
 {
-    return myspeckencode2p1d( srcBuf, _NX, _NY, _ILEV, outputFilename, 
+    return myspeckencode2p1d( srcBuf, _NX, _NY, _LEV, outputFilename, 
                               XYNumLevels, ZNumLevels, targetRate );
 }
 
@@ -515,7 +531,7 @@ int CamHandler::speckdecode( char*  inputFilename,
                              float* dstBuf )
 {
     return myspeckdecode( inputFilename, dstBuf,
-                          _NX * _NY * _ILEV );
+                          _NX * _NY * _LEV );
 
 }
 
