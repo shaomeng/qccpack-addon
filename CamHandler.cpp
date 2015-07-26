@@ -23,21 +23,28 @@ CamHandler::CamHandler( string &mapfile, string &facefile )
 
 
 
-void CamHandler::cam2raw( float* homme_orig_buf,                
+void CamHandler::cam2raw( float* homme_buf,                
                           size_t homme_size,
                           int    LEV,
-                          float* orig_buf )                     
+                          float* orig_buf,
+                          size_t orig_size )                     
 {
+    /* sanity check on dimensions */
+    assert( homme_size % _NCOL == 0 );
+    assert( homme_size / _NCOL == LEV );
+    assert( orig_size == 6 * _NX * _NY * LEV );
+
 	float min = 0.0, max = 0.0;
 	for (int face=0; face<6; face++) 
     {
+        size_t faceOffset = face * _NX * _NY * LEV;
 		const vector <int> &faceIndices = _faceIndicesAll[face];
 		bool first = true;
 		float mymin = 0.0, mymax = 0.0;
 		for (int z = 0; z < LEV; z++) 
         {
 			for (int i = 0; i<faceIndices.size(); i++) {
-				float t = homme_orig_buf[z*_NCOL + faceIndices[i]];
+				float t = homme_buf[z*_NCOL + faceIndices[i]];
 		        if (first) {
 				    mymin = min = t;
 				    mymax = max = t;
@@ -45,7 +52,7 @@ void CamHandler::cam2raw( float* homme_orig_buf,
 			    }
 				if (t<mymin) mymin = t;
 				if (t>mymax) mymax = t;
-				orig_buf[z*_NX*_NY + i] = t;
+				orig_buf[faceOffset + z*_NX*_NY + i] = t;
 			}
 		}
 		if (mymin<min) min = mymin;
@@ -54,21 +61,27 @@ void CamHandler::cam2raw( float* homme_orig_buf,
 }
 
 void CamHandler::raw2cam( float* orig_buf,                
-                          float* homme_orig_buf,
+                          size_t orig_size,
+                          float* homme_buf,
                           size_t homme_size,
                           int    LEV )                     
 {
+    /* sanity check on dimensions */
+    assert( homme_size % _NCOL == 0 );
+    assert( homme_size / _NCOL == LEV );
+    assert( orig_size == 6 * _NX * _NY * LEV );
+
 	float min = 0.0, max = 0.0;
 	for (int face=0; face<6; face++) 
     {
+        size_t faceOffset = face * _NX * _NY * LEV;
 		const vector <int> &faceIndices = _faceIndicesAll[face];
 		bool first = true;
 		float mymin = 0.0, mymax = 0.0;
-
 		for (int z = 0; z<LEV; z++) 
         {
 			for (int i = 0; i<faceIndices.size(); i++) {
-                float t = orig_buf[ z*_NX*_NY + i ];
+                float t = orig_buf[ faceOffset + z*_NX*_NY + i ];
                 if( first ) {
                     mymin = min = t;
                     mymax = max = t;
@@ -76,7 +89,7 @@ void CamHandler::raw2cam( float* orig_buf,
                 }
                 if( t < mymin )     mymin = t;
                 if( t > mymax )     mymax = t;
-				homme_orig_buf[z*_NCOL + faceIndices[i]] = t;
+				homme_buf[z*_NCOL + faceIndices[i]] = t;
             }
         }
         if( mymin < min )       min = mymin;
@@ -504,34 +517,72 @@ extern "C"
                      int    outSize );
 };
 
-int  CamHandler::speckEncode3D( float* srcBuf,
-                                char* outputFilename,
-                                int numLevels,
-                                float targetRate )
+int  CamHandler::speckEncode3D( float* homme_buf,
+                                size_t homme_size,
+                                int LEV,
+                                int numDWTLevels,
+                                float targetRate,
+                                char* outputFilename )
 {
-    return myspeckencode3d( srcBuf, _NX, _NY, LEV, 
-                            outputFilename, numLevels, targetRate );
+    /* sanity check on dimensions */
+    assert( homme_size % _NCOL == 0 );
+    assert( homme_size / _NCOL == LEV );
+    
+    /* convert homme array to raw array */
+    size_t raw_size = 6 * _NX * _NY * LEV ;
+    float* raw_buf = new float[ raw_size ];
+    cam2raw( homme_buf, homme_size, LEV, raw_buf, raw_size );
+    
+    /* speck encoding on raw_buf, and writes result to file */
+    int rc = myspeckencode3d( raw_buf, _NX, _NY, LEV, 
+                            outputFilename, numDWTLevels, targetRate );
+
+    delete[] raw_buf;
+    return rc;
 }
 
-int CamHandler::speckEncode2Dp1D( float* srcBuf,
-                                  char* outputFilename,
-                                  int XYNumLevels,
-                                  int ZNumLevels,
-                                  float targetRate )
+int CamHandler::speckEncode2Dp1D( float* homme_buf,
+                                  size_t homme_size,
+                                  int LEV,
+                                  int XYNumDWTLevels,
+                                  int ZNumDWTLevels,
+                                  float targetRate,
+                                  char* outputFilename )
 {
-    return myspeckencode2p1d( srcBuf, _NX, _NY, LEV, outputFilename, 
-                              XYNumLevels, ZNumLevels, targetRate );
+    /* sanity check on dimensions */
+    assert( homme_size % _NCOL == 0 );
+    assert( homme_size / _NCOL == LEV );
+    
+    /* convert homme array to raw array */
+    size_t raw_size = 6 * _NX * _NY * LEV ;
+    float* raw_buf = new float[ raw_size ];
+    cam2raw( homme_buf, homme_size, LEV, raw_buf, raw_size );
+    
+    /* speck encoding on raw_buf, and writes result to file */
+    return myspeckencode2p1d( raw_buf, _NX, _NY, LEV, outputFilename, 
+                              XYNumDWTLevels, ZNumDWTLevels, targetRate );
+
+    delete[] raw_buf;
+    return rc;
 }
 
 int CamHandler::speckdecode( char*  inputFilename,
-                             float* dstBuf )
+                             size_t homme_size,
+                             int LEV,
+                             float* homme_buf )
 {
-    return myspeckdecode( inputFilename, dstBuf,
+    /* sanity check on dimensions */
+    assert( homme_size % _NCOL == 0 );
+    assert( homme_size / _NCOL == LEV );
+    
+    size_t raw_size = 6 * _NX * _NY * LEV ;
+    float* raw_buf = new float[ raw_size ];
+    int rc = myspeckdecode( inputFilename, raw_buf,
                           _NX * _NY * LEV );
 
 }
 
-void CamHandler::evaluate2arrays( float* A, float* B, int len, 
+void CamHandler::evaluate2arrays( const float* A, const float* B, size_t len, 
                                   double* rms, double* lmax )
 {
     double sum = 0.0;
