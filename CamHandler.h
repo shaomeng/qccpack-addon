@@ -15,61 +15,115 @@ namespace VAPoR
 class CamHandler
 {
     public:
+    /* Constructor */
     CamHandler( string &mapfile, string &facefile );
 
-    void SetLev( size_t lev );
 
     /*
      * Converts a data array in "homme" order into the raw order.
      * Input: 
-     *      homme_orig_buf:  1D array containing homme ordered data points.
+     *      homme_buf     :  1D array containing homme ordered data points.
      *      homme_size    :  size of the homme_orig_buf array
+     *      LEV           :  number of levels (Z dimension) of cam data.
+     *      orig_size     :  size of the orig_buf array
      * Output:
      *      orig_buf:        1D array containing all data points in raw order.
      *
-     * Note: both homme_orig_buf and orig_buf should have the size 6*_NX*_NY*_NZ.
      */
-    void cam2raw( float* homme_orig_buf,                
+    void cam2raw( float* homme_buf,                
                   size_t homme_size,
-                  float* orig_buf );
+                  int    LEV,
+                  float* orig_buf,
+                  size_t orig_size );
 
     /*
      * Converts an data array in raw order into the "homme" order.
      * Input: 
      *      orig_buf      :   1D array containing raw ordered data points.
-     *      homme_size    :  size of the homme_orig_buf array
+     *      orig_size     :   size of the orig_buf array
+     *      homme_size    :   size of the homme_orig_buf array
+     *      LEV           :   number of levels (Z dimension) of cam data.
      * Output:
-     *      homme_orig_buf:  1D array containing all data points in homme order.
+     *      homme_buf     :   1D array containing all data points in homme order.
      *
-     * Note: both orig_buf and homme_orig_buf should have the size 6*_NX*_NY*_NZ.
      */
     void raw2cam( float* orig_buf,                
-                  float* homme_orig_buf,
-                  size_t homme_size );
+                  size_t orig_size,
+                  float* homme_buf,
+                  size_t homme_size,
+                  int    LEV );
 
-    int  speckEncode3D( float* srcBuf,
-                        char* outputFilename,
-                        int numLevels,
-                        float targetRate );
+
+    /*
+     * Takes an input homme array, applies speck3d encoding with dyadic DWT.
+     * Input:
+     *      homme_buf       :   input homme array
+     *      homme_size      :   size of input homme array
+     *      LEV             :   number of levels (Z dimension) of cam data
+     *      numDWTLevels    :   number of levels of DWT to apply
+     *      targetRate      :   target rate for speck encoding
+     * Output:
+     *      outputFilename  :   output file name for compressed data.
+     */
+    int  speckEncode3D( float* homme_buf,
+                        size_t homme_size,
+                        int LEV,
+                        int numDWTLevels,
+                        float targetRate,
+                        char* outputFilename );
                         
         
-    int  speckEncode2Dp1D( float* srcBuf,
-                           char* outputFilename,
-                           int XYNumLevels,
-                           int ZNumLevels,
-                           float targetRate );
 
+
+    /*
+     * Takes an input homme array, applies speck3d encoding with wavelet-packet DWT.
+     * Input:
+     *      homme_buf       :   input homme array
+     *      homme_size      :   size of input homme array
+     *      LEV             :   number of levels (Z dimension) of cam data
+     *      XYnumDWTLevels  :   number of levels of DWT to apply on XY plane
+     *      ZnumDWTLevels   :   number of levels of DWT to apply on Z dimension 
+     *      targetRate      :   target rate for speck encoding
+     * Output:
+     *      outputFilename  :   output file name for compressed data.
+     */
+    int  speckEncode2Dp1D( float* homme_buf,
+                           size_t homme_size,
+                           int LEV,
+                           int XYNumDWTLevels,
+                           int ZNumDWTLevels,
+                           float targetRate,
+                           char* outputFilename );
+
+    /*
+     * Reads in a speck encoded file, decodes, and return in cam array
+     * Input:
+     *      inputFilename   :   input bit stream name
+     *      homme_size      :   size of output homme array.
+     * Output:
+     *      homme_buf       :   reconstructed homme array.
+     */
     int speckdecode( char*  inputFilename,
-                     float* dstBuf );
+                     size_t homme_size,
+                     float* homme_buf );
 
-    void evaluate2arrays( float* A, 
-                          float* B, 
-                          int len, 
+    /*
+     * Evaluates two arrays of the same size.
+     * Input:
+     *      A, B            :   Two arrays to compare with
+     *      len             :   length of the two arrays (same length)
+     * Output:
+     *      rms             :   absolute RMSE between the two.
+     *      lmax            :   maximum difference between the two.
+     */
+    void evaluate2arrays( const float* A, 
+                          const float* B, 
+                          size_t len,, 
                           double* rms,
                           double* lmax );
                         
     private:
-    size_t _NX, _NY, _LEV, _NCOL;
+    size_t _NX, _NY,  _NCOL;
     /*
      * Auxiliary data structure from InitializeFaceIndeciesAll().
      */
