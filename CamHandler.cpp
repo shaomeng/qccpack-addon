@@ -517,7 +517,7 @@ extern "C"
                      int    outSize );
 };
 
-int  CamHandler::speckEncode3D( float* homme_buf,
+void CamHandler::speckEncode3D( float* homme_buf,
                                 size_t homme_size,
                                 int LEV,
                                 int numDWTLevels,
@@ -533,12 +533,23 @@ int  CamHandler::speckEncode3D( float* homme_buf,
     float* raw_buf = new float[ raw_size ];
     cam2raw( homme_buf, homme_size, LEV, raw_buf, raw_size );
     
-    /* speck encoding on raw_buf, and writes result to file */
-    int rc = myspeckencode3d( raw_buf, _NX, _NY, LEV, 
-                            outputFilename, numDWTLevels, targetRate );
+    /* speck encoding on each of the 6 faces */
+    for( int face = 0; face < 6; face++ )
+    {
+        /* locate start index for each face */
+        size_t faceOffset = face * _NX * _NY * LEV;
+        /* generate filenames for each face */
+        char  tmpName[ 2048 ];
+        char suffix[64];
+        sprintf( suffix, ".face%d", face );
+        strcpy( tmpName, outputFilename );
+        strcat( tmpName, suffix );
+
+        myspeckencode3d( raw_buf + faceOffset, _NX, _NY, LEV, 
+                         tmpName, numDWTLevels, targetRate );
+    }
 
     delete[] raw_buf;
-    return rc;
 }
 
 int CamHandler::speckEncode2Dp1D( float* homme_buf,
