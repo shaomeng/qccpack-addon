@@ -122,7 +122,7 @@ class CamHandler
      * Output:
      *      homme_buf       :   reconstructed homme array.
      */
-    void speckdecode( char*  inputFilename,
+    void speckDecode( char*  inputFilename,
                      size_t homme_size,
                      int LEV,
                      float* homme_buf );

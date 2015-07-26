@@ -1,11 +1,8 @@
 #include "CamHandler.h"
 
 //TODO: 
-//  1. fix the dimension problems
 //  2. free up memory
 //  3. implement 2D transform functions
-//  4. sanity check for ilevels
-//  5. sanity check for orig array size
 
 using namespace VAPoR;
 using namespace VetsUtil;
@@ -589,7 +586,7 @@ void CamHandler::speckEncode2Dp1D( float* homme_buf,
     delete[] raw_buf;
 }
 
-void CamHandler::speckdecode( char*  inputFilename,
+void CamHandler::speckDecode( char*  inputFilename,
                              size_t homme_size,
                              int LEV,
                              float* homme_buf )
