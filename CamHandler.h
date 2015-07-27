@@ -133,14 +133,14 @@ class CamHandler
      *      A, B            :   Two arrays to compare with
      *      len             :   length of the two arrays (same length)
      * Output:
+     *      minmaxA         :   min = [0], max = [1]
+     *      minmaxB         :   min = [0], max = [1]
      *      rms             :   absolute RMSE between the two.
      *      lmax            :   maximum difference between the two.
      */
-    void evaluate2arrays( const float* A, 
-                          const float* B, 
-                          size_t len,
-                          double* rms,
-                          double* lmax );
+    void evaluate2arrays( const float* A, const float* B, size_t len,
+                          float* minmaxA, float* minmaxB,
+                          double* rms, double* lmax );
                         
     private:
     size_t _NX, _NY,  _NCOL;

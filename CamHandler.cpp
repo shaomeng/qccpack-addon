@@ -619,6 +619,7 @@ void CamHandler::speckDecode( char*  inputFilename,
 }
 
 void CamHandler::evaluate2arrays( const float* A, const float* B, size_t len, 
+                                  float* minmaxA, float* minmaxB, 
                                   double* rms, double* lmax )
 {
     double sum = 0.0;
@@ -626,6 +627,10 @@ void CamHandler::evaluate2arrays( const float* A, const float* B, size_t len,
     double max = 0.0;
     double tmp;
     int i;
+    float minA = A[0];
+    float maxA = A[0];
+    float minB = B[0];
+    float maxB = B[0];
     for( i = 0; i < len; i++) {
         tmp = (double)A[i] - (double)B[i];
         if (tmp < 0)        tmp *= -1.0;
@@ -634,10 +639,20 @@ void CamHandler::evaluate2arrays( const float* A, const float* B, size_t len,
         double t = sum + y;
         c = (t - sum) - y;
         sum = t;
+
+        /* Collect min, max */
+        if( A[i] < minA )   minA = A[i];
+        if( A[i] > maxA )   maxA = A[i];
+        if( B[i] < minB )   minB = B[i];
+        if( B[i] > maxB )   maxB = B[i];
     }
     sum /= (double)len;
     sum = sqrt( sum );
 
     *rms = sum;
     *lmax = max;
+    minmaxA[0] = minA;
+    minmaxA[1] = maxA;
+    minmaxB[0] = minB;
+    minmaxB[1] = maxB;
 }
