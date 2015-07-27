@@ -24,7 +24,7 @@ myspecktestcpp: myspeck.o myspecktest.cpp
 CamHandler.o: CamHandler.cpp CamHandler.h
 	g++  $(OP) -I/glade/u/home/shaomeng/vapor-2.4.2/include -I/glade/apps/opt/netcdf/4.3.0/gnu/4.4.7/include -c CamHandler.cpp -o bin/CamHandler.o 
 
-camtest: CamHandler.o CamHandlerTest.cpp
+camtest: myspeck.o CamHandler.o CamHandlerTest.cpp
 	g++ $(OP) -c CamHandlerTest.cpp -o bin/CamHandlerTest.o -I/glade/u/home/shaomeng/vapor-2.4.2/include -I/glade/apps/opt/netcdf/4.3.0/gnu/4.4.7/include
 	g++ $(OP) bin/CamHandlerTest.o bin/CamHandler.o bin/myspeck.o -o bin/camtest -L/glade/u/home/shaomeng/vapor-2.4.2/bin -L/glade/u/home/shaomeng/vapor-2.4.2/lib -lvdf -L/glade/u/home/shaomeng/QccPack/lib -lQccPack -lproj  -lcommon -ludunits2 -lnetcdf -lhdf5_hl -lm
 

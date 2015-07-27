@@ -136,11 +136,14 @@ class CamHandler
      *      minmaxA         :   min = [0], max = [1]
      *      minmaxB         :   min = [0], max = [1]
      *      rms             :   absolute RMSE between the two.
+     *      nrms            :   normalized RMSE (normalized by the range of A)
      *      lmax            :   maximum difference between the two.
+     *      nlmax           :   normalized LMAX (normalized by the range of A)
      */
     void evaluate2arrays( const float* A, const float* B, size_t len,
-                          float* minmaxA, float* minmaxB,
-                          double* rms, double* lmax );
+                          double* minmaxA, double* minmaxB,
+                          double* rms, double* nrms, 
+                          double* lmax, double* nlmax );
                         
     private:
     size_t _NX, _NY,  _NCOL;
