@@ -71,8 +71,12 @@ int main( int argc, char* argv[] )
     handler.speckDecode( filename, homme_size, LEV, homme_buf_comp ); 
     
     double rms, lmax;
-    handler.evaluate2arrays( homme_buf, homme_buf_comp, homme_size, &rms, &lmax );
+    float minmaxA[2], minmaxB[2];
+    handler.evaluate2arrays( homme_buf, homme_buf_comp, homme_size, 
+                             minmaxA, minmaxB, &rms, &lmax );
 
+    cerr << "1st array min = " << minmaxA[0] << ", max = " << minmaxA[1] << endl;
+    cerr << "2nd array min = " << minmaxB[0] << ", max = " << minmaxB[1] << endl;
     cerr << "RMS = " << rms << ", LMax = " << lmax << endl;
 
     delete[] homme_buf;
