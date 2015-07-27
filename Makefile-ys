@@ -1,31 +1,33 @@
-all: 
+OP = -O2
 
 bov2imgcube: bov2imgcube.c
-	gcc -O -Wall -fPIC -I/glade/u/home/shaomeng/QccPack/include  -DQCCCOMPRESS=/usr/bin/gzip -DQCCUNCOMPRESS=/usr/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK    -o bin/bov2imgcube bov2imgcube.c -L/glade/u/home/shaomeng/QccPack/lib -lQccPack  -lpthread  -lm
+	gcc $(OP) -Wall -fPIC -I/glade/u/home/shaomeng/QccPack/include  -DQCCCOMPRESS=/usr/bin/gzip -DQCCUNCOMPRESS=/usr/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK    -o bin/bov2imgcube bov2imgcube.c -L/glade/u/home/shaomeng/QccPack/lib -lQccPack  -lpthread  -lm
 
 imgcube2bov: imgcube2bov.c
-	gcc -O -Wall -fPIC -I/glade/u/home/shaomeng/QccPack/include -DQCCCOMPRESS=/usr/bin/gzip -DQCCUNCOMPRESS=/usr/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK    -o bin/imgcube2bov imgcube2bov.c -L/glade/u/home/shaomeng/QccPack/lib -lQccPack  -lpthread  -lm
+	gcc $(OP) -Wall -fPIC -I/glade/u/home/shaomeng/QccPack/include -DQCCCOMPRESS=/usr/bin/gzip -DQCCUNCOMPRESS=/usr/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK    -o bin/imgcube2bov imgcube2bov.c -L/glade/u/home/shaomeng/QccPack/lib -lQccPack  -lpthread  -lm
 
 zeroout: zerooutsubbandpyramid.c
-	gcc -O -Wall -fPIC -I/glade/u/home/shaomeng/QccPack/include -DQCCCOMPRESS=/usr/bin/gzip -DQCCUNCOMPRESS=/usr/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK    -o bin/zeroout zerooutsubbandpyramid.c -L/glade/u/home/shaomeng/QccPack/lib -lQccPack  -lpthread  -lm
+	gcc $(OP) -Wall -fPIC -I/glade/u/home/shaomeng/QccPack/include -DQCCCOMPRESS=/usr/bin/gzip -DQCCUNCOMPRESS=/usr/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK    -o bin/zeroout zerooutsubbandpyramid.c -L/glade/u/home/shaomeng/QccPack/lib -lQccPack  -lpthread  -lm
 
 myspiht.o: myspiht.h myspiht.c
-	gcc -O -Wall -fPIC -I/glade/u/home/shaomeng/QccPack/include -DQCCCOMPRESS=/usr/bin/gzip -DQCCUNCOMPRESS=/usr/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK -c -o bin/myspiht.o myspiht.c 
+	gcc $(OP) -Wall -fPIC -I/glade/u/home/shaomeng/QccPack/include -DQCCCOMPRESS=/usr/bin/gzip -DQCCUNCOMPRESS=/usr/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK -c -o bin/myspiht.o myspiht.c 
 
 myspeck.o: myspeck.h myspeck.c
-	gcc -O -Wall -fPIC -I/glade/u/home/shaomeng/QccPack/include -DQCCCOMPRESS=/usr/bin/gzip -DQCCUNCOMPRESS=/usr/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK -c -o bin/myspeck.o myspeck.c 
+	gcc $(OP) -Wall -fPIC -I/glade/u/home/shaomeng/QccPack/include -DQCCCOMPRESS=/usr/bin/gzip -DQCCUNCOMPRESS=/usr/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:/glade/u/home/shaomeng/QccPack/install/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK -c -o bin/myspeck.o myspeck.c 
 
 myspecktest: myspeck.o myspecktest.c
-	gcc -O -Wall -o bin/myspecktest bin/myspeck.o myspecktest.c -I/glade/u/home/shaomeng/QccPack/include -L/glade/u/home/shaomeng/QccPack/lib -lQccPack  -lpthread  -lm
+	gcc $(OP) -Wall -o bin/myspecktest bin/myspeck.o myspecktest.c -I/glade/u/home/shaomeng/QccPack/include -L/glade/u/home/shaomeng/QccPack/lib -lQccPack  -lpthread  -lm
 
-cam2raw: cam2raw.o
-	g++  -g -L/glade/u/home/shaomeng/vapor-2.4.2/bin -L/glade/u/home/shaomeng/vapor-2.4.2/lib  -o bin/cam2raw bin/cam2raw.o -lproj -lvdf -lcommon -ludunits2 -lnetcdf -lhdf5_hl
+myspecktestcpp: myspeck.o myspecktest.cpp
+	g++ $(OP) -Wall -o bin/myspecktestcpp bin/myspeck.o myspecktest.cpp -I/glade/u/home/shaomeng/QccPack/include -L/glade/u/home/shaomeng/QccPack/lib -lQccPack  -lpthread  -lm
 
 CamHandler.o: CamHandler.cpp CamHandler.h
-	g++  -g -I/glade/u/home/shaomeng/vapor-2.4.2/include -I/glade/apps/opt/netcdf/4.3.0/gnu/4.4.7/include -c CamHandler.cpp -o bin/CamHandler.o 
+	g++  $(OP) -I/glade/u/home/shaomeng/vapor-2.4.2/include -I/glade/apps/opt/netcdf/4.3.0/gnu/4.4.7/include -c CamHandler.cpp -o bin/CamHandler.o 
 
-myspeckCam2rawTest: myspeck.o myspeckCam2rawTest.cpp
-	g++ -O -Wall -o bin/myspeckCam2rawTest bin/myspeck.o myspeckCam2rawTest.cpp -I/glade/u/home/shaomeng/QccPack/include -L/glade/u/home/shaomeng/QccPack/lib -lQccPack  -lpthread  -lm
+camtest: CamHandler.o CamHandlerTest.cpp
+	g++ $(OP) -c CamHandlerTest.cpp -o bin/CamHandlerTest.o -I/glade/u/home/shaomeng/vapor-2.4.2/include -I/glade/apps/opt/netcdf/4.3.0/gnu/4.4.7/include
+	g++ $(OP) bin/CamHandlerTest.o bin/CamHandler.o bin/myspeck.o -o bin/camtest -L/glade/u/home/shaomeng/vapor-2.4.2/bin -L/glade/u/home/shaomeng/vapor-2.4.2/lib -lvdf -L/glade/u/home/shaomeng/QccPack/lib -lQccPack -lproj  -lcommon -ludunits2 -lnetcdf -lhdf5_hl -lm
+
 
 
 testbov2imgcube: bov2imgcube
