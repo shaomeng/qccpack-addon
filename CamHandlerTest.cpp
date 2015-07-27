@@ -46,6 +46,8 @@ int main( int argc, char* argv[] )
     }
     float targetRate = atof( argv[1] );
     size_t LEV = 30;
+    int numXYDWTLevels = 4;
+    int numZDWTLevels = 2;
     char asciiInput[] = "/glade/u/home/shaomeng/CCN3.num.txt";
     string hommeMap   = "/glade/u/home/shaomeng/JohnDennis-CAM-SE/reorderedCbasedHommeMapping.nc";
     string faceMap    = "/glade/u/home/shaomeng/JohnDennis-CAM-SE/faceIdsNeNp304.nc";
@@ -57,14 +59,17 @@ int main( int argc, char* argv[] )
     cerr << "start reading input... " << endl;
     ReadAscii( asciiInput, homme_buf, homme_size );
 
-    int numDWTLevels = 1;
     char filename[] = "/glade/u/home/shaomeng/dump/CCN3";
     cerr << "start building map... " << endl;
     VAPoR::CamHandler handler( hommeMap, faceMap );
 
-    cerr << "start encoding... " << endl;
-    handler.speckEncode3D( homme_buf, homme_size, LEV,
-                           numDWTLevels, targetRate, filename );
+//    cerr << "start 3D encoding... " << endl;
+//    handler.speckEncode3D( homme_buf, homme_size, LEV,
+//                           numDWTLevels, targetRate, filename );
+
+    cerr << "start 2D+1D encoding... " << endl;
+    handler.speckEncode2Dp1D( homme_buf, homme_size, LEV,
+                           numXYDWTLevels, numZDWTLevels, targetRate, filename );
     
     float* homme_buf_comp = new float[ homme_size ];
     cerr << "start decoding... " << endl;
