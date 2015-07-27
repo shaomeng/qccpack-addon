@@ -11,6 +11,21 @@
 
 #include "libQccPack.h"
 
+
+/*
+ * Fill content in a float array into a QccIMGImagecube structure.
+ *
+ * Input:
+ *      buf     : data to fill. It should have length X*Y*Z.
+ *      X, Y, Z : dimensions of the 3D volume.
+ *
+ * Output:
+ *      imagecube : the QccIMGImageCube structure to fill
+ */
+void FillImageCube( float* buf, 
+                    int X, int Y, int Z,
+                    QccIMGImageCube* imagecube );
+
 /*
  * Modified API to apply SPECK encoding.
  *

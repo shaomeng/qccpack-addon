@@ -1,5 +1,36 @@
 #include "myspeck.h"
 
+void FillImageCube( float* buf,
+                    int X, int Y, int Z,
+                    QccIMGImageCube* imagecube )
+{
+    QccIMGImageCubeInitialize( imagecube );
+    imagecube -> num_cols = X;
+    imagecube -> num_rows = Y;
+    imagecube -> num_frames = Z;
+    if( QccIMGImageCubeAlloc( imagecube ) )
+        QccErrorPrintMessages();
+
+    double min = MAXDOUBLE;
+    double max = -MAXDOUBLE;
+    int frame, row, col;
+    long idx = 0;
+    /*
+     * Presuming the X dimension varies fastest, then Y, and then Z.
+     */
+    for( frame = 0; frame < imagecube -> num_frames; frame++ )
+        for( row = 0; row < imagecube -> num_rows; row++ )
+            for( col = 0; col < imagecube -> num_cols; col++ )
+            {
+                if( buf[idx] < min )         min = buf[idx];
+                if( buf[idx] > max )         max = buf[idx];
+                imagecube -> volume[frame][row][col] = buf[idx];
+                idx++;
+            }
+    imagecube -> min_val = min;
+    imagecube -> max_val = max;
+}
+
 int myspeckencode3d( float* srcBuf,
                  int srcX,
                  int srcY,
@@ -12,31 +43,7 @@ int myspeckencode3d( float* srcBuf,
      * Creates a QccIMGImageCube struct to hold the input data.
      */
     QccIMGImageCube imagecube;
-    QccIMGImageCubeInitialize( &imagecube );
-    imagecube.num_cols = srcX;
-    imagecube.num_rows = srcY;
-    imagecube.num_frames = srcZ;
-    if( QccIMGImageCubeAlloc( &imagecube ) )
-        QccErrorPrintMessages();
-
-    double min = MAXDOUBLE;
-    double max = -MAXDOUBLE;
-    int frame, row, col;
-    long idx = 0;
-    /*
-     * Presuming the X dimension varies fastest, then Y, and then Z.
-     */
-    for( frame = 0; frame < imagecube.num_frames; frame++ )
-        for( row = 0; row < imagecube.num_rows; row++ )
-            for( col = 0; col < imagecube.num_cols; col++ )
-            {
-                if( srcBuf[idx] < min )         min = srcBuf[idx];
-                if( srcBuf[idx] > max )         max = srcBuf[idx];
-                imagecube.volume[frame][row][col]   = srcBuf[idx];
-                idx++;
-            }
-    imagecube.min_val = min;
-    imagecube.max_val = max;
+    FillImageCube( srcBuf, srcX, srcY, srcZ, &imagecube );
 
     /*
      * Sets up parameters for DWT and SPECK encoding.
@@ -138,31 +145,7 @@ int myspeckencode2p1d( float* srcBuf,
      * Creates a QccIMGImageCube struct to hold the input data.
      */
     QccIMGImageCube imagecube;
-    QccIMGImageCubeInitialize( &imagecube );
-    imagecube.num_cols = srcX;
-    imagecube.num_rows = srcY;
-    imagecube.num_frames = srcZ;
-    if( QccIMGImageCubeAlloc( &imagecube ) )
-        QccErrorPrintMessages();
-
-    double min = MAXDOUBLE;
-    double max = -MAXDOUBLE;
-    int frame, row, col;
-    long idx = 0;
-    /*
-     * Presuming the X dimension varies fastest, then Y, and then Z.
-     */
-    for( frame = 0; frame < imagecube.num_frames; frame++ )
-        for( row = 0; row < imagecube.num_rows; row++ )
-            for( col = 0; col < imagecube.num_cols; col++ )
-            {
-                if( srcBuf[idx] < min )         min = srcBuf[idx];
-                if( srcBuf[idx] > max )         max = srcBuf[idx];
-                imagecube.volume[frame][row][col]   = srcBuf[idx];
-                idx++;
-            }
-    imagecube.min_val = min;
-    imagecube.max_val = max;
+    FillImageCube( srcBuf, srcX, srcY, srcZ, &imagecube );
 
     /*
      * Sets up parameters for DWT and SPECK encoding.
@@ -327,7 +310,7 @@ int myspeckdecode( char*  inputFilename,
                           MaxCoefficientBits, 
                           TargetBitCnt ))
     {
-        QccErrorAddMessage("Error calling QccSPIHT3DDecode()" );
+        QccErrorAddMessage("Error calling QccSPECK3DDecode()" );
         QccErrorExit();
     }
     if (QccBitBufferEnd(&InputBuffer)) 
