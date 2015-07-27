@@ -112,9 +112,14 @@ int myspeckencode3d( float* srcBuf,
     QccIMGImageCubeFree( &imagecube );
     QccWAVWaveletFree( &Wavelet );
 
-    printf("3D-SPECK coding to output file: %s:\n", outputFilename );
+    /* 
+     * print out info
+     */
+    /*
+    printf("3D-SPECK encoding to output file: %s:\n", outputFilename );
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
+    */
 
 
     return 0;
@@ -229,9 +234,14 @@ int myspeckencode2p1d( float* srcBuf,
     QccIMGImageCubeFree( &imagecube );
     QccWAVWaveletFree( &Wavelet );
 
-    printf("3D-SPECK coding to output file: %s:\n", outputFilename );
+    /*
+     * Print out info
+     */
+    /*
+    printf("3D-SPECK encoding to output file: %s:\n", outputFilename );
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
+    */
 
     return 0;
 }
