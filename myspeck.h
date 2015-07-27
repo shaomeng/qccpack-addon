@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef _MYSPECK
-#define _MYSPIHT_
+#ifndef _MYSPECK_
+#define _MYSPECK_
 
 #include "libQccPack.h"
 
@@ -36,6 +36,10 @@ int myspeckencode3d( float* srcBuf,
                    int nLevels,
                    float TargetRate );
 
+/*
+ * Similar to myspeckencode3d, 
+ * but able to specify levels of DWT on XY plane and Z dimension separately.
+ */
 int myspeckencode2p1d( float* srcBuf, 
                    int srcX,
                    int srcY,
@@ -46,7 +50,7 @@ int myspeckencode2p1d( float* srcBuf,
                    float TargetRate );
 
 /*
- * Modified API to apply SPIHT decoding.
+ * Modified API to apply SPECK decoding.
  *
  * Input: 
  *  inputFilename: the name of the input bitstream file.

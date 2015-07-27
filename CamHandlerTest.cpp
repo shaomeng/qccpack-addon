@@ -45,10 +45,13 @@ int main( int argc, char* argv[] )
         exit (1);
     }
     float targetRate = atof( argv[1] );
+
     size_t LEV = 30;
+//    char asciiInput[] = "/glade/u/home/shaomeng/CamData/CCN3.num.txt";
+    char asciiInput[] = "/glade/u/home/shaomeng/CamData/Z3";
+
     int numXYDWTLevels = 4;
     int numZDWTLevels = 2;
-    char asciiInput[] = "/glade/u/home/shaomeng/CCN3.num.txt";
     string hommeMap   = "/glade/u/home/shaomeng/JohnDennis-CAM-SE/reorderedCbasedHommeMapping.nc";
     string faceMap    = "/glade/u/home/shaomeng/JohnDennis-CAM-SE/faceIdsNeNp304.nc";
 //    char hommeMap[]   = "/glade/u/home/shaomeng/JohnDennis-CAM-SE/reorderedCbasedHommeMapping.nc";
