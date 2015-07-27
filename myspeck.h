@@ -13,18 +13,35 @@
 
 
 /*
- * Fill content in a float array into a QccIMGImagecube structure.
+ * Fill content in a float array into a QccIMGImageCube structure.
  *
  * Input:
- *      buf     : data to fill. It should have length X*Y*Z.
+ *      buf     : data to fill. 
  *      X, Y, Z : dimensions of the 3D volume.
  *
  * Output:
  *      imagecube : the QccIMGImageCube structure to fill
+ *      
+ * Note: buf should have length X*Y*Z.
  */
 void FillImageCube( float* buf, 
                     int X, int Y, int Z,
                     QccIMGImageCube* imagecube );
+
+/*
+ * Fill content in a float array into a QccIMGImageComponent structure.
+ *
+ * Input:
+ *      buf     : data to fill. 
+ *      X, Y    : dimensions of the 2D volume.
+ *
+ * Output:
+ *      imagecomponent : the QccIMGImageComponent structure to fill
+ *
+ * Note: buf should have length X*Y.
+ */
+void FillImageComponent( float* buf, int X, int Y,
+                         QccIMGImageComponent* imagecomponent );
 
 /*
  * Modified API to apply SPECK encoding.
@@ -65,7 +82,7 @@ int myspeckencode2p1d( float* srcBuf,
                    float TargetRate );
 
 /*
- * Modified API to apply SPECK decoding.
+ * Modified API to apply 3D SPECK decoding.
  *
  * Input: 
  *  inputFilename: the name of the input bitstream file.
@@ -75,10 +92,37 @@ int myspeckencode2p1d( float* srcBuf,
  *  outSize: size of the output buffer (in number of floats)
  *
  */
-int myspeckdecode( char*  inputFilename,
-                 float* dstBuf,
-                 int    outSize );
+int myspeckdecode3d( char*  inputFilename,
+                     float* dstBuf,
+                     int    outSize );
                  
+
+/*
+ * Modified API to apply SPECK encoding.
+ *
+ * Input: 
+ *  srcBuf: pointer to 1D array of all data points in float.
+ *  srcX  : X dimension of src data
+ *  srcY  : Y dimension of src data
+ *  srcZ  : Z dimension of src data
+ *  nLevels: how many levels of wavelet transforms to perform.
+ *  TargetRate: how many bits to allocate to one voxel. 32 means no compression.
+ *  
+ * Output:
+ *  outputFilename: the name of the file to write the output bitstream.
+ *
+ * Note: even though the input data is in 1D array, it represents a 3D volume.
+ *       Thus, the size of srcBuf should equal to srcX * srcY * srcZ.
+ */
+/*
+int myspeckencode2d( float* srcBuf, 
+                   int srcX,
+                   int srcY,
+                   char* outputFilename,
+                   int nLevels,
+                   float TargetRate );
+*/
+
 /*
  * Evaluates two arrays using RMS and LMax criteria.
  */

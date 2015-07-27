@@ -509,7 +509,7 @@ extern "C"
                        int ZNumLevels,
                        float TargetRate );
 
-    int myspeckdecode( char*  inputFilename,
+    int myspeckdecode3d( char*  inputFilename,
                      float* dstBuf,
                      int    outSize );
 };
@@ -586,10 +586,10 @@ void CamHandler::speckEncode2Dp1D( float* homme_buf,
     delete[] raw_buf;
 }
 
-void CamHandler::speckDecode( char*  inputFilename,
-                             size_t homme_size,
-                             int LEV,
-                             float* homme_buf )
+void CamHandler::speckDecode3D( char*  inputFilename,
+                                size_t homme_size,
+                                int LEV,
+                                float* homme_buf )
 {
     /* sanity check on dimensions */
     assert( homme_size % _NCOL == 0 );
@@ -610,7 +610,7 @@ void CamHandler::speckDecode( char*  inputFilename,
         strcpy( tmpName, inputFilename );
         strcat( tmpName, suffix );
 
-        myspeckdecode( tmpName, raw_buf + faceOffset, _NX * _NY * LEV );
+        myspeckdecode3d( tmpName, raw_buf + faceOffset, _NX * _NY * LEV );
     }
 
     raw2cam( raw_buf, raw_size, homme_buf, homme_size, LEV );

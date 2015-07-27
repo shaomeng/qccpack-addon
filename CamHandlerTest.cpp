@@ -66,17 +66,19 @@ int main( int argc, char* argv[] )
     cerr << "start building map... " << endl;
     VAPoR::CamHandler handler( hommeMap, faceMap );
 
-//    cerr << "start 3D encoding... " << endl;
-//    handler.speckEncode3D( homme_buf, homme_size, LEV,
-//                           numDWTLevels, targetRate, filename );
+/*
+    cerr << "start 3D DWT and SPECK encoding... " << endl;
+    handler.speckEncode3D( homme_buf, homme_size, LEV,
+                           numZDWTLevels, targetRate, filename );
+*/
 
-    cerr << "start 2D+1D encoding... " << endl;
+    cerr << "start 2D+1D DWT and SPECK encoding... " << endl;
     handler.speckEncode2Dp1D( homme_buf, homme_size, LEV,
                            numXYDWTLevels, numZDWTLevels, targetRate, filename );
     
     float* homme_buf_comp = new float[ homme_size ];
-    cerr << "start decoding... " << endl;
-    handler.speckDecode( filename, homme_size, LEV, homme_buf_comp ); 
+    cerr << "start 3D decoding... " << endl;
+    handler.speckDecode3D( filename, homme_size, LEV, homme_buf_comp ); 
     
     double rms, nrms, lmax, nlmax;
     double minmaxA[2], minmaxB[2];

@@ -31,6 +31,34 @@ void FillImageCube( float* buf,
     imagecube -> max_val = max;
 }
 
+void FillImageComponent( float* buf, int X, int Y,
+                         QccIMGImageComponent* imagecomponent )
+{
+    QccIMGImageComponentInitialize( imagecomponent );
+    imagecomponent -> num_cols = X;
+    imagecomponent -> num_rows = Y;
+    if( QccIMGImageComponentAlloc( imagecomponent ) )
+        QccErrorPrintMessages();
+
+    double min = MAXDOUBLE;
+    double max = -MAXDOUBLE;
+    int row, col;
+    long idx = 0;
+    /*
+     * Presuming the X dimension varies fastest, then Y.
+     */
+    for( row = 0; row < imagecomponent -> num_rows; row++ )
+        for( col = 0; col < imagecomponent -> num_cols; col++ )
+        {
+            if( buf[idx] < min )         min = buf[idx];
+            if( buf[idx] > max )         max = buf[idx];
+            imagecomponent -> image[row][col] = buf[idx];
+            idx++;
+        }
+    imagecomponent -> min_val = min;
+    imagecomponent -> max_val = max;
+}
+
 int myspeckencode3d( float* srcBuf,
                  int srcX,
                  int srcY,
@@ -230,7 +258,7 @@ int myspeckencode2p1d( float* srcBuf,
 }
 
 
-int myspeckdecode( char*  inputFilename,
+int myspeckdecode3d( char*  inputFilename,
                    float* dstBuf,
                    int    outSize )
 {

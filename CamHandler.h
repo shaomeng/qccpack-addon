@@ -110,7 +110,7 @@ class CamHandler
                            char* outputFilename );
 
     /*
-     * Reads in SIX speck encoded file, decodes into a raw array, 
+     * Reads in SIX speck encoded files, performs 3D decoding into a raw array, 
      * converts into a cam array, and return.
      *
      * Note, don't include ".face1" part into the input filename.
@@ -122,10 +122,10 @@ class CamHandler
      * Output:
      *      homme_buf       :   reconstructed homme array.
      */
-    void speckDecode( char*  inputFilename,
-                     size_t homme_size,
-                     int LEV,
-                     float* homme_buf );
+    void speckDecode3D( char*  inputFilename,
+                        size_t homme_size,
+                        int LEV,
+                        float* homme_buf );
 
     /*
      * Evaluates two arrays of the same size.
