@@ -1,7 +1,6 @@
 #include "CamHandler.h"
 
 //TODO: 
-//  2. free up memory
 //  3. implement 2D transform functions
 
 using namespace VAPoR;
@@ -171,6 +170,8 @@ int getNeighborMap(string facefile, vector <neighbors_t> &neighbormap) {
 		neighbormap.push_back(neighbors);
 	}
 
+    delete[] buf;
+
 	return(0);
 }
 
@@ -207,6 +208,8 @@ int getFaceMap(string file, vector <int> &facemap) {
 	for (int i = 0; i<ncol; i++) {
 		facemap.push_back(buf[i]);
 	}
+
+    delete[] buf;
 
 	return(0);
 }
@@ -492,7 +495,7 @@ int CamHandler::InitializeFaceIndicesAll( string &mapfile,
  */
 extern "C"
 {
-    int myspeckencode3d( float* srcBuf,
+    void myspeckencode3d( float* srcBuf,
                    int srcX,
                    int srcY,
                    int srcZ,
@@ -500,7 +503,7 @@ extern "C"
                    int nLevels,
                    float TargetRate );
 
-    int myspeckencode2p1d( float* srcBuf,
+    void myspeckencode2p1d( float* srcBuf,
                        int srcX,
                        int srcY,
                        int srcZ,
@@ -509,7 +512,7 @@ extern "C"
                        int ZNumLevels,
                        float TargetRate );
 
-    int myspeckdecode3d( char*  inputFilename,
+    void myspeckdecode3d( char*  inputFilename,
                      float* dstBuf,
                      int    outSize );
 };

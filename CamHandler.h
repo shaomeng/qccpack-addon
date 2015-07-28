@@ -83,8 +83,6 @@ class CamHandler
                         char* outputFilename );
                         
         
-
-
     /*
      * Takes an input homme array, converts to a raw array,
      * applies speck3d encoding with wavelet-packet DWT, and writes to file.
