@@ -60,7 +60,7 @@ void FillImageComponent( float* buf, int X, int Y,
  * Note: even though the input data is in 1D array, it represents a 3D volume.
  *       Thus, the size of srcBuf should equal to srcX * srcY * srcZ.
  */
-int myspeckencode3d( float* srcBuf, 
+void myspeckencode3d( float* srcBuf, 
                    int srcX,
                    int srcY,
                    int srcZ,
@@ -72,7 +72,7 @@ int myspeckencode3d( float* srcBuf,
  * Similar to myspeckencode3d, 
  * but able to specify levels of DWT on XY plane and Z dimension separately.
  */
-int myspeckencode2p1d( float* srcBuf, 
+void myspeckencode2p1d( float* srcBuf, 
                    int srcX,
                    int srcY,
                    int srcZ,
@@ -92,7 +92,7 @@ int myspeckencode2p1d( float* srcBuf,
  *  outSize: size of the output buffer (in number of floats)
  *
  */
-int myspeckdecode3d( char*  inputFilename,
+void myspeckdecode3d( char*  inputFilename,
                      float* dstBuf,
                      int    outSize );
                  
@@ -114,14 +114,27 @@ int myspeckdecode3d( char*  inputFilename,
  * Note: even though the input data is in 1D array, it represents a 3D volume.
  *       Thus, the size of srcBuf should equal to srcX * srcY * srcZ.
  */
-/*
-int myspeckencode2d( float* srcBuf, 
+void myspeckencode2d( float* srcBuf, 
                    int srcX,
                    int srcY,
                    char* outputFilename,
                    int nLevels,
                    float TargetRate );
-*/
+
+/*
+ * Modified API to apply 2D SPECK decoding.
+ *
+ * Input: 
+ *  inputFilename: the name of the input bitstream file.
+ *  
+ * Output:
+ *  dstBuf  :  buffer of floating points to keep the decoded data.
+ *  outSize : size of the output buffer (in number of floats)
+ *
+ */
+void myspeckdecode2d( char*  inputFilename,
+                     float* dstBuf,
+                     int    outSize );
 
 /*
  * Evaluates two arrays using RMS and LMax criteria.

@@ -59,7 +59,7 @@ void FillImageComponent( float* buf, int X, int Y,
     imagecomponent -> max_val = max;
 }
 
-int myspeckencode3d( float* srcBuf,
+void myspeckencode3d( float* srcBuf,
                  int srcX,
                  int srcY,
                  int srcZ,
@@ -155,12 +155,9 @@ int myspeckencode3d( float* srcBuf,
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
     */
-
-
-    return 0;
 }
 
-int myspeckencode2p1d( float* srcBuf,
+void myspeckencode2p1d( float* srcBuf,
                  int srcX,
                  int srcY,
                  int srcZ,
@@ -253,12 +250,10 @@ int myspeckencode2p1d( float* srcBuf,
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
     */
-
-    return 0;
 }
 
 
-int myspeckdecode3d( char*  inputFilename,
+void myspeckdecode3d( char*  inputFilename,
                    float* dstBuf,
                    int    outSize )
 {
@@ -356,10 +351,186 @@ int myspeckdecode3d( char*  inputFilename,
 
     QccIMGImageCubeFree( &imagecube );
     QccWAVWaveletFree( &Wavelet );
-
-    return 0;
 }
 
+void myspeckencode2d( float* srcBuf, 
+                   int srcX,
+                   int srcY,
+                   char* outputFilename,
+                   int nLevels,
+                   float TargetRate )
+{
+    /*
+     * Creates a QccIMGImageComponent struct to hold the input data.
+     */
+    QccIMGImageComponent imagecomponent;
+    FillImageComponent( srcBuf, srcX, srcY, &imagecomponent );
+    
+    /*
+     * Sets up parameters for DWT and SPECK encoding.
+     */
+    QccWAVWavelet Wavelet;
+    QccWAVWaveletInitialize( &Wavelet );
+    QccString WaveletFilename = QCCWAVWAVELET_DEFAULT_WAVELET;
+    QccString Boundary = "symmetric";
+    if (QccWAVWaveletCreate(&Wavelet, WaveletFilename, Boundary))
+    {
+      QccErrorAddMessage("Error calling QccWAVWaveletCreate()");
+      QccErrorExit();
+    }
+
+    /* 
+     * Dimension check.
+     */
+    int ImageNumRows = imagecomponent.num_rows;
+    int ImageNumCols = imagecomponent.num_cols;
+    int NumPixels = ImageNumRows * ImageNumCols;
+    long long int pxlcount = (long long int)ImageNumRows * ImageNumCols;
+    if( pxlcount > INT_MAX )
+    {
+        QccErrorAddMessage("NumPixels overflow. Please try smaller data sets.");
+        QccErrorExit();
+    }
+
+    /*
+     * Prepare QccBitButter and encode.
+     */
+    QccBitBuffer OutputBuffer;
+    QccBitBufferInitialize(&OutputBuffer);
+    QccStringCopy( OutputBuffer.filename, outputFilename );
+    OutputBuffer.type = QCCBITBUFFER_OUTPUT;
+    if (QccBitBufferStart(&OutputBuffer))
+    {
+        QccErrorAddMessage("Error calling QccBitBufferStart()");
+        QccErrorExit();
+    }
+    int TargetBitCnt = (int)(ceil((NumPixels * TargetRate)/8.0))*8;
+    long long int bitcount = (long long int)(ceil((NumPixels * TargetRate)/8.0))*8;
+    if( bitcount > INT_MAX )
+    {
+        QccErrorAddMessage("TargetBitCnt overflow. Please try smaller data sets.");
+        QccErrorExit();
+    }
+    if( QccSPECKEncode( &imagecomponent,
+                        NULL,
+                        nLevels,
+                        TargetBitCnt,
+                        &Wavelet,
+                        &OutputBuffer ) )
+    {
+      QccErrorAddMessage("Error calling QccSPECKEncode()");
+      QccErrorExit();
+    }
+    /*
+     * Finish up
+     */
+    float ActualRate = (double)OutputBuffer.bit_cnt / NumPixels;
+    if (QccBitBufferEnd(&OutputBuffer))
+    {
+        QccErrorAddMessage("Error calling QccBitBufferEnd()" );
+        QccErrorExit();
+    }
+    QccIMGImageComponentFree( &imagecomponent );
+    QccWAVWaveletFree( &Wavelet );
+
+    /* 
+     * print out info
+     */
+    printf("3D-SPECK encoding to output file: %s:\n", outputFilename );
+    printf("  Target rate: %f bpv\n", TargetRate);
+    printf("  Actual rate: %f bpv\n", ActualRate);
+}
+
+
+
+void myspeckdecode2d( char*  inputFilename,
+                     float* dstBuf,
+                     int    outSize )
+{
+    QccBitBuffer InputBuffer;
+    QccBitBufferInitialize( &InputBuffer );
+    QccStringCopy( InputBuffer.filename, inputFilename );
+    InputBuffer.type = QCCBITBUFFER_INPUT;
+
+    QccWAVWavelet Wavelet;
+    QccWAVWaveletInitialize( &Wavelet );
+    QccString WaveletFilename = QCCWAVWAVELET_DEFAULT_WAVELET;
+    QccString Boundary = "symmetric";
+    if (QccWAVWaveletCreate(&Wavelet, WaveletFilename, Boundary))
+    {
+      QccErrorAddMessage("Error calling QccWAVWaveletCreate()");
+      QccErrorExit();
+    }
+    if (QccBitBufferStart(&InputBuffer))
+    {
+        QccErrorAddMessage("Error calling QccBitBufferStart()" );
+        QccErrorExit();
+    }
+
+    int NumLevels, NumRows, NumCols;
+    double ImageMean;
+    int MaxCoefficientBits;
+    if( QccSPECKDecodeHeader( &InputBuffer,
+                              &NumLevels,
+                              &NumRows, NumCols,
+                              &ImageMean,
+                              &MaxCoefficientBits ) )
+    {
+      QccErrorAddMessage("Error calling QccSPECKDecodeHeader()" );
+      QccErrorExit();
+    }
+
+    int NumPixels = NumRows * NumCols;
+    long long int pxlcount = (long long int)NumRows * NumCols;
+    if( pxlcount > INT_MAX )
+    {
+        QccErrorAddMessage("NumPixels overflow. Please try smaller data sets.");
+        QccErrorExit();
+    }
+    if( outSize != NumPixels )
+    {
+        QccErrorAddMessage("Decode output buffer size doesn't match signal length.");
+        QccErrorExit();
+    }
+
+    QccIMGImageComponent imagecomponent;
+    QccIMGImageComponentInitialize( &imagecomponent );
+    imagecomponent.num_rows = NumRows;
+    imagecomponent.num_cols = NumCols;
+    if (QccIMGImageComponentAlloc( &imagecomponent ) )
+    {
+      QccErrorAddMessage("Error calling QccIMGImageComponentAlloc()" );
+      QccErrorExit();
+    }
+    int TargetBitCnt = QCCENT_ANYNUMBITS;
+
+    if( QccSPECKDecode( &InputBuffer,
+                        &imagecomponent,
+                        NULL,
+                        NumLevels,
+                        &Wavelet,
+                        ImageMean,
+                        MaxCoefficientBits,
+                        TargetBitCnt ) )
+    {
+      QccErrorAddMessage("Error calling QccSPECKDecode()" );
+      QccErrorExit();
+    }
+    if (QccBitBufferEnd(&InputBuffer))
+    {
+      QccErrorAddMessage("Error calling QccBitBufferEnd()" );
+      QccErrorExit();
+    }
+
+    int idx = 0;
+    int row, col;
+    for( row = 0; row < imagecomponent.num_rows; row++ )
+        for( col = 0; col < imagecomponent.num_cols; col++ )
+            dstBuf[ idx++ ] = imagecomponent.image[row][col];
+                    
+    QccIMGImageComponentFree( &imagecomponent );
+    QccWAVWaveletFree( &Wavelet );
+}
 
 void evaluate2arrays( float* A, float* B, int len, double* rms, double* lmax )
 {

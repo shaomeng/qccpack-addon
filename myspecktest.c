@@ -11,26 +11,19 @@ int main( int argc, char* argv[] )
         rate = atof( argv[1] );
     int srcX = 64;
     int srcY = 64;
-    int srcZ = 64;
-    int totalV = srcX * srcY * srcZ;
+    int totalV = srcX * srcY; 
     float* inputbuf = (float*) malloc( sizeof(float) * totalV );
     int i;
     for( i = 0; i < totalV; i++ )
         inputbuf[i] = sin( i / 10.0 );
 
     char* filename = "tmp.bitstream";
-    int xynl = 3;
-    int znl = 2;
+    int nl = 2;
 
-/*
-    printf("encode return: %d\n", 
-            myspihtencode2p1d(inputbuf, srcX, srcY, srcZ, filename, xynl, znl, rate) );
-*/
-    printf("encode return: %d\n", 
-            myspeckencode2p1d(inputbuf, srcX, srcY, srcZ, filename, xynl, znl, rate) );
+    myspeckencode2p(inputbuf, srcX, srcY, filename, nl, rate);
 
     
-    float* outputbuf = (float*) malloc( sizeof(float) * totalV );
+    float* reconstructbuf = (float*) malloc( sizeof(float) * totalV );
     printf("decode return: %d\n", myspeckdecode(filename, outputbuf, totalV) );
 
     double rms, lmax;
