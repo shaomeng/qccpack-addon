@@ -436,7 +436,7 @@ void myspeckencode2d( float* srcBuf,
     /* 
      * print out info
      */
-    printf("3D-SPECK encoding to output file: %s:\n", outputFilename );
+    printf("2D-SPECK encoding to output file: %s:\n", outputFilename );
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
 }
@@ -472,9 +472,9 @@ void myspeckdecode2d( char*  inputFilename,
     int MaxCoefficientBits;
     if( QccSPECKDecodeHeader( &InputBuffer,
                               &NumLevels,
-                              &NumRows, NumCols,
+                              &NumRows, &NumCols,
                               &ImageMean,
-                              &MaxCoefficientBits ) )
+                              &MaxCoefficientBits ))
     {
       QccErrorAddMessage("Error calling QccSPECKDecodeHeader()" );
       QccErrorExit();

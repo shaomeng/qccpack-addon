@@ -20,18 +20,18 @@ int main( int argc, char* argv[] )
     char* filename = "tmp.bitstream";
     int nl = 2;
 
-    myspeckencode2p(inputbuf, srcX, srcY, filename, nl, rate);
+    myspeckencode2d(inputbuf, srcX, srcY, filename, nl, rate);
 
     
     float* reconstructbuf = (float*) malloc( sizeof(float) * totalV );
-    printf("decode return: %d\n", myspeckdecode(filename, outputbuf, totalV) );
+    myspeckdecode2d(filename, reconstructbuf, totalV );
 
     double rms, lmax;
-    evaluate2arrays( inputbuf, outputbuf, totalV, &rms, &lmax );
+    evaluate2arrays( inputbuf, reconstructbuf, totalV, &rms, &lmax );
     printf("%f bits per voxel, rms=%e, lmax=%e.\n", rate, rms, lmax );
 
     free( inputbuf );
-    free( outputbuf );
+    free( reconstructbuf );
 
     return 0;
 }
