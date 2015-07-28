@@ -115,11 +115,11 @@ void myspeckdecode3d( char*  inputFilename,
  *       Thus, the size of srcBuf should equal to srcX * srcY * srcZ.
  */
 void myspeckencode2d( float* srcBuf, 
-                   int srcX,
-                   int srcY,
-                   char* outputFilename,
-                   int nLevels,
-                   float TargetRate );
+                       int srcX,
+                       int srcY,
+                       char* outputFilename,
+                       int nLevels,
+                       float TargetRate );
 
 /*
  * Modified API to apply 2D SPECK decoding.

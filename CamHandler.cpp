@@ -515,6 +515,17 @@ extern "C"
     void myspeckdecode3d( char*  inputFilename,
                      float* dstBuf,
                      int    outSize );
+
+    void myspeckencode2d( float* srcBuf,
+                           int srcX,
+                           int srcY,
+                           char* outputFilename,
+                           int nLevels,
+                           float TargetRate );
+
+    void myspeckdecode2d( char*  inputFilename,
+                         float* dstBuf,
+                         int    outSize );
 };
 
 void CamHandler::speckEncode3D( float* homme_buf,
@@ -539,7 +550,7 @@ void CamHandler::speckEncode3D( float* homme_buf,
         /* locate start index for each face */
         size_t faceOffset = face * _NX * _NY * LEV;
         /* generate filenames for each face */
-        char  tmpName[ 2048 ];
+        char  tmpName[ 1024 ];
         char suffix[64];
         sprintf( suffix, ".face%d", face );
         strcpy( tmpName, outputFilename );
@@ -575,7 +586,7 @@ void CamHandler::speckEncode2Dp1D( float* homme_buf,
         /* locate start index for each face */
         size_t faceOffset = face * _NX * _NY * LEV;
         /* generate filenames for each face */
-        char  tmpName[ 2048 ];
+        char  tmpName[ 1024 ];
         char suffix[64];
         sprintf( suffix, ".face%d", face );
         strcpy( tmpName, outputFilename );
@@ -607,7 +618,7 @@ void CamHandler::speckDecode3D( char*  inputFilename,
         /* locate start index for each face */
         size_t faceOffset = face * _NX * _NY * LEV;
         /* generate filenames for each face */
-        char  tmpName[ 2048 ];
+        char  tmpName[ 1024 ];
         char suffix[64];
         sprintf( suffix, ".face%d", face );
         strcpy( tmpName, inputFilename );
@@ -617,6 +628,69 @@ void CamHandler::speckDecode3D( char*  inputFilename,
     }
 
     raw2cam( raw_buf, raw_size, homme_buf, homme_size, LEV );
+
+    delete[] raw_buf;
+}
+
+void CamHandler::speckEncode2D( float* homme_buf,
+                                size_t homme_size,
+                                int numDWTLevels,
+                                float targetRate,
+                                char* outputFilename )
+{
+    /* sanity check on dimensions */
+    assert( homme_size == _NCOL );
+
+    /* convert homme array to raw array */
+    size_t raw_size = 6 * _NX * _NY;
+    float* raw_buf = new float[ raw_size ];
+    cam2raw( homme_buf, homme_size, 1, raw_buf, raw_size );
+
+    /* speck encoding on each of the 6 faces */
+    for( int face = 0; face < 6; face++ )
+    {
+        /* locate start index for each face */
+        size_t faceOffset = face * _NX * _NY;
+        /* generate filenames for each face */
+        char  tmpName[ 1024 ];
+        char suffix[64];
+        sprintf( suffix, ".face%d", face );
+        strcpy( tmpName, outputFilename );
+        strcat( tmpName, suffix );
+
+        myspeckencode2d( raw_buf + faceOffset, _NX, _NY,
+                         tmpName, numDWTLevels, targetRate );
+    }
+
+    delete[] raw_buf;
+}
+
+void CamHandler::speckDecode2D( char*  inputFilename,
+                                size_t homme_size,
+                                float* homme_buf )
+{
+    /* Sanity check on dimensions */
+    assert( homme_size == _NCOL );
+
+    size_t raw_size = 6 * _NX * _NY;
+    float* raw_buf = new float[ raw_size ];
+
+    /* speck decoding on each of the 6 faces */
+    for( int face = 0; face < 6; face++ )
+    {
+        /* locate start index for each face */
+        size_t faceOffset = face * _NX * _NY;
+        /* generate filenames for each face */
+        char  tmpName[ 1024 ];
+        char suffix[64];
+        sprintf( suffix, ".face%d", face );
+        strcpy( tmpName, inputFilename );
+        strcat( tmpName, suffix );
+
+        myspeckdecode2d( tmpName, raw_buf + faceOffset, _NX * _NY );
+    }
+
+    raw2cam( raw_buf, raw_size, homme_buf, homme_size, 1 );
 
     delete[] raw_buf;
 }

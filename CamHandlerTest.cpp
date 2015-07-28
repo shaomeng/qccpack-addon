@@ -46,8 +46,8 @@ int main( int argc, char* argv[] )
     }
     float targetRate = atof( argv[1] );
 
-    size_t LEV = 30;
-    char asciiInput[] = "/glade/u/home/shaomeng/CamData/Z3";
+    size_t LEV = 1;
+    char asciiInput[] = "/glade/u/home/shaomeng/CamData/FSDSC";
 
     int numXYDWTLevels = 4;
     int numZDWTLevels = 2;
@@ -69,13 +69,25 @@ int main( int argc, char* argv[] )
                            numZDWTLevels, targetRate, filename );
 */
 
+/*
     cerr << "start 2D+1D DWT and SPECK encoding... " << endl;
     handler.speckEncode2Dp1D( homme_buf, homme_size, LEV,
                            numXYDWTLevels, numZDWTLevels, targetRate, filename );
+*/
+
+    cerr << "start 2D SPECK encoding... " << endl;
+    handler.speckEncode2D( homme_buf, homme_size, 
+                           numXYDWTLevels, targetRate, filename );
     
     float* homme_buf_comp = new float[ homme_size ];
+
+/*
     cerr << "start 3D decoding... " << endl;
     handler.speckDecode3D( filename, homme_size, LEV, homme_buf_comp ); 
+*/
+
+    cerr << "start 2D decoding... " << endl;
+    handler.speckDecode2D( filename, homme_size, homme_buf_comp );
     
     double rms, nrms, lmax, nlmax;
     double minmaxA[2], minmaxB[2];

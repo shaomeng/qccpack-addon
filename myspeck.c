@@ -436,9 +436,11 @@ void myspeckencode2d( float* srcBuf,
     /* 
      * print out info
      */
+/*
     printf("2D-SPECK encoding to output file: %s:\n", outputFilename );
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
+*/
 }
 
 

@@ -107,6 +107,28 @@ class CamHandler
                            float targetRate,
                            char* outputFilename );
 
+
+    /*
+     * Takes an input homme array, converts to a raw array,
+     * applies speck2d encoding with dyadic DWT, and writes to file.
+     *
+     * Note, don't include ".face1" part into the output filename.
+     * 
+     * Input:
+     *      homme_buf       :   input homme array
+     *      homme_size      :   size of input homme array
+     *      numDWTLevels    :   number of levels of DWT to apply
+     *      targetRate      :   target rate for speck encoding
+     * Output:
+     *      outputFilename  :   output file name for compressed data.
+     */
+    void speckEncode2D( float* homme_buf,
+                        size_t homme_size,
+                        int numDWTLevels,
+                        float targetRate,
+                        char* outputFilename );
+                        
+
     /*
      * Reads in SIX speck encoded files, performs 3D decoding into a raw array, 
      * converts into a cam array, and return.
@@ -124,6 +146,24 @@ class CamHandler
                         size_t homme_size,
                         int LEV,
                         float* homme_buf );
+
+
+    /*
+     * Reads in SIX speck encoded files, performs 2D decoding into a raw array, 
+     * converts into a cam array, and return.
+     *
+     * Note, don't include ".face1" part into the input filename.
+     * 
+     * Input:
+     *      inputFilename   :   prefix of input files. 
+     *      homme_size      :   size of output homme array.
+     * Output:
+     *      homme_buf       :   reconstructed homme array.
+     */
+    void speckDecode2D( char*  inputFilename,
+                        size_t homme_size,
+                        float* homme_buf );
+
 
     /*
      * Evaluates two arrays of the same size.
