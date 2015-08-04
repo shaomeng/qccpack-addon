@@ -1,8 +1,5 @@
 #include "CamHandler.h"
 
-//TODO: 
-//  3. implement 2D transform functions
-
 using namespace VAPoR;
 using namespace VetsUtil;
 
