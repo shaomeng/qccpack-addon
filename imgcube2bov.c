@@ -16,7 +16,7 @@ int ImageCubeWriteData( QccString filename, QccIMGImageCube* image_cube )
     int frame, row, col;
     long idx;
     long planeSize = (image_cube->num_cols) * (image_cube->num_rows);
-    float* buf = malloc( sizeof(float) * planeSize );
+    float* buf = (float*) malloc( sizeof(float) * planeSize );
     FILE* outfile = fopen( filename, "wb" );
     if( outfile  == NULL ) {
         printf( "Read file open error!\n" );
