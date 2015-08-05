@@ -704,7 +704,7 @@ void CamHandler::evaluate2arrays( const float* A, const float* B, size_t len,
     double c = 0.0;
     double max = 0.0;
     double tmp;
-    int i;
+    size_t i;
     double minA = A[0];
     double maxA = A[0];
     double minB = B[0];
