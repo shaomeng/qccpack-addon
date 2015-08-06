@@ -4,11 +4,18 @@
  *
  * Programmer: Samuel Li
  * Date: 7/2/2015
+ *
+ * Modified: 8/5/2015
+ *      Read double precision added.
  */
 
 #include "libQccPack.h"
-// #include <stdio.h>
-// #include <stdlib.h>
+
+#ifdef DOUBLE
+#define FLOAT_SIZE 8
+#else
+#define FLOAT_SIZE 4
+#endif
 
 #define USG_STRING "%d:num_cols %d:num_rows %d:num_frames %s:input_name %s:output_name"
 
@@ -23,8 +30,8 @@ int ImageCubeReadData( QccString filename, QccIMGImageCube* image_cube )
 
     fseek( infile, 0, SEEK_END );
     long size = ftell( infile );
-    if( size % 4 == 0 ) {
-        size /= 4;
+    if( size % FLOAT_SIZE == 0 ) {
+        size /= FLOAT_SIZE;
         if( size != (image_cube->num_cols) * (image_cube->num_rows) *
                     (image_cube -> num_frames)  )   {
             printf( "Read file length error!\n" );
@@ -40,11 +47,16 @@ int ImageCubeReadData( QccString filename, QccIMGImageCube* image_cube )
     double max = -MAXDOUBLE;
     int frame, row, col;
     long planeSize = (image_cube -> num_cols) * (image_cube -> num_rows);
-    float* buf = malloc( sizeof(float) * planeSize );
+    void* ptr = malloc( FLOAT_SIZE * planeSize );
+#ifdef DOUBLE
+    double* buf = (double*) ptr;
+#else
+    float* buf = (float*) ptr; 
+#endif
 
     for( frame = 0; frame < image_cube -> num_frames; frame++ ) {
-        fseek( infile, sizeof(float) * frame * planeSize, SEEK_SET );
-        long result = fread( buf, sizeof(float), planeSize, infile );
+        fseek( infile, FLOAT_SIZE * frame * planeSize, SEEK_SET );
+        long result = fread( buf, FLOAT_SIZE, planeSize, infile );
         if( result != planeSize ) {
             printf( "Input file read error!\n");
             exit(1);
@@ -62,7 +74,7 @@ int ImageCubeReadData( QccString filename, QccIMGImageCube* image_cube )
 
     image_cube -> min_val = min;
     image_cube -> max_val = max;
-    free( buf );
+    free( ptr );
     return 0;
 }
 
