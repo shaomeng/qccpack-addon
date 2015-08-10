@@ -1,5 +1,3 @@
-% $Id: template.tex 11 2007-04-03 22:25:53Z jpeltier $
-
 %\documentclass{vgtc}                          % final (conference style)
 \documentclass[review]{vgtc}                 % review
 %\documentclass[widereview]{vgtc}             % wide-spaced review
@@ -36,13 +34,16 @@
 \vgtcinsertpkg
 
 
-\title{Evaluating the Efficacy of Wavelet Configurations 
-on Turbulent-Flow Data}
+\title{SPIHT and SPECK Encoders on Scientific Data Sets}
 
 
 %% Abstract section.
 \abstract{
-Abstract goes here.
+SPIHT and SPECK encoders were originally developed by the image processing community.
+%
+They provide good image compression while keep the distortions low.
+%
+We investigate the application of SPIHT and SPECK on scientific data sets here.
 } % end of abstract
 
 
@@ -52,17 +53,14 @@ Abstract goes here.
 
 \begin{document}
 
-%% The ``\maketitle'' command must be the first command after the
-%% ``\begin{document}'' command. It prepares and prints the title block.
-
-%% the only exception to this rule is the \firstsection command
 \firstsection{Introduction}
 
 \maketitle
 
 \label{sec:intro}
 %
-Introduction goes here.
+SPIHT~\cite{} and SPECK~\cite{} were proposed as 2D image encoders,
+and later got extended to 3D cases~\cite{}. 
 
 \section{Body}
 %
