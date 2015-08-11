@@ -1,0 +1,73 @@
+%\documentclass{vgtc}                          % final (conference style)
+\documentclass[review]{vgtc}                 % review
+%\documentclass[widereview]{vgtc}             % wide-spaced review
+%\documentclass[preprint]{vgtc}               % preprint
+%\documentclass[electronic]{vgtc}             % electronic version
+
+
+\usepackage{mathptmx}
+\usepackage{graphicx}
+\usepackage{times}
+\usepackage{comment}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{verbatim}
+\newenvironment{tightItemize}{
+\begin{itemize}
+        \setlength{\itemsep}{1pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\parsep}{0pt}
+}{\end{itemize}
+}
+\usepackage{color}
+\newcommand{\fix}[1]{\textcolor{red}{#1}} %Put words in Red
+\usepackage[normalem]{ulem} % for cross out words
+
+\onlineid{156}
+
+%% declare the category of your paper, only shown in review mode
+\vgtccategory{Research}
+
+%% allow for this line if you want the electronic option to work properly
+\vgtcinsertpkg
+
+
+\title{SPIHT and SPECK Encoders on Scientific Data Sets}
+
+
+%% Abstract section.
+\abstract{
+SPIHT and SPECK encoders were originally developed by the image processing community.
+%
+They provide good image compression while keep the distortions low.
+%
+We investigate the application of SPIHT and SPECK on scientific data sets here.
+} % end of abstract
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% START OF THE PAPER %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\firstsection{Introduction}
+
+\maketitle
+
+\label{sec:intro}
+%
+SPIHT~\cite{} and SPECK~\cite{} were proposed as 2D image encoders,
+and later got extended to 3D cases~\cite{}. 
+
+\section{Body}
+%
+Paper body goes here~\cite{clyne2007interactive}.
+
+\bibliographystyle{abbrv}
+%%use following if all content of bibtex file should be shown
+%\nocite{*}
+\bibliography{template}
+\end{document}
