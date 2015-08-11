@@ -509,10 +509,6 @@ extern "C"
                        int ZNumLevels,
                        float TargetRate );
 
-    void myspeckdecode3d( char*  inputFilename,
-                     float* dstBuf,
-                     int    outSize );
-
     void myspeckencode2d( float* srcBuf,
                            int srcX,
                            int srcY,
