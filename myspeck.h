@@ -219,6 +219,8 @@ void myspeckdecode2d_64bit( const char*  inputFilename,
 
 /*
  * Evaluates two arrays using RMS and LMax criteria.
+ * CamHandler.cpp has a version of evaluation that 
+ * also returns min, max, normalized errors.
  */
 void evaluate2arrays( const float* A, 
                       const float* B, 
