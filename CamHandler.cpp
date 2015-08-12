@@ -492,7 +492,7 @@ int CamHandler::InitializeFaceIndicesAll( string &mapfile,
  */
 extern "C"
 {
-    void myspeckencode3d( float* srcBuf,
+    void myspeckencode3d( const float* srcBuf,
                    int srcX,
                    int srcY,
                    int srcZ,
@@ -500,7 +500,7 @@ extern "C"
                    int nLevels,
                    float TargetRate );
 
-    void myspeckencode2p1d( float* srcBuf,
+    void myspeckencode2p1d( const float* srcBuf,
                        int srcX,
                        int srcY,
                        int srcZ,
@@ -509,14 +509,18 @@ extern "C"
                        int ZNumLevels,
                        float TargetRate );
 
-    void myspeckencode2d( float* srcBuf,
+    void myspeckdecode3d( const char*  inputFilename,
+                     float* dstBuf,
+                     int    outSize );
+
+    void myspeckencode2d( const float* srcBuf,
                            int srcX,
                            int srcY,
-                           char* outputFilename,
+                           const char* outputFilename,
                            int nLevels,
                            float TargetRate );
 
-    void myspeckdecode2d( char*  inputFilename,
+    void myspeckdecode2d( const char*  inputFilename,
                          float* dstBuf,
                          int    outSize );
 };
