@@ -9,6 +9,21 @@ CamHandler::CamHandler( string &mapfile, string &facefile )
     _NY = 91;
     _NCOL = 48602;
 
+    /* Make sure the two files are there */
+    FILE* f = fopen( mapfile.c_str(), "r" );
+    if( f == NULL ) {
+        cerr << "File open error: " << mapfile << endl;
+        exit(1);
+    }
+    else    fclose( f );
+
+    FILE* g = fopen( facefile.c_str(), "r" );
+    if( g == NULL ) {
+        cerr << "File open error: " << facefile << endl;
+        exit(1);
+    }
+    else    fclose( g );
+
     _faceIndicesAll.resize( 6 );
 
     InitializeFaceIndicesAll( mapfile, facefile );
