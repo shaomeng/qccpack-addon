@@ -65,6 +65,8 @@ void FillImageCube_64bit( const double* buf,
  */
 void FillImageComponent( const float* buf, int X, int Y,
                          QccIMGImageComponent* imagecomponent );
+void FillImageComponent_64bit( const double* buf, int X, int Y,
+                               QccIMGImageComponent* imagecomponent );
 
 /*
  * Modified API to apply SPECK encoding.
@@ -153,8 +155,8 @@ void myspeckdecode3d( const char*  inputFilename,
                       float* dstBuf,
                       int    outSize );
 void myspeckdecode3d_64bit( const char*  inputFilename,
-                      double* dstBuf,
-                      int    outSize );
+                            double* dstBuf,
+                            int     outSize );
                  
 
 /*
@@ -174,12 +176,28 @@ void myspeckdecode3d_64bit( const char*  inputFilename,
  * Note: even though the input data is in 1D array, it represents a 3D volume.
  *       Thus, the size of srcBuf should equal to srcX * srcY * srcZ.
  */
-void myspeckencode2d( float* srcBuf, 
-                       int srcX,
-                       int srcY,
-                       char* outputFilename,
-                       int nLevels,
-                       float TargetRate );
+void myspeckencode2d( const float* srcBuf, 
+                      int srcX,
+                      int srcY,
+                      const char* outputFilename,
+                      int nLevels,
+                      float TargetRate );
+void myspeckencode2d_64bit( const double* srcBuf, 
+                            int srcX,
+                            int srcY,
+                            const char* outputFilename,
+                            int nLevels,
+                            float TargetRate );
+
+/*
+ * Helper function that actually does the DWT and SPECK encoding.
+ * It should be called only by myspeckencode2d() and myspeckencode2d_64bit().
+ */
+void encode2d( QccIMGImageComponent* imagecomponent,
+               const char* outputFilename,
+               int nLevels,
+               float TargetRate );
+
 
 /*
  * Modified API to apply 2D SPECK decoding.
@@ -192,9 +210,12 @@ void myspeckencode2d( float* srcBuf,
  *  outSize : size of the output buffer (in number of floats)
  *
  */
-void myspeckdecode2d( char*  inputFilename,
-                     float* dstBuf,
-                     int    outSize );
+void myspeckdecode2d( const char*  inputFilename,
+                      float* dstBuf,
+                      int    outSize );
+void myspeckdecode2d_64bit( const char*  inputFilename,
+                            double* dstBuf,
+                            int     outSize );
 
 /*
  * Evaluates two arrays using RMS and LMax criteria.
