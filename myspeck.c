@@ -707,7 +707,8 @@ void myspeckdecode2d_64bit( const char*  inputFilename,
     QccWAVWaveletFree( &Wavelet );
 }
 
-void evaluate2arrays( float* A, float* B, int len, double* rms, double* lmax )
+void evaluate2arrays( const float* A, const float* B, 
+                      int len, double* rms, double* lmax )
 {
     double sum = 0.0;
     double c = 0.0;
@@ -730,7 +731,8 @@ void evaluate2arrays( float* A, float* B, int len, double* rms, double* lmax )
     *lmax = max;
 }
 
-void evaluate2arrays_64bit( double* A, double* B, int len, double* rms, double* lmax )
+void evaluate2arrays_64bit( const double* A, const double* B, 
+                            int len, double* rms, double* lmax )
 {
     double sum = 0.0;
     double c = 0.0;

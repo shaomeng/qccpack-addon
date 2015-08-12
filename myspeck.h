@@ -220,13 +220,13 @@ void myspeckdecode2d_64bit( const char*  inputFilename,
 /*
  * Evaluates two arrays using RMS and LMax criteria.
  */
-void evaluate2arrays( float* A, 
-                      float* B, 
+void evaluate2arrays( const float* A, 
+                      const float* B, 
                       int len, 
                       double* rms, 
                       double* lmax );
-void evaluate2arrays_64bit( double* A, 
-                            double* B, 
+void evaluate2arrays_64bit( const double* A, 
+                            const double* B, 
                             int len, 
                             double* rms, 
                             double* lmax );
