@@ -12,6 +12,26 @@
 #include "libQccPack.h"
 
 
+/* 
+ * Fill an 1D array with values from a QccIMGImageCube.
+ *
+ * Input: 
+ *      imagecube   : source of the values
+ *      size        : size of the output array
+ *
+ * Output:
+ *      buf         : 1D array to be filled.
+ *
+ * Note: there are two versions handling 32-bit and 64-bit 
+ * floating points accordingly.
+ */
+/*
+void ImageCube2Array( QccIMGImageCube* imagecube,
+                      float* buf, size_t size );
+void ImageCube2Array_64bit( QccIMGImageCube* imagecube,
+                            double* buf, size_t size );
+*/
+
 /*
  * Fill content in a float array into a QccIMGImageCube structure.
  *
@@ -24,9 +44,12 @@
  *      
  * Note: buf should have length X*Y*Z.
  */
-void FillImageCube( float* buf, 
+void FillImageCube( const float* buf, 
                     int X, int Y, int Z,
                     QccIMGImageCube* imagecube );
+void FillImageCube_64bit( const double* buf, 
+                          int X, int Y, int Z,
+                          QccIMGImageCube* imagecube );
 
 /*
  * Fill content in a float array into a QccIMGImageComponent structure.
@@ -40,7 +63,7 @@ void FillImageCube( float* buf,
  *
  * Note: buf should have length X*Y.
  */
-void FillImageComponent( float* buf, int X, int Y,
+void FillImageComponent( const float* buf, int X, int Y,
                          QccIMGImageComponent* imagecomponent );
 
 /*
@@ -60,41 +83,78 @@ void FillImageComponent( float* buf, int X, int Y,
  * Note: even though the input data is in 1D array, it represents a 3D volume.
  *       Thus, the size of srcBuf should equal to srcX * srcY * srcZ.
  */
-void myspeckencode3d( float* srcBuf, 
+void myspeckencode3d( const float* srcBuf, 
                    int srcX,
                    int srcY,
                    int srcZ,
-                   char* outputFilename,
+                   const char* outputFilename,
                    int nLevels,
                    float TargetRate );
+void myspeckencode3d_64bit( const double* srcBuf, 
+                           int srcX,
+                           int srcY,
+                           int srcZ,
+                           const char* outputFilename,
+                           int nLevels,
+                           float TargetRate );
+
+/*
+ * This is the actual function that performs DWT and SPECK encoding.
+ * It should only be called by myspeckencode3d() myspeckencode3d_64bit().
+ */
+void encode3d( QccIMGImageCube* imagecube,
+               const char* outputFilename,
+               int nLevels,
+               float TargetRate );
 
 /*
  * Similar to myspeckencode3d, 
  * but able to specify levels of DWT on XY plane and Z dimension separately.
  */
-void myspeckencode2p1d( float* srcBuf, 
-                   int srcX,
-                   int srcY,
-                   int srcZ,
-                   char* outputFilename,
-                   int XYNumLevels,
-                   int ZNumLevels,
-                   float TargetRate );
+void myspeckencode2p1d( const float* srcBuf, 
+                       int srcX,
+                       int srcY,
+                       int srcZ,
+                       const char* outputFilename,
+                       int XYNumLevels,
+                       int ZNumLevels,
+                       float TargetRate );
+void myspeckencode2p1d_64bit( const double* srcBuf, 
+                              int srcX,
+                              int srcY,
+                              int srcZ,
+                              const char* outputFilename,
+                              int XYNumLevels,
+                              int ZNumLevels,
+                              float TargetRate );
+
+/*
+ * This is the actual function that performs DWT and SPECK encoding.
+ * It should only be called by myspeckencode2p1d() myspeckencode2p1d_64bit().
+ */
+void encode2p1d( QccIMGImageCube* imagecube,
+                 const char* outputFilename,
+                 int XYNumLevels,
+                 int ZNumLevels,
+                 float TargetRate );
 
 /*
  * Modified API to apply 3D SPECK decoding.
  *
  * Input: 
  *  inputFilename: the name of the input bitstream file.
+ *  outSize: size of the output buffer (in number of floats)
  *  
  * Output:
  *  dstBuf:  buffer of floating points to keep the decoded data.
- *  outSize: size of the output buffer (in number of floats)
  *
  */
-void myspeckdecode3d( char*  inputFilename,
-                     float* dstBuf,
-                     int    outSize );
+void myspeckdecode3d( const char*  inputFilename,
+                      float* dstBuf,
+                      int    outSize );
+void myspeckdecode3d_64bit( const char*  inputFilename,
+                      double* dstBuf,
+                      int    outSize );
                  
 
 /*
@@ -144,6 +204,11 @@ void evaluate2arrays( float* A,
                       int len, 
                       double* rms, 
                       double* lmax );
+void evaluate2arrays_64bit( double* A, 
+                            double* B, 
+                            int len, 
+                            double* rms, 
+                            double* lmax );
 
 #endif
 
