@@ -178,10 +178,52 @@ class CamHandler
      *      lmax            :   maximum difference between the two.
      *      nlmax           :   normalized LMAX (normalized by the range of A)
      */
-    void evaluate2arrays( const float* A, const float* B, size_t len,
-                          double* minmaxA, double* minmaxB,
-                          double* rms, double* nrms, 
-                          double* lmax, double* nlmax );
+    template <typename T> inline
+    void evaluate2arrays( const T* A,    const T* B, size_t len,
+                          double* rmse,  double* lmax, 
+                          double* nrmse, double* nlmax, 
+                          double* minA,  double* maxA, 
+                          double* minB,  double* maxB )
+{
+    double sum = 0.0;
+    double c = 0.0;
+    double max = 0.0;
+    double tmp;
+    size_t i;
+    *minA = A[0];
+    *maxA = A[0];
+    *minB = B[0];
+    *maxB = B[0];
+    for( i = 0; i < len; i++) {
+        tmp = (double)A[i] - (double)B[i];
+        double y = tmp * tmp - c;
+        double t = sum + y;
+        c = (t - sum) - y;
+        sum = t;
+
+        /* Collect min, max */
+        if (tmp < 0)        tmp *= -1.0;
+        if (tmp > max)      max = tmp;
+        if( A[i] < *minA )   *minA = A[i];
+        if( A[i] > *maxA )   *maxA = A[i];
+        if( B[i] < *minB )   *minB = B[i];
+        if( B[i] > *maxB )   *maxB = B[i];
+    }
+    sum /= (double)len;
+
+    *rmse = sqrt( sum );
+    *lmax = max;
+    *nrmse = *rmse / (*maxA - *minA);
+    *nlmax = max   / (*maxA - *minA);
+
+}
+
+/* 
+ * super simple functions for test use only
+ */
+    void testencode2d( const float* srcBuf, int srcX, int srcY,
+                       const char* outputFilename, int nLevels, float TargetRate );
+    void testdecode2d( const char* inputFilename, float* dstBuf, int outSize );
                         
     private:
     size_t _NX, _NY,  _NCOL;

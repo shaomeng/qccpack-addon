@@ -11,7 +11,8 @@ int main( int argc, char* argv[] )
         rate = atof( argv[1] );
     int srcX = 64;
     int srcY = 64;
-    int totalV = srcX * srcY; 
+    int srcZ = 1;
+    int totalV = srcX * srcY * srcZ; 
     float* inputbuf = (float*) malloc( sizeof(float) * totalV );
     int i;
     for( i = 0; i < totalV; i++ )

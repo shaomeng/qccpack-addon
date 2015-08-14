@@ -1,6 +1,6 @@
 #include "myspeck.h"
 
-void FillImageCube( float* buf,
+void FillImageCube( const float* buf,
                     int X, int Y, int Z,
                     QccIMGImageCube* imagecube )
 {
@@ -31,7 +31,38 @@ void FillImageCube( float* buf,
     imagecube -> max_val = max;
 }
 
-void FillImageComponent( float* buf, int X, int Y,
+void FillImageCube_64bit( const double* buf,
+                    int X, int Y, int Z,
+                    QccIMGImageCube* imagecube )
+{
+    QccIMGImageCubeInitialize( imagecube );
+    imagecube -> num_cols = X;
+    imagecube -> num_rows = Y;
+    imagecube -> num_frames = Z;
+    if( QccIMGImageCubeAlloc( imagecube ) )
+        QccErrorPrintMessages();
+
+    double min = MAXDOUBLE;
+    double max = -MAXDOUBLE;
+    int frame, row, col;
+    long idx = 0;
+    /*
+     * Presuming the X dimension varies fastest, then Y, and then Z.
+     */
+    for( frame = 0; frame < imagecube -> num_frames; frame++ )
+        for( row = 0; row < imagecube -> num_rows; row++ )
+            for( col = 0; col < imagecube -> num_cols; col++ )
+            {
+                if( buf[idx] < min )         min = buf[idx];
+                if( buf[idx] > max )         max = buf[idx];
+                imagecube -> volume[frame][row][col] = buf[idx];
+                idx++;
+            }
+    imagecube -> min_val = min;
+    imagecube -> max_val = max;
+}
+
+void FillImageComponent( const float* buf, int X, int Y,
                          QccIMGImageComponent* imagecomponent )
 {
     QccIMGImageComponentInitialize( imagecomponent );
@@ -59,20 +90,77 @@ void FillImageComponent( float* buf, int X, int Y,
     imagecomponent -> max_val = max;
 }
 
-void myspeckencode3d( float* srcBuf,
-                 int srcX,
-                 int srcY,
-                 int srcZ,
-                 char* outputFilename,
-                 int nLevels,
-                 float TargetRate )
+void FillImageComponent_64bit( const double* buf, int X, int Y,
+                               QccIMGImageComponent* imagecomponent )
+{
+    QccIMGImageComponentInitialize( imagecomponent );
+    imagecomponent -> num_cols = X;
+    imagecomponent -> num_rows = Y;
+    if( QccIMGImageComponentAlloc( imagecomponent ) )
+        QccErrorPrintMessages();
+
+    double min = MAXDOUBLE;
+    double max = -MAXDOUBLE;
+    int row, col;
+    long idx = 0;
+    /*
+     * Presuming the X dimension varies fastest, then Y.
+     */
+    for( row = 0; row < imagecomponent -> num_rows; row++ )
+        for( col = 0; col < imagecomponent -> num_cols; col++ )
+        {
+            if( buf[idx] < min )         min = buf[idx];
+            if( buf[idx] > max )         max = buf[idx];
+            imagecomponent -> image[row][col] = buf[idx];
+            idx++;
+        }
+    imagecomponent -> min_val = min;
+    imagecomponent -> max_val = max;
+}
+
+void myspeckencode3d( const float* srcBuf,
+                     int srcX,
+                     int srcY,
+                     int srcZ,
+                     const char* outputFilename,
+                     int nLevels,
+                     float TargetRate )
 {
     /*
      * Creates a QccIMGImageCube struct to hold the input data.
      */
     QccIMGImageCube imagecube;
     FillImageCube( srcBuf, srcX, srcY, srcZ, &imagecube );
+        
+    encode3d( &imagecube, outputFilename, nLevels, TargetRate );
 
+    QccIMGImageCubeFree( &imagecube );
+}
+
+void myspeckencode3d_64bit( const double* srcBuf,
+                            int srcX,
+                            int srcY,
+                            int srcZ,
+                            const char* outputFilename,
+                            int nLevels,
+                            float TargetRate )
+        {
+    /*
+     * Creates a QccIMGImageCube struct to hold the input data.
+     */
+    QccIMGImageCube imagecube;
+    FillImageCube_64bit( srcBuf, srcX, srcY, srcZ, &imagecube );
+        
+    encode3d( &imagecube, outputFilename, nLevels, TargetRate );
+
+    QccIMGImageCubeFree( &imagecube );
+}
+
+void encode3d( QccIMGImageCube* imagecube,
+               const char* outputFilename,
+               int nLevels,
+               float TargetRate )
+{
     /*
      * Sets up parameters for DWT and SPECK encoding.
      */
@@ -92,9 +180,9 @@ void myspeckencode3d( float* srcBuf,
     /*
      * Dimension check.
      */
-    int ImageNumFrames = imagecube.num_frames;
-    int ImageNumRows = imagecube.num_rows;
-    int ImageNumCols = imagecube.num_cols;
+    int ImageNumFrames = imagecube->num_frames;
+    int ImageNumRows = imagecube->num_rows;
+    int ImageNumCols = imagecube->num_cols;
     int NumPixels = ImageNumFrames * ImageNumRows * ImageNumCols;
     long long int pxlcount = (long long int)ImageNumFrames * ImageNumRows * ImageNumCols;
     if( pxlcount > INT_MAX ) 
@@ -122,7 +210,7 @@ void myspeckencode3d( float* srcBuf,
         QccErrorAddMessage("TargetBitCnt overflow. Please try smaller data sets.");
         QccErrorExit();
     }
-    if ( QccSPECK3DEncode( &imagecube, 
+    if ( QccSPECK3DEncode( imagecube, 
                            NULL, 
                            TransformType, 
                            TemporalNumLevels, 
@@ -144,7 +232,7 @@ void myspeckencode3d( float* srcBuf,
         QccErrorAddMessage("Error calling QccBitBufferEnd()" );
         QccErrorExit();
     }
-    QccIMGImageCubeFree( &imagecube );
+
     QccWAVWaveletFree( &Wavelet );
 
     /* 
@@ -157,14 +245,14 @@ void myspeckencode3d( float* srcBuf,
     */
 }
 
-void myspeckencode2p1d( float* srcBuf,
-                 int srcX,
-                 int srcY,
-                 int srcZ,
-                 char* outputFilename,
-                 int XYNumLevels,
-                 int ZNumLevels,
-                 float TargetRate )
+void myspeckencode2p1d( const float* srcBuf,
+                     int srcX,
+                     int srcY,
+                     int srcZ,
+                     const char* outputFilename,
+                     int XYNumLevels,
+                     int ZNumLevels,
+                     float TargetRate )
 {
     /*
      * Creates a QccIMGImageCube struct to hold the input data.
@@ -172,6 +260,37 @@ void myspeckencode2p1d( float* srcBuf,
     QccIMGImageCube imagecube;
     FillImageCube( srcBuf, srcX, srcY, srcZ, &imagecube );
 
+    encode2p1d( &imagecube, outputFilename, XYNumLevels, ZNumLevels, TargetRate );
+
+    QccIMGImageCubeFree( &imagecube );
+}
+
+void myspeckencode2p1d_64bit( const double* srcBuf,
+                              int srcX,
+                              int srcY,
+                              int srcZ,
+                              const char* outputFilename,
+                              int XYNumLevels,
+                              int ZNumLevels,
+                              float TargetRate )
+{
+    /*
+     * Creates a QccIMGImageCube struct to hold the input data.
+     */
+    QccIMGImageCube imagecube;
+    FillImageCube_64bit( srcBuf, srcX, srcY, srcZ, &imagecube );
+
+    encode2p1d( &imagecube, outputFilename, XYNumLevels, ZNumLevels, TargetRate );
+
+    QccIMGImageCubeFree( &imagecube );
+}
+
+void encode2p1d( QccIMGImageCube* imagecube,
+                 const char* outputFilename,
+                 int XYNumLevels,
+                 int ZNumLevels,
+                 float TargetRate )
+{
     /*
      * Sets up parameters for DWT and SPECK encoding.
      * More details could be found in the QccPack documentation.
@@ -189,9 +308,9 @@ void myspeckencode2p1d( float* srcBuf,
       QccErrorExit();
     }    
 
-    int ImageNumFrames = imagecube.num_frames;
-    int ImageNumRows = imagecube.num_rows;
-    int ImageNumCols = imagecube.num_cols;
+    int ImageNumFrames = imagecube->num_frames;
+    int ImageNumRows = imagecube->num_rows;
+    int ImageNumCols = imagecube->num_cols;
     int NumPixels = ImageNumFrames * ImageNumRows * ImageNumCols;
     long long int pxlcount = (long long int)ImageNumFrames * ImageNumRows * ImageNumCols;
     if( pxlcount > INT_MAX ) 
@@ -218,7 +337,7 @@ void myspeckencode2p1d( float* srcBuf,
         QccErrorAddMessage("TargetBitCnt overflow. Please try smaller data sets.");
         QccErrorExit();
     }
-    if ( QccSPECK3DEncode( &imagecube, 
+    if ( QccSPECK3DEncode( imagecube, 
                            NULL, 
                            TransformType, 
                            TemporalNumLevels, 
@@ -239,7 +358,6 @@ void myspeckencode2p1d( float* srcBuf,
         QccErrorAddMessage("Error calling QccBitBufferEnd()" );
         QccErrorExit();
     }
-    QccIMGImageCubeFree( &imagecube );
     QccWAVWaveletFree( &Wavelet );
 
     /*
@@ -252,10 +370,24 @@ void myspeckencode2p1d( float* srcBuf,
     */
 }
 
+void myspeckdecode3d( const char*  inputFilename,
+                      float*  dstBuf,
+                      int     outSize )
+{
+    double* tmp = malloc( sizeof(double) * outSize );
+    
+    myspeckdecode3d_64bit( inputFilename, tmp, outSize );
 
-void myspeckdecode3d( char*  inputFilename,
-                   float* dstBuf,
-                   int    outSize )
+    int i;
+    for( i = 0; i < outSize; i++ )
+        dstBuf[i] = (float) tmp[i];
+
+    free (tmp);
+}
+
+void myspeckdecode3d_64bit( const char*  inputFilename,
+                            double* dstBuf,
+                            int     outSize )
 {
     QccBitBuffer InputBuffer;
     QccBitBufferInitialize( &InputBuffer );
@@ -347,25 +479,53 @@ void myspeckdecode3d( char*  inputFilename,
     for( frame = 0; frame < imagecube.num_frames; frame++ )
         for( row = 0; row < imagecube.num_rows; row++ )
             for( col = 0; col < imagecube.num_cols; col++ )
-                dstBuf[ idx++ ] = imagecube.volume[frame][row][col];        
+                dstBuf[ idx++ ] = imagecube.volume[frame][row][col];    
 
     QccIMGImageCubeFree( &imagecube );
     QccWAVWaveletFree( &Wavelet );
 }
 
-void myspeckencode2d( float* srcBuf, 
-                   int srcX,
-                   int srcY,
-                   char* outputFilename,
-                   int nLevels,
-                   float TargetRate )
+void myspeckencode2d( const float* srcBuf, 
+                      int srcX,
+                      int srcY,
+                      const char* outputFilename,
+                      int nLevels,
+                      float TargetRate )
 {
     /*
      * Creates a QccIMGImageComponent struct to hold the input data.
      */
     QccIMGImageComponent imagecomponent;
     FillImageComponent( srcBuf, srcX, srcY, &imagecomponent );
+
+    encode2d( &imagecomponent, outputFilename, nLevels, TargetRate );
     
+    QccIMGImageComponentFree( &imagecomponent );
+}
+
+void myspeckencode2d_64bit( const double* srcBuf, 
+                            int srcX,
+                            int srcY,
+                            const char* outputFilename,
+                            int nLevels,
+                            float TargetRate )
+{
+    /*
+     * Creates a QccIMGImageComponent struct to hold the input data.
+     */
+    QccIMGImageComponent imagecomponent;
+    FillImageComponent_64bit( srcBuf, srcX, srcY, &imagecomponent );
+
+    encode2d( &imagecomponent, outputFilename, nLevels, TargetRate );
+    
+    QccIMGImageComponentFree( &imagecomponent );
+}
+
+void encode2d( QccIMGImageComponent* imagecomponent,
+               const char* outputFilename,
+               int nLevels,
+               float TargetRate )
+{
     /*
      * Sets up parameters for DWT and SPECK encoding.
      */
@@ -382,8 +542,8 @@ void myspeckencode2d( float* srcBuf,
     /* 
      * Dimension check.
      */
-    int ImageNumRows = imagecomponent.num_rows;
-    int ImageNumCols = imagecomponent.num_cols;
+    int ImageNumRows = imagecomponent->num_rows;
+    int ImageNumCols = imagecomponent->num_cols;
     int NumPixels = ImageNumRows * ImageNumCols;
     long long int pxlcount = (long long int)ImageNumRows * ImageNumCols;
     if( pxlcount > INT_MAX )
@@ -411,7 +571,7 @@ void myspeckencode2d( float* srcBuf,
         QccErrorAddMessage("TargetBitCnt overflow. Please try smaller data sets.");
         QccErrorExit();
     }
-    if( QccSPECKEncode( &imagecomponent,
+    if( QccSPECKEncode( imagecomponent,
                         NULL,
                         nLevels,
                         TargetBitCnt,
@@ -430,7 +590,6 @@ void myspeckencode2d( float* srcBuf,
         QccErrorAddMessage("Error calling QccBitBufferEnd()" );
         QccErrorExit();
     }
-    QccIMGImageComponentFree( &imagecomponent );
     QccWAVWaveletFree( &Wavelet );
 
     /* 
@@ -444,10 +603,24 @@ void myspeckencode2d( float* srcBuf,
 }
 
 
+void myspeckdecode2d( const char*  inputFilename,
+                      float* dstBuf,
+                      int    outSize )
+{
+    double* tmp = malloc( sizeof(double) * outSize );
 
-void myspeckdecode2d( char*  inputFilename,
-                     float* dstBuf,
-                     int    outSize )
+    myspeckdecode2d_64bit( inputFilename, tmp, outSize );
+
+    int i;
+    for( i = 0; i < outSize; i++ )
+        dstBuf[i] = (float) tmp[i];
+
+    free( tmp );
+}
+
+void myspeckdecode2d_64bit( const char*  inputFilename,
+                            double* dstBuf,
+                            int     outSize )
 {
     QccBitBuffer InputBuffer;
     QccBitBufferInitialize( &InputBuffer );
@@ -534,7 +707,8 @@ void myspeckdecode2d( char*  inputFilename,
     QccWAVWaveletFree( &Wavelet );
 }
 
-void evaluate2arrays( float* A, float* B, int len, double* rms, double* lmax )
+void evaluate2arrays( const float* A, const float* B, 
+                      int len, double* rms, double* lmax )
 {
     double sum = 0.0;
     double c = 0.0;
@@ -543,6 +717,30 @@ void evaluate2arrays( float* A, float* B, int len, double* rms, double* lmax )
     int i;
     for( i = 0; i < len; i++) {
         tmp = (double)A[i] - (double)B[i];
+        if (tmp < 0)        tmp *= -1.0;
+        if (tmp > max)      max = tmp;
+        double y = tmp * tmp - c;
+        double t = sum + y;
+        c = (t - sum) - y;
+        sum = t;
+    }
+    sum /= (double)len;
+    sum = sqrt( sum );
+
+    *rms = sum;
+    *lmax = max;
+}
+
+void evaluate2arrays_64bit( const double* A, const double* B, 
+                            int len, double* rms, double* lmax )
+{
+    double sum = 0.0;
+    double c = 0.0;
+    double max = 0.0;
+    double tmp;
+    int i;
+    for( i = 0; i < len; i++) {
+        tmp = A[i] - B[i];
         if (tmp < 0)        tmp *= -1.0;
         if (tmp > max)      max = tmp;
         double y = tmp * tmp - c;
