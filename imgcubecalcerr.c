@@ -12,7 +12,7 @@
 
 #define USG_STRING "%s:input_name %s:output_name"
 
-void ImageCube2Arr( QccIMGImageCube* image_cube, float* buf, size_t len )
+void ImageCube2Arr( QccIMGImageCube* image_cube, double* buf, size_t len )
 {
     size_t npxl = (image_cube->num_cols) * (image_cube->num_rows) * (image_cube->num_frames);
     assert( npxl == len );
@@ -25,7 +25,7 @@ void ImageCube2Arr( QccIMGImageCube* image_cube, float* buf, size_t len )
                 buf[ idx++ ] = image_cube -> volume[frame][row][col];
 }
 
-void Evaluate2Arrays( const float* A, const float* B, size_t len, 
+void Evaluate2Arrays( const double* A, const double* B, size_t len, 
                       double* minmaxA, double* minmaxB, 
                       double* rms, double* nrmse, 
                       double* lmax, double* nlmax )
@@ -90,8 +90,8 @@ int main (int argc, char* argv[] )
     assert( cube1.num_cols == cube2.num_cols );
 
     size_t npxl = cube1.num_cols * cube1.num_rows * cube1.num_frames;
-    float* A = (float*) malloc( sizeof(float) * npxl );
-    float* B = (float*) malloc( sizeof(float) * npxl );
+    double* A = (double*) malloc( sizeof(double) * npxl );
+    double* B = (double*) malloc( sizeof(double) * npxl );
     ImageCube2Arr( &cube1, A, npxl );
     ImageCube2Arr( &cube2, B, npxl );
 
@@ -99,10 +99,10 @@ int main (int argc, char* argv[] )
     double rms, nrms, lmax, nlmax;
     Evaluate2Arrays( A, B, npxl, minmaxA, minmaxB, 
                      &rms, &nrms, &lmax, &nlmax );
-    printf("\t%s: min = %f, max = %f\n", cube1.filename, minmaxA[0], minmaxA[1] );
-    printf("\t%s: min = %f, max = %f\n", cube2.filename, minmaxB[0], minmaxB[1] );
-    printf("\tRMS = %f, NRMS = %f\n", rms, nrms );
-    printf("\tLMAX = %f, NLMAX = %f\n", lmax, nlmax );
+    printf("\t%s: min = %e, max = %e\n", cube1.filename, minmaxA[0], minmaxA[1] );
+    printf("\t%s: min = %e, max = %e\n", cube2.filename, minmaxB[0], minmaxB[1] );
+    printf("\tRMS = %e, LMAX = %e\n", rms, lmax );
+    printf("\tNRMS = %e, NLMAX = %e\n", nrms, nlmax );
 
 
     free( A );
