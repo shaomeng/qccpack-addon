@@ -51,17 +51,19 @@ int main( int argc, char* argv[] )
 
     int numXYDWTLevels = 4;
     int numZDWTLevels = 2;
-    string hommeMap   = "/glade/u/home/shaomeng/JohnDennis-CAM-SE/reorderedCbasedHommeMapping.nc";
-    string faceMap    = "/glade/u/home/shaomeng/JohnDennis-CAM-SE/faceIdsNeNp304.nc";
+    string hommeMap   = "/glade/u/home/shaomeng/CamData/reorderedCbasedHommeMapping.nc";
+    string faceMap    = "/glade/u/home/shaomeng/CamData/faceIdsNeNp304.nc";
 
     size_t homme_size = _NCOL * LEV;
     float* homme_buf = new float[ homme_size ];
     cerr << "start reading input... " << endl;
     ReadAscii( asciiInput, homme_buf, homme_size );
 
-    char filename[] = "/glade/u/home/shaomeng/dump/CCN3";
+    char filename[] = "/glade/u/home/shaomeng/dump/bit.stream";
     cerr << "start building map... " << endl;
     VAPoR::CamHandler handler( hommeMap, faceMap );
+
+    float* homme_buf_comp = new float[ homme_size ];
 
 /*
     cerr << "start 3D DWT and SPECK encoding... " << endl;
@@ -73,33 +75,47 @@ int main( int argc, char* argv[] )
     cerr << "start 2D+1D DWT and SPECK encoding... " << endl;
     handler.speckEncode2Dp1D( homme_buf, homme_size, LEV,
                            numXYDWTLevels, numZDWTLevels, targetRate, filename );
-*/
 
-    cerr << "start 2D SPECK encoding... " << endl;
-    handler.speckEncode2D( homme_buf, homme_size, 
-                           numXYDWTLevels, targetRate, filename );
-    
-    float* homme_buf_comp = new float[ homme_size ];
 
-/*
     cerr << "start 3D decoding... " << endl;
     handler.speckDecode3D( filename, homme_size, LEV, homme_buf_comp ); 
 */
 
+
+    cerr << "start 2D SPECK encoding... " << endl;
+    handler.speckEncode2D( homme_buf, homme_size, 
+                           numXYDWTLevels, targetRate, filename );
     cerr << "start 2D decoding... " << endl;
     handler.speckDecode2D( filename, homme_size, homme_buf_comp );
-    
-    double rms, nrms, lmax, nlmax;
-    double minmaxA[2], minmaxB[2];
-    handler.evaluate2arrays( homme_buf, homme_buf_comp, homme_size, 
-                             minmaxA, minmaxB, 
-                             &rms, &nrms, 
-                             &lmax, &nlmax);
 
-    cerr << "1st array min = " << minmaxA[0] << ", max = " << minmaxA[1] << endl;
-    cerr << "2nd array min = " << minmaxB[0] << ", max = " << minmaxB[1] << endl;
-    cerr << "RMS  = " << rms << ",  LMax  = " << lmax << endl;
-    cerr << "NRMS = " << nrms << ", NLMax = " << nlmax << endl;
+
+    
+    double rmse, lmax, nrmse, nlmax, minA, maxA, minB, maxB;
+    handler.evaluate2arrays( homme_buf, homme_buf_comp, homme_size, 
+                             &rmse, &lmax, 
+                             &nrmse, &nlmax, 
+                             &minA, &maxA,
+                             &minB, &maxB );
+
+    cerr << "1st array min = " << minA << ", max = " << maxA << endl;
+    cerr << "2nd array min = " << minB << ", max = " << maxB << endl;
+    cerr << "RMS  = " << rmse << ",  LMax  = " << lmax << endl;
+    cerr << "NRMS = " << nrmse << ", NLMax = " << nlmax << endl;
+
+    double Ai, Bi;
+    double max = 0.0;
+    int idx = 0;
+    for( int i = 0; i < homme_size; i++ ) {
+        double tmp = fabs( homme_buf[i] - homme_buf_comp[i] );
+        if( tmp > max ) {
+            idx = i;
+            max = tmp;
+            Ai = homme_buf[i];
+            Bi = homme_buf_comp[i];
+        }
+    }
+    printf("\nAt index %d, (%e) - (%e) = (%e)\n", idx, Ai, Bi, max );
+        
 
     delete[] homme_buf;
     delete[] homme_buf_comp;

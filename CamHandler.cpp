@@ -9,6 +9,21 @@ CamHandler::CamHandler( string &mapfile, string &facefile )
     _NY = 91;
     _NCOL = 48602;
 
+    /* Make sure the two files are there */
+    FILE* f = fopen( mapfile.c_str(), "r" );
+    if( f == NULL ) {
+        cerr << "File open error: " << mapfile << endl;
+        exit(1);
+    }
+    else    fclose( f );
+
+    FILE* g = fopen( facefile.c_str(), "r" );
+    if( g == NULL ) {
+        cerr << "File open error: " << facefile << endl;
+        exit(1);
+    }
+    else    fclose( g );
+
     _faceIndicesAll.resize( 6 );
 
     InitializeFaceIndicesAll( mapfile, facefile );
@@ -492,38 +507,50 @@ int CamHandler::InitializeFaceIndicesAll( string &mapfile,
  */
 extern "C"
 {
-    void myspeckencode3d( float* srcBuf,
+    void myspeckencode3d( const float* srcBuf,
                    int srcX,
                    int srcY,
                    int srcZ,
-                   char* outputFilename,
+                   const char* outputFilename,
                    int nLevels,
                    float TargetRate );
 
-    void myspeckencode2p1d( float* srcBuf,
+    void myspeckencode2p1d( const float* srcBuf,
                        int srcX,
                        int srcY,
                        int srcZ,
-                       char* outputFilename,
+                       const char* outputFilename,
                        int XYNumLevels,
                        int ZNumLevels,
                        float TargetRate );
 
-    void myspeckdecode3d( char*  inputFilename,
+    void myspeckdecode3d( const char*  inputFilename,
                      float* dstBuf,
                      int    outSize );
 
-    void myspeckencode2d( float* srcBuf,
+    void myspeckencode2d( const float* srcBuf,
                            int srcX,
                            int srcY,
-                           char* outputFilename,
+                           const char* outputFilename,
                            int nLevels,
                            float TargetRate );
 
-    void myspeckdecode2d( char*  inputFilename,
+    void myspeckdecode2d( const char*  inputFilename,
                          float* dstBuf,
                          int    outSize );
 };
+
+// super simple test functions
+void CamHandler::testencode2d( const float* srcBuf, int srcX, int srcY,
+                       const char* outputFilename, int nLevels, float TargetRate ) 
+{
+    myspeckencode2d( srcBuf, srcX, srcY, outputFilename, nLevels, TargetRate );
+}
+void CamHandler::testdecode2d( const char* inputFilename, float* dstBuf, int outSize )
+{
+    myspeckdecode2d( inputFilename, dstBuf, outSize );
+}
+// finish test functions
 
 void CamHandler::speckEncode3D( float* homme_buf,
                                 size_t homme_size,
@@ -546,6 +573,7 @@ void CamHandler::speckEncode3D( float* homme_buf,
     {
         /* locate start index for each face */
         size_t faceOffset = face * _NX * _NY * LEV;
+
         /* generate filenames for each face */
         char  tmpName[ 1024 ];
         char suffix[64];
@@ -582,6 +610,7 @@ void CamHandler::speckEncode2Dp1D( float* homme_buf,
     {
         /* locate start index for each face */
         size_t faceOffset = face * _NX * _NY * LEV;
+
         /* generate filenames for each face */
         char  tmpName[ 1024 ];
         char suffix[64];
@@ -614,6 +643,7 @@ void CamHandler::speckDecode3D( char*  inputFilename,
     {
         /* locate start index for each face */
         size_t faceOffset = face * _NX * _NY * LEV;
+
         /* generate filenames for each face */
         char  tmpName[ 1024 ];
         char suffix[64];
@@ -648,6 +678,7 @@ void CamHandler::speckEncode2D( float* homme_buf,
     {
         /* locate start index for each face */
         size_t faceOffset = face * _NX * _NY;
+
         /* generate filenames for each face */
         char  tmpName[ 1024 ];
         char suffix[64];
@@ -677,6 +708,7 @@ void CamHandler::speckDecode2D( char*  inputFilename,
     {
         /* locate start index for each face */
         size_t faceOffset = face * _NX * _NY;
+
         /* generate filenames for each face */
         char  tmpName[ 1024 ];
         char suffix[64];
@@ -692,6 +724,7 @@ void CamHandler::speckDecode2D( char*  inputFilename,
     delete[] raw_buf;
 }
 
+/*
 void CamHandler::evaluate2arrays( const float* A, const float* B, size_t len, 
                                   double* minmaxA, double* minmaxB, 
                                   double* rms, double* nrmse, 
@@ -715,7 +748,6 @@ void CamHandler::evaluate2arrays( const float* A, const float* B, size_t len,
         c = (t - sum) - y;
         sum = t;
 
-        /* Collect min, max */
         if( A[i] < minA )   minA = A[i];
         if( A[i] > maxA )   maxA = A[i];
         if( B[i] < minB )   minB = B[i];
@@ -734,7 +766,7 @@ void CamHandler::evaluate2arrays( const float* A, const float* B, size_t len,
     *nrmse = sum / (maxA - minA);
     *nlmax = max / (maxA - minA);
 }
-
+*/
 
 
 
