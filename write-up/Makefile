@@ -1,15 +1,15 @@
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 all: template.pdf
 
-template.pdf: *.tex *.bib */*.tex
+template.pdf: *.tex *.bib 
 	pdflatex template.tex
 	bibtex template 
 	touch template.tex
 	pdflatex template.tex
 	pdflatex template.tex
 
-short: *.tex *.bib */*.tex
+short: *.tex *.bib 
 	pdflatex template.tex
 
 clean:
