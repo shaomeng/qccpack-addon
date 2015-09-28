@@ -24,6 +24,7 @@
 \usepackage{color}
 \newcommand{\fix}[1]{\textcolor{red}{#1}} %Put words in Red
 \usepackage[normalem]{ulem} % for cross out words
+\usepackage{url}
 
 \onlineid{156}
 
@@ -311,7 +312,7 @@ and $21\times$ time to decode, when both SPECK and DWT run in serial.
 SPIHT has similar calculation time.
 
 
-\section{Additional Properties}
+\section{Additional Properties and Limitations}
 %
 \textbf{Progressive Access.}
 %
@@ -332,6 +333,15 @@ even when encoding to a target size that is the same as the raw data.
 We can also observe it from Figure~\ref{fig:truncation_fig3}:
 SPIHT and SPECK have almost the same error with compression ratios
 4:1, 3:1, and 2:1.
+
+\textbf{Power of Two Dimensions Constraint for SPIHT.}
+%
+The use of \textit{zerotrees} in SPIHT encoder introduces the constraint that
+each dimension of the grid has to be a power of two.
+%
+SPECK does not have this constraint, because it is not based on zerotrees.
+%
+More details on this constraint could be found at~\cite{qcc1}.
 
 
 \section{Conclusion}
@@ -356,6 +366,7 @@ Cons:
 \begin{tightItemize}
     \item Computational intensive. Could be $20\times$ slower than DWT.
     \item Always introduce error. Only suit for lossy compression use cases.
+    \item SPIHT requires data dimensions be a power of two.
 \end{tightItemize}
 
 
