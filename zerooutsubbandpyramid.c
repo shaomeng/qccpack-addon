@@ -84,5 +84,7 @@ int main (int argc, char* argv[] )
         QccErrorExit();
     }
 
+    QccWAVSubbandPyramid3DFree( &pyramid );
+
     return 0;
 }
