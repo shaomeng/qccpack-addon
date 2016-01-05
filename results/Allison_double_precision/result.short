@@ -1,0 +1,991 @@
+Compressing variable ULONG(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 2.94602
+    (Truncation RMSE) / (SPECK RMSE) = 1.12997
+Compressing variable ULAT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 211.204
+    (Truncation RMSE) / (SPECK RMSE) = 63.0059
+Compressing variable TLONG(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 2.95787
+    (Truncation RMSE) / (SPECK RMSE) = 1.13136
+Compressing variable TLAT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 59.5261
+    (Truncation RMSE) / (SPECK RMSE) = 17.9274
+Compressing variable UAREA(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 12.7613
+    (Truncation RMSE) / (SPECK RMSE) = 3.30095
+Compressing variable TAREA(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 12.721
+    (Truncation RMSE) / (SPECK RMSE) = 3.50404
+Compressing variable HU(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 5.44742
+    (Truncation RMSE) / (SPECK RMSE) = 1.72731
+Compressing variable HT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 3.79645
+    (Truncation RMSE) / (SPECK RMSE) = 1.28939
+Compressing variable DXU(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 19.3064
+    (Truncation RMSE) / (SPECK RMSE) = 9.50114
+Compressing variable DYU(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1.0033
+    (Truncation RMSE) / (SPECK RMSE) = 0.401044
+Compressing variable DXT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 19.3073
+    (Truncation RMSE) / (SPECK RMSE) = 9.64774
+Compressing variable DYT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1.00333
+    (Truncation RMSE) / (SPECK RMSE) = 0.393577
+Compressing variable HTN(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 19.308
+    (Truncation RMSE) / (SPECK RMSE) = 9.49126
+Compressing variable HTE(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1.00324
+    (Truncation RMSE) / (SPECK RMSE) = 0.393344
+Compressing variable HUS(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1.08523
+    (Truncation RMSE) / (SPECK RMSE) = 0.543576
+Compressing variable HUW(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 3.35093
+    (Truncation RMSE) / (SPECK RMSE) = 1.34083
+Compressing variable ANGLE(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 26068.6
+    (Truncation RMSE) / (SPECK RMSE) = 2086.47
+Compressing variable ANGLET(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1.49125e+07
+    (Truncation RMSE) / (SPECK RMSE) = 2.65842e+07
+Compressing variable UVEL(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 303.017
+    (Truncation RMSE) / (SPECK RMSE) = 14.3559
+Compressing variable UVEL2(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 458.709
+    (Truncation RMSE) / (SPECK RMSE) = 7.04289
+Compressing variable VVEL(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 4650.41
+    (Truncation RMSE) / (SPECK RMSE) = 106.045
+Compressing variable VVEL2(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 602.922
+    (Truncation RMSE) / (SPECK RMSE) = 7.36425
+Compressing variable TEMP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 4.24622
+    (Truncation RMSE) / (SPECK RMSE) = 1.28763
+Compressing variable dTEMP_POS_2D(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 159.458
+    (Truncation RMSE) / (SPECK RMSE) = 4.87383
+Compressing variable dTEMP_NEG_2D(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 70.3544
+    (Truncation RMSE) / (SPECK RMSE) = 1.85894
+Compressing variable SALT(missing value : 9.96921e+33)
+    (Truncation Lmax) / (SPECK Lmax) = 4.07938
+    (Truncation RMSE) / (SPECK RMSE) = 2.35202
+Compressing variable RHO(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 3.03423
+    (Truncation RMSE) / (SPECK RMSE) = 1.75207
+Compressing variable RHO_VINT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 3.54775
+    (Truncation RMSE) / (SPECK RMSE) = 1.10817
+Compressing variable RESID_T(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 0 / 0.0
+    (Truncation RMSE) / (SPECK RMSE) = 0 / 0.0
+Compressing variable RESID_S(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 0 / 0.0
+    (Truncation RMSE) / (SPECK RMSE) = 0 / 0.0
+Compressing variable SU(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 246.306
+    (Truncation RMSE) / (SPECK RMSE) = 15.4804
+Compressing variable SV(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 82020.8
+    (Truncation RMSE) / (SPECK RMSE) = 5114.57
+Compressing variable SSH(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 29.2017
+    (Truncation RMSE) / (SPECK RMSE) = 7.46208
+Compressing variable SSH2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 63.7489
+    (Truncation RMSE) / (SPECK RMSE) = 10.0056
+Compressing variable SHF(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 100.629
+    (Truncation RMSE) / (SPECK RMSE) = 10.5559
+Compressing variable SHF_QSW(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 5.03327
+    (Truncation RMSE) / (SPECK RMSE) = 1.70299
+Compressing variable SFWF(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 12561.4
+    (Truncation RMSE) / (SPECK RMSE) = 717.343
+Compressing variable SFWF_WRST(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 0 / 0.0
+    (Truncation RMSE) / (SPECK RMSE) = 0 / 0.0
+Compressing variable TAUX(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 53.6739
+    (Truncation RMSE) / (SPECK RMSE) = 9.36533
+Compressing variable TAUX2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 133.026
+    (Truncation RMSE) / (SPECK RMSE) = 6.09939
+Compressing variable TAUY(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 47.4414
+    (Truncation RMSE) / (SPECK RMSE) = 4.42051
+Compressing variable TAUY2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 45.4802
+    (Truncation RMSE) / (SPECK RMSE) = 2.11258
+Compressing variable FW(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 0 / 0.0
+    (Truncation RMSE) / (SPECK RMSE) = 0 / 0.0
+Compressing variable TFW_T(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 0 / 0.0
+    (Truncation RMSE) / (SPECK RMSE) = 0 / 0.0
+Compressing variable TFW_S(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 0 / 0.0
+    (Truncation RMSE) / (SPECK RMSE) = 0 / 0.0
+Compressing variable EVAP_F(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 4.81948
+    (Truncation RMSE) / (SPECK RMSE) = 0.806666
+Compressing variable PREC_F(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 60.4806
+    (Truncation RMSE) / (SPECK RMSE) = 5.86503
+Compressing variable SNOW_F(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 100.912
+    (Truncation RMSE) / (SPECK RMSE) = 4.95801
+Compressing variable MELT_F(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 13350.4
+    (Truncation RMSE) / (SPECK RMSE) = 568.928
+Compressing variable ROFF_F(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 5114.07
+    (Truncation RMSE) / (SPECK RMSE) = 87.0365
+Compressing variable IOFF_F(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 224.436
+    (Truncation RMSE) / (SPECK RMSE) = 7.94004
+Compressing variable SALT_F(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1068.58
+    (Truncation RMSE) / (SPECK RMSE) = 45.7801
+Compressing variable SENH_F(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 63.4902
+    (Truncation RMSE) / (SPECK RMSE) = 3.45164
+Compressing variable LWUP_F(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1.03395
+    (Truncation RMSE) / (SPECK RMSE) = 0.560192
+Compressing variable LWDN_F(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1.54321
+    (Truncation RMSE) / (SPECK RMSE) = 0.828877
+Compressing variable MELTH_F(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1574.05
+    (Truncation RMSE) / (SPECK RMSE) = 42.7635
+Compressing variable IFRAC(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 11.5563
+    (Truncation RMSE) / (SPECK RMSE) = 2.18951
+Compressing variable ECOSYS_IFRAC(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 11.5563
+    (Truncation RMSE) / (SPECK RMSE) = 2.18951
+Compressing variable ECOSYS_XKW(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 5.55626
+    (Truncation RMSE) / (SPECK RMSE) = 1.08584
+Compressing variable ECOSYS_ATM_PRESS(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 3.02059
+    (Truncation RMSE) / (SPECK RMSE) = 1.2108
+Compressing variable SCHMIDT_O2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 4.25149
+    (Truncation RMSE) / (SPECK RMSE) = 1.48849
+Compressing variable O2SAT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 13.5199
+    (Truncation RMSE) / (SPECK RMSE) = 5.70466
+Compressing variable CO2STAR(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 8.02045
+    (Truncation RMSE) / (SPECK RMSE) = 1.6321
+Compressing variable DCO2STAR(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 41.5148
+    (Truncation RMSE) / (SPECK RMSE) = 2.44675
+Compressing variable pCO2SURF(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 5.31521
+    (Truncation RMSE) / (SPECK RMSE) = 1.53879
+Compressing variable DpCO2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 138.359
+    (Truncation RMSE) / (SPECK RMSE) = 9.84508
+Compressing variable SCHMIDT_CO2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 5.28513
+    (Truncation RMSE) / (SPECK RMSE) = 1.39498
+Compressing variable FG_CO2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 273.279
+    (Truncation RMSE) / (SPECK RMSE) = 26.2458
+Compressing variable PH(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 7.17605
+    (Truncation RMSE) / (SPECK RMSE) = 4.09936
+Compressing variable ATM_CO2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 0.999993
+    (Truncation RMSE) / (SPECK RMSE) = 0.999993
+Compressing variable DCO2STAR_ALT_CO2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 202.103
+    (Truncation RMSE) / (SPECK RMSE) = 10.3784
+Compressing variable DpCO2_ALT_CO2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 155.84
+    (Truncation RMSE) / (SPECK RMSE) = 12.6308
+Compressing variable FG_ALT_CO2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 4129.31
+    (Truncation RMSE) / (SPECK RMSE) = 332.255
+Compressing variable PH_ALT_CO2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 11.7066
+    (Truncation RMSE) / (SPECK RMSE) = 6.7622
+Compressing variable ATM_ALT_CO2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 0.999967
+    (Truncation RMSE) / (SPECK RMSE) = 0.999967
+Compressing variable IRON_FLUX(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 226.527
+    (Truncation RMSE) / (SPECK RMSE) = 3.09233
+Compressing variable NOx_FLUX(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 76.955
+    (Truncation RMSE) / (SPECK RMSE) = 6.11754
+Compressing variable NHy_FLUX(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1050.62
+    (Truncation RMSE) / (SPECK RMSE) = 21.1534
+Compressing variable O2_ZMIN(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 15.7109
+    (Truncation RMSE) / (SPECK RMSE) = 3.98558
+Compressing variable O2_ZMIN_DEPTH(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 9.31392
+    (Truncation RMSE) / (SPECK RMSE) = 1.57726
+Compressing variable O2_PRODUCTION(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 172.497
+    (Truncation RMSE) / (SPECK RMSE) = 2.09444
+Compressing variable O2_CONSUMPTION(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 148.73
+    (Truncation RMSE) / (SPECK RMSE) = 1.17766
+Compressing variable AOU(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 42.3265
+    (Truncation RMSE) / (SPECK RMSE) = 10.7965
+Compressing variable PAR_avg(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 16.1249
+    (Truncation RMSE) / (SPECK RMSE) = 1.50458
+Compressing variable POC_FLUX_IN(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 130.541
+    (Truncation RMSE) / (SPECK RMSE) = 5.23344
+Compressing variable POC_PROD(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 3442.72
+    (Truncation RMSE) / (SPECK RMSE) = 33.5288
+Compressing variable CaCO3_FLUX_IN(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 540.517
+    (Truncation RMSE) / (SPECK RMSE) = 12.3601
+Compressing variable CaCO3_PROD(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1328.49
+    (Truncation RMSE) / (SPECK RMSE) = 5.97347
+Compressing variable SiO2_FLUX_IN(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 166.179
+    (Truncation RMSE) / (SPECK RMSE) = 6.88031
+Compressing variable SiO2_PROD(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 30811.2
+    (Truncation RMSE) / (SPECK RMSE) = 230.41
+Compressing variable P_iron_FLUX_IN(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1565.51
+    (Truncation RMSE) / (SPECK RMSE) = 5.68877
+Compressing variable P_iron_PROD(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 70662
+    (Truncation RMSE) / (SPECK RMSE) = 46.2984
+Compressing variable graze_sp(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 41.5072
+    (Truncation RMSE) / (SPECK RMSE) = 3.10514
+Compressing variable graze_diat(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1812.09
+    (Truncation RMSE) / (SPECK RMSE) = 76.1005
+Compressing variable graze_diaz(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 5153.11
+    (Truncation RMSE) / (SPECK RMSE) = 417.778
+Compressing variable sp_loss(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 178.234
+    (Truncation RMSE) / (SPECK RMSE) = 4.88789
+Compressing variable diat_loss(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 181.487
+    (Truncation RMSE) / (SPECK RMSE) = 2.74753
+Compressing variable diaz_loss(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 117.27
+    (Truncation RMSE) / (SPECK RMSE) = 8.63944
+Compressing variable zoo_loss(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 21.2842
+    (Truncation RMSE) / (SPECK RMSE) = 1.30828
+Compressing variable sp_agg(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 118353
+    (Truncation RMSE) / (SPECK RMSE) = 553.969
+Compressing variable diat_agg(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 982.487
+    (Truncation RMSE) / (SPECK RMSE) = 12.9345
+Compressing variable photoC_sp(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 132.274
+    (Truncation RMSE) / (SPECK RMSE) = 3.16753
+Compressing variable CaCO3_form(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 524.725
+    (Truncation RMSE) / (SPECK RMSE) = 2.87317
+Compressing variable photoC_diat(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 326.378
+    (Truncation RMSE) / (SPECK RMSE) = 4.06502
+Compressing variable photoC_diaz(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 167.751
+    (Truncation RMSE) / (SPECK RMSE) = 10.0531
+Compressing variable photoC_NO3_sp(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 132.197
+    (Truncation RMSE) / (SPECK RMSE) = 1.33949
+Compressing variable photoC_NO3_sp_zint(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 43.9582
+    (Truncation RMSE) / (SPECK RMSE) = 1.78368
+Compressing variable photoC_NO3_diat(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 4608.97
+    (Truncation RMSE) / (SPECK RMSE) = 42.5332
+Compressing variable photoC_NO3_diat_zint(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 40.0579
+    (Truncation RMSE) / (SPECK RMSE) = 2.13652
+Compressing variable photoC_NO3_diaz(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 128.422
+    (Truncation RMSE) / (SPECK RMSE) = 4.54487
+Compressing variable photoC_NO3_diaz_zint(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 4.78251
+    (Truncation RMSE) / (SPECK RMSE) = 0.830128
+Compressing variable DOC_prod(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 146.571
+    (Truncation RMSE) / (SPECK RMSE) = 4.50026
+Compressing variable DOC_remin(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 122.644
+    (Truncation RMSE) / (SPECK RMSE) = 5.45587
+Compressing variable DON_prod(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 307.463
+    (Truncation RMSE) / (SPECK RMSE) = 19.0544
+Compressing variable DOFe_prod(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 201.101
+    (Truncation RMSE) / (SPECK RMSE) = 13.8176
+Compressing variable DOP_prod(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 53.5284
+    (Truncation RMSE) / (SPECK RMSE) = 3.28528
+Compressing variable Fe_scavenge(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 17376.8
+    (Truncation RMSE) / (SPECK RMSE) = 25.7833
+Compressing variable Fe_scavenge_rate(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 537.925
+    (Truncation RMSE) / (SPECK RMSE) = 2.79345
+Compressing variable sp_N_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 2.06541
+    (Truncation RMSE) / (SPECK RMSE) = 1.18221
+Compressing variable sp_Fe_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1.84671
+    (Truncation RMSE) / (SPECK RMSE) = 1.05048
+Compressing variable sp_PO4_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1.08578
+    (Truncation RMSE) / (SPECK RMSE) = 0.626893
+Compressing variable sp_light_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 25.6762
+    (Truncation RMSE) / (SPECK RMSE) = 5.26969
+Compressing variable diat_N_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1.93787
+    (Truncation RMSE) / (SPECK RMSE) = 1.04545
+Compressing variable diat_Fe_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1.20121
+    (Truncation RMSE) / (SPECK RMSE) = 0.655691
+Compressing variable diat_PO4_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1.12425
+    (Truncation RMSE) / (SPECK RMSE) = 0.639683
+Compressing variable diat_SiO3_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 6.27124
+    (Truncation RMSE) / (SPECK RMSE) = 3.42808
+Compressing variable diat_light_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 96.61
+    (Truncation RMSE) / (SPECK RMSE) = 24.213
+Compressing variable diaz_Fe_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1.08531
+    (Truncation RMSE) / (SPECK RMSE) = 0.602327
+Compressing variable diaz_P_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1.21098
+    (Truncation RMSE) / (SPECK RMSE) = 0.698776
+Compressing variable diaz_light_lim(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 12.7052
+    (Truncation RMSE) / (SPECK RMSE) = 3.41353
+Compressing variable diaz_Nfix(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 32.7128
+    (Truncation RMSE) / (SPECK RMSE) = 2.38689
+Compressing variable bSi_form(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 519.897
+    (Truncation RMSE) / (SPECK RMSE) = 6.20784
+Compressing variable NITRIF(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 673.002
+    (Truncation RMSE) / (SPECK RMSE) = 5.78209
+Compressing variable DENITRIF(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 21973.2
+    (Truncation RMSE) / (SPECK RMSE) = 22.0979
+Compressing variable CO3(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 7.69321
+    (Truncation RMSE) / (SPECK RMSE) = 1.45631
+Compressing variable HCO3(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1.79219
+    (Truncation RMSE) / (SPECK RMSE) = 0.856156
+Compressing variable H2CO3(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 29.8325
+    (Truncation RMSE) / (SPECK RMSE) = 1.90673
+Compressing variable pH_3D(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 5.76848
+    (Truncation RMSE) / (SPECK RMSE) = 2.37104
+Compressing variable co3_sat_calc(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 8.4222
+    (Truncation RMSE) / (SPECK RMSE) = 1.47267
+Compressing variable zsatcalc(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 4.89622
+    (Truncation RMSE) / (SPECK RMSE) = 1.05592
+Compressing variable co3_sat_arag(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 2.40103
+    (Truncation RMSE) / (SPECK RMSE) = 0.752137
+Compressing variable zsatarag(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 4.50422
+    (Truncation RMSE) / (SPECK RMSE) = 1.00934
+Compressing variable CFC_IFRAC(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 11.5563
+    (Truncation RMSE) / (SPECK RMSE) = 2.18951
+Compressing variable CFC_XKW(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 5.55626
+    (Truncation RMSE) / (SPECK RMSE) = 1.08584
+Compressing variable CFC_ATM_PRESS(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 3.02059
+    (Truncation RMSE) / (SPECK RMSE) = 1.2108
+Compressing variable IAGE_RESET_TEND(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 121.394
+    (Truncation RMSE) / (SPECK RMSE) = 3.88698
+Compressing variable PO4(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 6.50607
+    (Truncation RMSE) / (SPECK RMSE) = 1.35176
+Compressing variable Jint_100m_PO4(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 24.7318
+    (Truncation RMSE) / (SPECK RMSE) = 1.57333
+Compressing variable tend_zint_100m_PO4(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 250.722
+    (Truncation RMSE) / (SPECK RMSE) = 27.4454
+Compressing variable NO3(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 31.4052
+    (Truncation RMSE) / (SPECK RMSE) = 1.28612
+Compressing variable Jint_100m_NO3(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 19.9611
+    (Truncation RMSE) / (SPECK RMSE) = 1.28327
+Compressing variable tend_zint_100m_NO3(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 158.485
+    (Truncation RMSE) / (SPECK RMSE) = 16.167
+Compressing variable SiO3(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 11.8281
+    (Truncation RMSE) / (SPECK RMSE) = 1.26728
+Compressing variable Jint_100m_SiO3(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 32.9309
+    (Truncation RMSE) / (SPECK RMSE) = 1.6762
+Compressing variable tend_zint_100m_SiO3(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 136.558
+    (Truncation RMSE) / (SPECK RMSE) = 7.042
+Compressing variable NH4(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 112.681
+    (Truncation RMSE) / (SPECK RMSE) = 1.51813
+Compressing variable Jint_100m_NH4(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 2809.84
+    (Truncation RMSE) / (SPECK RMSE) = 49.5852
+Compressing variable tend_zint_100m_NH4(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 13401.4
+    (Truncation RMSE) / (SPECK RMSE) = 439.249
+Compressing variable Fe(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 583.143
+    (Truncation RMSE) / (SPECK RMSE) = 2.75216
+Compressing variable Jint_100m_Fe(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 39706.3
+    (Truncation RMSE) / (SPECK RMSE) = 428.586
+Compressing variable tend_zint_100m_Fe(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 2139.61
+    (Truncation RMSE) / (SPECK RMSE) = 48.6107
+Compressing variable O2(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 12.551
+    (Truncation RMSE) / (SPECK RMSE) = 4.18785
+Compressing variable Jint_100m_O2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 25.5597
+    (Truncation RMSE) / (SPECK RMSE) = 2.12019
+Compressing variable tend_zint_100m_O2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 47.122
+    (Truncation RMSE) / (SPECK RMSE) = 4.56022
+Compressing variable STF_O2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1771.11
+    (Truncation RMSE) / (SPECK RMSE) = 156.869
+Compressing variable DIC(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1.81488
+    (Truncation RMSE) / (SPECK RMSE) = 1.0016
+Compressing variable J_DIC(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 8508.29
+    (Truncation RMSE) / (SPECK RMSE) = 59.4168
+Compressing variable Jint_100m_DIC(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 21.5526
+    (Truncation RMSE) / (SPECK RMSE) = 1.3105
+Compressing variable tend_zint_100m_DIC(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1178.59
+    (Truncation RMSE) / (SPECK RMSE) = 44.4067
+Compressing variable FvPER_DIC(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 2477.27
+    (Truncation RMSE) / (SPECK RMSE) = 106.252
+Compressing variable FvICE_DIC(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 224.775
+    (Truncation RMSE) / (SPECK RMSE) = 5.51096
+Compressing variable ALK(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1.76065
+    (Truncation RMSE) / (SPECK RMSE) = 1.01564
+Compressing variable Jint_100m_ALK(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 4279.94
+    (Truncation RMSE) / (SPECK RMSE) = 126.954
+Compressing variable tend_zint_100m_ALK(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 967.249
+    (Truncation RMSE) / (SPECK RMSE) = 36.5339
+Compressing variable FvPER_ALK(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 709.008
+    (Truncation RMSE) / (SPECK RMSE) = 36.4295
+Compressing variable FvICE_ALK(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 504.402
+    (Truncation RMSE) / (SPECK RMSE) = 8.95248
+Compressing variable DOC(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 16.756
+    (Truncation RMSE) / (SPECK RMSE) = 1.17243
+Compressing variable Jint_100m_DOC(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 35.7664
+    (Truncation RMSE) / (SPECK RMSE) = 3.81188
+Compressing variable tend_zint_100m_DOC(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 179.092
+    (Truncation RMSE) / (SPECK RMSE) = 23.5679
+Compressing variable spC(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 203.116
+    (Truncation RMSE) / (SPECK RMSE) = 3.95845
+Compressing variable spChl(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 155.072
+    (Truncation RMSE) / (SPECK RMSE) = 1.99762
+Compressing variable spCaCO3(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 2598.57
+    (Truncation RMSE) / (SPECK RMSE) = 27.7881
+Compressing variable diatC(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 989.371
+    (Truncation RMSE) / (SPECK RMSE) = 19.0661
+Compressing variable diatChl(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 399.725
+    (Truncation RMSE) / (SPECK RMSE) = 6.47528
+Compressing variable zooC(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 12.3184
+    (Truncation RMSE) / (SPECK RMSE) = 0.952839
+Compressing variable spFe(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 159.691
+    (Truncation RMSE) / (SPECK RMSE) = 3.1705
+Compressing variable diatSi(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 443.438
+    (Truncation RMSE) / (SPECK RMSE) = 10.1378
+Compressing variable diatFe(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 386.949
+    (Truncation RMSE) / (SPECK RMSE) = 4.25718
+Compressing variable diazC(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 107.061
+    (Truncation RMSE) / (SPECK RMSE) = 10.6503
+Compressing variable diazChl(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 10.3476
+    (Truncation RMSE) / (SPECK RMSE) = 1.06767
+Compressing variable diazFe(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 776.938
+    (Truncation RMSE) / (SPECK RMSE) = 87.8067
+Compressing variable DON(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 17.3859
+    (Truncation RMSE) / (SPECK RMSE) = 1.33581
+Compressing variable DOFe(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 34.4228
+    (Truncation RMSE) / (SPECK RMSE) = 1.55432
+Compressing variable DOP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 112.099
+    (Truncation RMSE) / (SPECK RMSE) = 8.49485
+Compressing variable DIC_ALT_CO2(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 2.99574
+    (Truncation RMSE) / (SPECK RMSE) = 1.60161
+Compressing variable tend_zint_100m_DIC_ALT_CO2(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1348.12
+    (Truncation RMSE) / (SPECK RMSE) = 49.5606
+Compressing variable CFC11(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 8.14351
+    (Truncation RMSE) / (SPECK RMSE) = 1.07197
+Compressing variable STF_CFC11(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 319.473
+    (Truncation RMSE) / (SPECK RMSE) = 26.1506
+Compressing variable CFC12(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 38.1004
+    (Truncation RMSE) / (SPECK RMSE) = 5.35702
+Compressing variable STF_CFC12(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 137.284
+    (Truncation RMSE) / (SPECK RMSE) = 11.7938
+Compressing variable IAGE(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 5.14382
+    (Truncation RMSE) / (SPECK RMSE) = 1.147
+Compressing variable QSW_HBL(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 20.7003
+    (Truncation RMSE) / (SPECK RMSE) = 5.35886
+Compressing variable KVMIX(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 78.5577
+    (Truncation RMSE) / (SPECK RMSE) = 3.45983
+Compressing variable KVMIX_M(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 122.765
+    (Truncation RMSE) / (SPECK RMSE) = 6.06451
+Compressing variable TPOWER(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 7642.71
+    (Truncation RMSE) / (SPECK RMSE) = 29.147
+Compressing variable KPP_SRC_TEMP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 49492.9
+    (Truncation RMSE) / (SPECK RMSE) = 543.984
+Compressing variable KPP_SRC_SALT(missing value : 9.96921e+33)
+    (Truncation Lmax) / (SPECK Lmax) = 617222
+    (Truncation RMSE) / (SPECK RMSE) = 5795.91
+Compressing variable KPP_SRC_CFC11(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 198622
+    (Truncation RMSE) / (SPECK RMSE) = 2135.9
+Compressing variable KPP_SRC_CFC12(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 7310.18
+    (Truncation RMSE) / (SPECK RMSE) = 81.9587
+Compressing variable VDC_T(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 198.96
+    (Truncation RMSE) / (SPECK RMSE) = 5.77364
+Compressing variable VDC_S(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 167.747
+    (Truncation RMSE) / (SPECK RMSE) = 4.82961
+Compressing variable VVC(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 223.703
+    (Truncation RMSE) / (SPECK RMSE) = 7.41687
+Compressing variable DIA_IMPVF_TEMP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 2346.73
+    (Truncation RMSE) / (SPECK RMSE) = 10.0506
+Compressing variable DIA_IMPVF_SALT(missing value : 9.96921e+33)
+    (Truncation Lmax) / (SPECK Lmax) = 1057.66
+    (Truncation RMSE) / (SPECK RMSE) = 4.29981
+Compressing variable DIA_IMPVF_CFC11(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 726.579
+    (Truncation RMSE) / (SPECK RMSE) = 7.46454
+Compressing variable DIA_IMPVF_CFC12(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 2450.97
+    (Truncation RMSE) / (SPECK RMSE) = 10.2886
+Compressing variable DIA_IMPVF_IAGE(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1016.27
+    (Truncation RMSE) / (SPECK RMSE) = 6.76177
+Compressing variable KAPPA_ISOP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 27.2301
+    (Truncation RMSE) / (SPECK RMSE) = 5.48617
+Compressing variable KAPPA_THIC(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 3.87101
+    (Truncation RMSE) / (SPECK RMSE) = 0.810609
+Compressing variable HOR_DIFF(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 13.4964
+    (Truncation RMSE) / (SPECK RMSE) = 1.52572
+Compressing variable DIA_DEPTH(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 88.8639
+    (Truncation RMSE) / (SPECK RMSE) = 5.36746
+Compressing variable TLT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 86.0226
+    (Truncation RMSE) / (SPECK RMSE) = 2.97308
+Compressing variable INT_DEPTH(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 27.5698
+    (Truncation RMSE) / (SPECK RMSE) = 1.73106
+Compressing variable UISOP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 211277
+    (Truncation RMSE) / (SPECK RMSE) = 669.849
+Compressing variable VISOP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 35671
+    (Truncation RMSE) / (SPECK RMSE) = 120.732
+Compressing variable WISOP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 171564
+    (Truncation RMSE) / (SPECK RMSE) = 965.701
+Compressing variable ADVT_ISOP(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 142448
+    (Truncation RMSE) / (SPECK RMSE) = 5310.74
+Compressing variable ADVS_ISOP(missing value : 9.96921e+33)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 73364.4
+    (Truncation RMSE) / (SPECK RMSE) = 1059.49
+Compressing variable VNT_ISOP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1.22535e+06
+    (Truncation RMSE) / (SPECK RMSE) = 7059.53
+Compressing variable VNS_ISOP(missing value : 9.96921e+33)
+    (Truncation Lmax) / (SPECK Lmax) = 111652
+    (Truncation RMSE) / (SPECK RMSE) = 444.729
+Compressing variable USUBM(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 224226
+    (Truncation RMSE) / (SPECK RMSE) = 2741.01
+Compressing variable VSUBM(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 19318.6
+    (Truncation RMSE) / (SPECK RMSE) = 238.069
+Compressing variable WSUBM(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 52943.5
+    (Truncation RMSE) / (SPECK RMSE) = 348.44
+Compressing variable HLS_SUBM(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 58.0539
+    (Truncation RMSE) / (SPECK RMSE) = 6.54397
+Compressing variable ADVT_SUBM(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 1.03109e+06
+    (Truncation RMSE) / (SPECK RMSE) = 9880.73
+Compressing variable ADVS_SUBM(missing value : 9.96921e+33)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 182585
+    (Truncation RMSE) / (SPECK RMSE) = 1806.41
+Compressing variable VNT_SUBM(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 20994.1
+    (Truncation RMSE) / (SPECK RMSE) = 364.253
+Compressing variable VNS_SUBM(missing value : 9.96921e+33)
+    (Truncation Lmax) / (SPECK Lmax) = 8227.04
+    (Truncation RMSE) / (SPECK RMSE) = 109.996
+Compressing variable HDIFT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 46996
+    (Truncation RMSE) / (SPECK RMSE) = 1408
+Compressing variable HDIFS(missing value : 9.96921e+33)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 8713.22
+    (Truncation RMSE) / (SPECK RMSE) = 143.276
+Compressing variable HDIFE_TEMP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 63787.2
+    (Truncation RMSE) / (SPECK RMSE) = 261.47
+Compressing variable HDIFN_TEMP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 18818
+    (Truncation RMSE) / (SPECK RMSE) = 198.876
+Compressing variable HDIFB_TEMP(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 841.703
+    (Truncation RMSE) / (SPECK RMSE) = 6.36324
+Compressing variable HDIFE_SALT(missing value : 9.96921e+33)
+    (Truncation Lmax) / (SPECK Lmax) = 6610.97
+    (Truncation RMSE) / (SPECK RMSE) = 40.3784
+Compressing variable HDIFN_SALT(missing value : 9.96921e+33)
+    (Truncation Lmax) / (SPECK Lmax) = 16576.5
+    (Truncation RMSE) / (SPECK RMSE) = 127.166
+Compressing variable HDIFB_SALT(missing value : 9.96921e+33)
+    (Truncation Lmax) / (SPECK Lmax) = 4184.07
+    (Truncation RMSE) / (SPECK RMSE) = 11.6117
+Compressing variable HDIFE_CFC11(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 22797.2
+    (Truncation RMSE) / (SPECK RMSE) = 75.8973
+Compressing variable HDIFN_CFC11(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 22598.2
+    (Truncation RMSE) / (SPECK RMSE) = 148.194
+Compressing variable HDIFB_CFC11(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 2146.68
+    (Truncation RMSE) / (SPECK RMSE) = 16.1272
+Compressing variable HDIFE_CFC12(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 9249.74
+    (Truncation RMSE) / (SPECK RMSE) = 31.4291
+Compressing variable HDIFN_CFC12(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 41433.5
+    (Truncation RMSE) / (SPECK RMSE) = 287.255
+Compressing variable HDIFB_CFC12(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1009.17
+    (Truncation RMSE) / (SPECK RMSE) = 7.94771
+Compressing variable HDIFE_IAGE(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 6070.55
+    (Truncation RMSE) / (SPECK RMSE) = 27.9849
+Compressing variable HDIFN_IAGE(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 56026.8
+    (Truncation RMSE) / (SPECK RMSE) = 552.431
+Compressing variable HDIFB_IAGE(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 11499.7
+    (Truncation RMSE) / (SPECK RMSE) = 85.0734
+Compressing variable WVEL(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 341404
+    (Truncation RMSE) / (SPECK RMSE) = 1192.83
+Compressing variable WVEL2(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 12378.7
+    (Truncation RMSE) / (SPECK RMSE) = 23.4745
+Compressing variable UET(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 207063
+    (Truncation RMSE) / (SPECK RMSE) = 6485.38
+Compressing variable VNT(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 5117.36
+    (Truncation RMSE) / (SPECK RMSE) = 56.347
+Compressing variable WTT(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 82831
+    (Truncation RMSE) / (SPECK RMSE) = 594.312
+Compressing variable UES(missing value : 9.96921e+33)
+    (Truncation Lmax) / (SPECK Lmax) = 2956.73
+    (Truncation RMSE) / (SPECK RMSE) = 53.6849
+Compressing variable VNS(missing value : 9.96921e+33)
+    (Truncation Lmax) / (SPECK Lmax) = 1055.41
+    (Truncation RMSE) / (SPECK RMSE) = 19.3276
+Compressing variable WTS(missing value : 9.96921e+33)
+    (Truncation Lmax) / (SPECK Lmax) = 265612
+    (Truncation RMSE) / (SPECK RMSE) = 1010.3
+Compressing variable ADVT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 12759.1
+    (Truncation RMSE) / (SPECK RMSE) = 548.442
+Compressing variable ADVS(missing value : 9.96921e+33)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 4547.11
+    (Truncation RMSE) / (SPECK RMSE) = 93.8839
+Compressing variable UE_CFC11(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1574.56
+    (Truncation RMSE) / (SPECK RMSE) = 20.1967
+Compressing variable VN_CFC11(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 4521.76
+    (Truncation RMSE) / (SPECK RMSE) = 89.8516
+Compressing variable WT_CFC11(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 667095
+    (Truncation RMSE) / (SPECK RMSE) = 2301.83
+Compressing variable UE_CFC12(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 483.531
+    (Truncation RMSE) / (SPECK RMSE) = 6.95157
+Compressing variable VN_CFC12(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1405.79
+    (Truncation RMSE) / (SPECK RMSE) = 30.9983
+Compressing variable WT_CFC12(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 197513
+    (Truncation RMSE) / (SPECK RMSE) = 690.097
+Compressing variable UE_IAGE(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1124.72
+    (Truncation RMSE) / (SPECK RMSE) = 21.5499
+Compressing variable VN_IAGE(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 119971
+    (Truncation RMSE) / (SPECK RMSE) = 2171.18
+Compressing variable WT_IAGE(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 10523.2
+    (Truncation RMSE) / (SPECK RMSE) = 60.4989
+Compressing variable PV(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1204.15
+    (Truncation RMSE) / (SPECK RMSE) = 22.0253
+Compressing variable Q(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 93.5821
+    (Truncation RMSE) / (SPECK RMSE) = 2.35683
+Compressing variable PD(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 3.84065
+    (Truncation RMSE) / (SPECK RMSE) = 2.2179
+Compressing variable QSW_HTP(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 5.4411
+    (Truncation RMSE) / (SPECK RMSE) = 1.32862
+Compressing variable QSW_3D(missing value : 9.96921e+36)
+    (Truncation Lmax) / (SPECK Lmax) = 1807.31
+    (Truncation RMSE) / (SPECK RMSE) = 91.6785
+Compressing variable QFLUX(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 586.821
+    (Truncation RMSE) / (SPECK RMSE) = 9.22935
+Compressing variable HMXL(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 18.1228
+    (Truncation RMSE) / (SPECK RMSE) = 1.10425
+Compressing variable XMXL(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 53.3071
+    (Truncation RMSE) / (SPECK RMSE) = 2.05924
+Compressing variable TMXL(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 18.1854
+    (Truncation RMSE) / (SPECK RMSE) = 0.807942
+Compressing variable HBLT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 63.1247
+    (Truncation RMSE) / (SPECK RMSE) = 3.1227
+Compressing variable XBLT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 33.88
+    (Truncation RMSE) / (SPECK RMSE) = 2.29191
+Compressing variable TBLT(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 111.855
+    (Truncation RMSE) / (SPECK RMSE) = 3.381
+Compressing variable BSF(missing value : 9.96921e+36)
+    <==== Start 2D SPECK encoding ====> 
+    (Truncation Lmax) / (SPECK Lmax) = 560.806
+    (Truncation RMSE) / (SPECK RMSE) = 105.224
