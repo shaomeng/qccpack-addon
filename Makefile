@@ -5,7 +5,10 @@ ARCH=$(shell uname)
 
 ifeq ($(ARCH), Linux)
 CC=gcc
-QCCPACK_INSTALL=/Users/samuel/Git/QccPack-git/Install
+# Alaska
+# QCCPACK_INSTALL=/Users/samuel/Git/QccPack-git/Install
+# Yellowstone
+QCCPACK_INSTALL=/glade/u/home/shaomeng/Git/QccPack-git/Install
 endif
 
 ifeq ($(ARCH), Darwin)
@@ -14,7 +17,7 @@ QCCPACK_INSTALL=/Users/samuel/Git/QccPack-git/Install
 endif
 
 QCCPACK_FLAGS=-DQCCCOMPRESS=/bin/gzip -DQCCUNCOMPRESS=/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:${QCCPACK_INSTALL}/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:${QCCPACK_INSTALL}/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK
-LINK_LIB=-lQccPack -lpthread  -lm
+LINK_LIB=-Wl,-rpath,$(QCCPACK_INSTALL)/lib -lQccPack -lpthread  -lm
 
 bov2imgcube: bov2imgcube.c
 	${CC} ${CC_FLAGS} -I${QCCPACK_INSTALL}/include -I/usr/include ${QCCPACK_FLAGS} -o bin/bov2imgcube bov2imgcube.c -L${QCCPACK_INSTALL}/lib ${LINK_LIB}
