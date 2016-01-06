@@ -1,24 +1,49 @@
 
-CC_FLAGS=-O2 -Wall -g -fPIC
+CC_FLAGS=-O3 -Wall -g -fPIC
+CXX_FLAGS=-O3 -std=c89 -Wall -g -fPIC -shared
 
 ARCH=$(shell uname)
 
 ifeq ($(ARCH), Linux)
 CC=gcc
+CXX=g++
 # Alaska
 # QCCPACK_INSTALL=/Users/samuel/Git/QccPack-git/Install
 # Yellowstone
 QCCPACK_INSTALL=/glade/u/home/shaomeng/Git/QccPack-git/Install
+VAPOR_INSTALL=/glade/u/home/shaomeng/Tools/vapor-2.4.2
 endif
 
 ifeq ($(ARCH), Darwin)
 CC=clang
+CXX=clang++
 QCCPACK_INSTALL=/Users/samuel/Git/QccPack-git/Install
 endif
 
 QCCPACK_FLAGS=-DQCCCOMPRESS=/bin/gzip -DQCCUNCOMPRESS=/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:${QCCPACK_INSTALL}/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:${QCCPACK_INSTALL}/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK
 
-LINK_LIB=-Wl,-rpath,$(QCCPACK_INSTALL)/lib -lQccPack -lpthread  -lm
+QCCPACK_LINK=-Wl,-rpath,${QCCPACK_INSTALL}/lib 
+VAPOR_LINK=-Wl,-rpath,${VAPOR_INSTALL}/lib 
+CAMHANDLER_LINK=-L${VAPOR_INSTALL}/lib -lvdf -lnetcdf -ludunits2 -lcommon -lproj -ludunits2 -L${QCCPACK_INSTALL}/lib -lQccPack -L./bin -lcamhandler ${VAPOR_LINK} ${QCCPACK_LINK}
+
+LINK_LIB=${QCCPACK_LINK} -lQccPack -lpthread  -lm
+
+
+
+myspeck.o: myspeck.h myspeck.c
+	${CC} ${CC_FLAGS} -I${QCCPACK_INSTALL}/include ${QCCPACK_FLAGS} -c -o bin/myspeck.o myspeck.c 
+
+CamHandler.o: CamHandler.cpp CamHandler.h
+	${CXX} ${CXX_FLAGS} -I${QCCPACK_INSTALL}/include -I${VAPOR_INSTALL}/include -c CamHandler.cpp -o bin/CamHandler.o
+
+libcamhandler.so: CamHandler.o myspeck.o
+	${CXX} ${CXX_FLAGS} -o bin/libcamhandler.so bin/CamHandler.o bin/myspeck.o
+
+libcamhandler.a: CamHandler.o myspeck.o
+	ar -rsv bin/libcamhandler.a bin/CamHandler.o bin/myspeck.o
+
+CamHandlerTest: 
+	${CXX} -I${VAPOR_INSTALL}/include  CamHandlerTest.cpp -o bin/camtest ${CAMHANDLER_LINK}
 
 bov2imgcube: bov2imgcube.c
 	${CC} ${CC_FLAGS} -I${QCCPACK_INSTALL}/include ${QCCPACK_FLAGS} -o bin/bov2imgcube bov2imgcube.c -L${QCCPACK_INSTALL}/lib ${LINK_LIB}
@@ -36,11 +61,10 @@ spbt2bov: spbt2bov.c
 	${CC} ${CC_FLAGS} -I${QCCPACK_INSTALL}/include ${QCCPACK_FLAGS} -o bin/spbt2bov spbt2bov.c -L${QCCPACK_INSTALL}/lib ${LINK_LIB}
 
 myspiht.o: myspiht.h myspiht.c
-	${CC} ${CC_FLAGS} -I${QCCPACK_INSTALL}/include ${QCCPACK_FLAGS} -o bin/myspiht.o myspiht.c 
+	${CC} ${CC_FLAGS} -I${QCCPACK_INSTALL}/include ${QCCPACK_FLAGS} -c -o bin/myspiht.o myspiht.c 
 
-myspiht_test: myspiht.o myspiht_test.c
-	${CC} -O -Wall -o bin/myspiht_test bin/myspiht.o myspiht_test.c -I${QCCPACK_INSTALL}/include -L${QCCPACK_INSTALL}/lib ${LINK_LIB}
-
+myspecktest: myspeck.o 
+	${CC} -O3 -Wall bin/myspeck.o myspecktest.c -o bin/myspecktest -I${QCCPACK_INSTALL}/include -L${QCCPACK_INSTALL}/lib ${LINK_LIB}
 
 testbov2imgcube: bov2imgcube
 	./bov2imgcube 3 3 3 3_cube.bin 3_imagecube.icb
