@@ -102,9 +102,9 @@ void myspeckencode3d_64bit( const double* srcBuf,
 
 /*
  * This is the actual function that performs DWT and SPECK encoding.
- * It should only be called by myspeckencode3d() myspeckencode3d_64bit().
+ * It should only be called by myspeckencode3d() and myspeckencode3d_64bit().
  */
-void encode3d( QccIMGImageCube* imagecube,
+static void encode3d( QccIMGImageCube* imagecube,
                const char* outputFilename,
                int nLevels,
                float TargetRate );
@@ -132,9 +132,9 @@ void myspeckencode2p1d_64bit( const double* srcBuf,
 
 /*
  * This is the actual function that performs DWT and SPECK encoding.
- * It should only be called by myspeckencode2p1d() myspeckencode2p1d_64bit().
+ * It should only be called by myspeckencode2p1d() and myspeckencode2p1d_64bit().
  */
-void encode2p1d( QccIMGImageCube* imagecube,
+static void encode2p1d( QccIMGImageCube* imagecube,
                  const char* outputFilename,
                  int XYNumLevels,
                  int ZNumLevels,
@@ -193,7 +193,7 @@ void myspeckencode2d_64bit( const double* srcBuf,
  * Helper function that actually does the DWT and SPECK encoding.
  * It should be called only by myspeckencode2d() and myspeckencode2d_64bit().
  */
-void encode2d( QccIMGImageComponent* imagecomponent,
+static void encode2d( QccIMGImageComponent* imagecomponent,
                const char* outputFilename,
                int nLevels,
                float TargetRate );
