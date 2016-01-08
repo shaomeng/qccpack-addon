@@ -36,10 +36,14 @@ QCCPACK_FLAGS=-DQCCCOMPRESS=/bin/gzip -DQCCUNCOMPRESS=/bin/gunzip -DQCCPACK_WAVE
 
 QCCPACK_LINK=-Wl,-rpath,${QCCPACK_INSTALL}/lib 
 VAPOR_LINK=-Wl,-rpath,${VAPOR_INSTALL}/lib 
-
-CAMHANDLER_LINK=-L${VAPOR_INSTALL}/lib -lvdf -lnetcdf -ludunits2 -lcommon -lproj -ludunits2 -L${QCCPACK_INSTALL}/lib -lQccPack -L./bin -lcamhandler ${VAPOR_LINK} ${QCCPACK_LINK}
-
 LINK_LIB=${QCCPACK_LINK} -lQccPack -lpthread  -lm
+
+CAMHANDLER_LINK=-L./bin -lcamhandler -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludunits2 -lproj -lnetcdf -L${QCCPACK_INSTALL}/lib -lQccPack ${VAPOR_LINK} ${QCCPACK_LINK} 
+
+ifeq ($(HOSTNAME), alaska)
+CAMHANDLER_LINK=-L./bin -lcamhandler -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludunits2 -lproj -L${LINK_WILDCARD} -lnetcdf -L${QCCPACK_INSTALL}/lib -lQccPack ${VAPOR_LINK} ${QCCPACK_LINK} -Wl,-rpath,${LINK_WILDCARD}
+endif
+
 
 
 
