@@ -1,0 +1,7 @@
+FSDSC is 2D:       91x91x1
+CCN3, U, Z3 are 3D:   91x91x30
+
+The complete test data set is located at:
+/glade/u/tdd/asap/compression/cam/ensemble/orig/
+
+reorderedCbasedHommeMapping.nc  and  faceIdsNeNp304.nc  are homme map files.
