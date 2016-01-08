@@ -9,7 +9,10 @@ void FillImageCube( const float* buf,
     imagecube -> num_rows = Y;
     imagecube -> num_frames = Z;
     if( QccIMGImageCubeAlloc( imagecube ) )
-        QccErrorPrintMessages();
+	{
+		QccErrorAddMessage("QccIMGImageCubeAlloc() fails in FillImageCube().");
+        QccErrorExit();
+	}
 
     double min = MAXDOUBLE;
     double max = -MAXDOUBLE;
@@ -40,7 +43,10 @@ void FillImageCube_64bit( const double* buf,
     imagecube -> num_rows = Y;
     imagecube -> num_frames = Z;
     if( QccIMGImageCubeAlloc( imagecube ) )
-        QccErrorPrintMessages();
+    {
+        QccErrorAddMessage("QccIMGImageCubeAlloc() fails in FillImageCube_64bit().");
+        QccErrorExit();
+    }
 
     double min = MAXDOUBLE;
     double max = -MAXDOUBLE;
@@ -69,7 +75,10 @@ void FillImageComponent( const float* buf, int X, int Y,
     imagecomponent -> num_cols = X;
     imagecomponent -> num_rows = Y;
     if( QccIMGImageComponentAlloc( imagecomponent ) )
-        QccErrorPrintMessages();
+    {
+        QccErrorAddMessage("QccIMGImageComponentAlloc() fails in FillImageComponent().");
+        QccErrorExit();
+    }
 
     double min = MAXDOUBLE;
     double max = -MAXDOUBLE;
@@ -97,7 +106,10 @@ void FillImageComponent_64bit( const double* buf, int X, int Y,
     imagecomponent -> num_cols = X;
     imagecomponent -> num_rows = Y;
     if( QccIMGImageComponentAlloc( imagecomponent ) )
-        QccErrorPrintMessages();
+    {
+        QccErrorAddMessage("QccIMGImageComponentAlloc() fails in FillImageComponent_64bit().");
+        QccErrorExit();
+    }
 
     double min = MAXDOUBLE;
     double max = -MAXDOUBLE;
