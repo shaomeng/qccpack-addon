@@ -46,20 +46,20 @@ int main( int argc, char* argv[] )
     }
     float targetRate = atof( argv[1] );
 
-    size_t LEV = 1;
     char asciiInput[] = "/glade/u/home/shaomeng/CamData/FSDSC";
-
-    int numXYDWTLevels = 4;
-    int numZDWTLevels = 2;
+    char filename[] = "/glade/u/home/shaomeng/dump/bit.stream";
     string hommeMap   = "/glade/u/home/shaomeng/CamData/reorderedCbasedHommeMapping.nc";
     string faceMap    = "/glade/u/home/shaomeng/CamData/faceIdsNeNp304.nc";
+
+    size_t LEV = 1;
+    int numXYDWTLevels = 4;
+    int numZDWTLevels = 2;
 
     size_t homme_size = _NCOL * LEV;
     float* homme_buf = new float[ homme_size ];
     cerr << "start reading input... " << endl;
     ReadAscii( asciiInput, homme_buf, homme_size );
 
-    char filename[] = "/glade/u/home/shaomeng/dump/bit.stream";
     cerr << "start building map... " << endl;
     VAPoR::CamHandler handler( hommeMap, faceMap );
 
