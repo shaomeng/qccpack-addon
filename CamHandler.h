@@ -4,7 +4,7 @@
 #include "vapor/NetCDFSimple.h"
 #include "vapor/NetCDFCollection.h"
 #include "vapor/Compressor.h"
-#include "netcdf.h"
+//#include "netcdf.h"
 
 #ifndef _CAMHANDLER_H_
 #define _CAMHANDLER_H_

@@ -2,16 +2,27 @@
 CC_FLAGS=-O3 -Wall -g -fPIC
 CXX_FLAGS=-O3 -std=c89 -Wall -g -fPIC -shared
 
+INC_WILDCARD=
+LINK_WILDCARD=
+
 ARCH=$(shell uname)
 
 ifeq ($(ARCH), Linux)
 CC=gcc
 CXX=g++
-# Alaska
-# QCCPACK_INSTALL=/Users/samuel/Git/QccPack-git/Install
 # Yellowstone
 QCCPACK_INSTALL=/glade/u/home/shaomeng/Git/QccPack-git/Install
 VAPOR_INSTALL=/glade/u/home/shaomeng/Tools/vapor-2.4.2
+
+# Alaska
+HOSTNAME=$(shell hostname)
+ifeq ($(HOSTNAME), alaska)
+QCCPACK_INSTALL=/home/users/samuelli/Git/QccPack-git/Install
+VAPOR_INSTALL=/home/users/samuelli/Tools/vapor-2.4.2-src/Install
+INC_WILDCARD=/home/users/samuelli/Install/include
+LINK_WILDCARD=/home/users/samuelli/Install/lib
+endif
+
 endif
 
 ifeq ($(ARCH), Darwin)
@@ -22,9 +33,11 @@ endif
 
 QCCPACK_FLAGS=-DQCCCOMPRESS=/bin/gzip -DQCCUNCOMPRESS=/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:${QCCPACK_INSTALL}/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:${QCCPACK_INSTALL}/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK
 
+
 QCCPACK_LINK=-Wl,-rpath,${QCCPACK_INSTALL}/lib 
 VAPOR_LINK=-Wl,-rpath,${VAPOR_INSTALL}/lib 
-CAMHANDLER_LINK=-L${VAPOR_INSTALL}/lib -lvdf -lnetcdf -ludunits2 -lcommon -lproj -ludunits2 -L${QCCPACK_INSTALL}/lib -lQccPack -L./bin -lcamhandler ${VAPOR_LINK} ${QCCPACK_LINK}
+
+CAMHANDLER_LINK=-L${VAPOR_INSTALL}/lib -L${LINK_WILDCARD} -lvdf -lnetcdf -ludunits2 -lcommon -lproj -ludunits2 -L${QCCPACK_INSTALL}/lib -lQccPack -L./bin -lcamhandler ${VAPOR_LINK} ${QCCPACK_LINK}
 
 LINK_LIB=${QCCPACK_LINK} -lQccPack -lpthread  -lm
 
