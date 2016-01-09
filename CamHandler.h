@@ -171,23 +171,31 @@ class CamHandler
      *      A, B            :   Two arrays to compare with
      *      len             :   length of the two arrays (same length)
      * Output:
-     *      minmaxA         :   min = [0], max = [1]
-     *      minmaxB         :   min = [0], max = [1]
+     *      minA         
+     *      maxA         
+     *      minB         
+     *      maxB         
+     *      meanA         
+     *      meanB         
      *      rms             :   absolute RMSE between the two.
      *      nrms            :   normalized RMSE (normalized by the range of A)
      *      lmax            :   maximum difference between the two.
      *      nlmax           :   normalized LMAX (normalized by the range of A)
+	 *		
      */
     template <typename T> inline
     void evaluate2arrays( const T* A,    const T* B, size_t len,
                           double* rmse,  double* lmax, 
                           double* nrmse, double* nlmax, 
                           double* minA,  double* maxA, 
-                          double* minB,  double* maxB )
+                          double* minB,  double* maxB,
+						  double* meanA, double* meanB )
 {
     double sum = 0.0;
     double c = 0.0;
     double max = 0.0;
+	double mean_a = 0;
+	double mean_b = 0;
     double tmp;
     size_t i;
     *minA = A[0];
@@ -195,6 +203,8 @@ class CamHandler
     *minB = B[0];
     *maxB = B[0];
     for( i = 0; i < len; i++) {
+		mean_a += A[i];
+		mean_b += B[i];
         tmp = (double)A[i] - (double)B[i];
         double y = tmp * tmp - c;
         double t = sum + y;
@@ -210,12 +220,15 @@ class CamHandler
         if( B[i] > *maxB )   *maxB = B[i];
     }
     sum /= (double)len;
+    mean_a /= (double)len;
+    mean_b /= (double)len;
 
     *rmse = sqrt( sum );
     *lmax = max;
     *nrmse = *rmse / (*maxA - *minA);
     *nlmax = max   / (*maxA - *minA);
-
+	*meanA = mean_a;
+	*meanB = mean_b;
 }
 
 /* 

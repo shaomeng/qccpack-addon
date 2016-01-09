@@ -90,15 +90,16 @@ int main( int argc, char* argv[] )
 
 
     
-    double rmse, lmax, nrmse, nlmax, minA, maxA, minB, maxB;
+    double rmse, lmax, nrmse, nlmax, minA, maxA, minB, maxB, meanA, meanB;
     handler.evaluate2arrays( homme_buf, homme_buf_comp, homme_size, 
                              &rmse, &lmax, 
                              &nrmse, &nlmax, 
                              &minA, &maxA,
-                             &minB, &maxB );
+                             &minB, &maxB,
+                             &meanA, &meanB );
 
-    cerr << "1st array min = " << minA << ", max = " << maxA << endl;
-    cerr << "2nd array min = " << minB << ", max = " << maxB << endl;
+    cerr << "1st array min = " << minA << ", max = " << maxA << ", mean = " << meanA << endl;
+    cerr << "2nd array min = " << minB << ", max = " << maxB << ", mean = " << meanB << endl;
     cerr << "RMS  = " << rmse << ",  LMax  = " << lmax << endl;
     cerr << "NRMS = " << nrmse << ", NLMax = " << nlmax << endl;
 
