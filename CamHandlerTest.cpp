@@ -46,10 +46,10 @@ int main( int argc, char* argv[] )
     }
     float targetRate = atof( argv[1] );
 
-    char asciiInput[] = "/glade/u/home/shaomeng/CamData/FSDSC";
-    char filename[] = "/glade/u/home/shaomeng/dump/bit.stream";
-    string hommeMap   = "/glade/u/home/shaomeng/CamData/reorderedCbasedHommeMapping.nc";
-    string faceMap    = "/glade/u/home/shaomeng/CamData/faceIdsNeNp304.nc";
+    char asciiInput[] = "./HommeMap/FSDSC";
+    char filename[] = "./dump/bit.stream";
+    string hommeMap   = "./HommeMap/reorderedCbasedHommeMapping.nc";
+    string faceMap    = "./HommeMap/faceIdsNeNp304.nc";
 
     size_t LEV = 1;
     int numXYDWTLevels = 4;
