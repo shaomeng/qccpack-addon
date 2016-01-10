@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#define USG_STRING "%s:input_name %s:output_name"
+#define USG_STRING "%s:input_name_1 %s:input_name_2"
 
 void ImageCube2Arr( QccIMGImageCube* image_cube, double* buf, size_t len )
 {
@@ -28,7 +28,8 @@ void ImageCube2Arr( QccIMGImageCube* image_cube, double* buf, size_t len )
 void Evaluate2Arrays( const double* A, const double* B, size_t len, 
                       double* minmaxA, double* minmaxB, 
                       double* rms, double* nrmse, 
-                      double* lmax, double* nlmax )
+                      double* lmax, double* nlmax,
+                      double* meanA, double* meanB )
 {
     double sum = 0.0;
     double c = 0.0;
@@ -39,8 +40,13 @@ void Evaluate2Arrays( const double* A, const double* B, size_t len,
     double maxA = A[0];
     double minB = B[0];
     double maxB = B[0];
-    for( i = 0; i < len; i++) {
-        tmp = (double)A[i] - (double)B[i];
+	double sum_A = 0.0;
+	double sum_B = 0.0;
+    for( i = 0; i < len; i++)
+	{
+		sum_A += A[i];	
+		sum_B += B[i];	
+        tmp = A[i] - B[i];
         if (tmp < 0)        tmp *= -1.0;
         if (tmp > max)      max = tmp;
         double y = tmp * tmp - c;
@@ -66,6 +72,9 @@ void Evaluate2Arrays( const double* A, const double* B, size_t len,
 
     *nrmse = sum / (maxA - minA);
     *nlmax = max / (maxA - minA);
+
+	*meanA = sum_A / (double)len;
+	*meanB = sum_B / (double)len;
 }
 
 int main (int argc, char* argv[] )
@@ -96,13 +105,15 @@ int main (int argc, char* argv[] )
     ImageCube2Arr( &cube2, B, npxl );
 
     double minmaxA[2], minmaxB[2];
-    double rms, nrms, lmax, nlmax;
+    double rms, nrms, lmax, nlmax, meanA, meanB;
     Evaluate2Arrays( A, B, npxl, minmaxA, minmaxB, 
-                     &rms, &nrms, &lmax, &nlmax );
+                     &rms, &nrms, &lmax, &nlmax, &meanA, &meanB );
     printf("\t%s: min = %e, max = %e\n", cube1.filename, minmaxA[0], minmaxA[1] );
     printf("\t%s: min = %e, max = %e\n", cube2.filename, minmaxB[0], minmaxB[1] );
     printf("\tRMS = %e, LMAX = %e\n", rms, lmax );
     printf("\tNRMS = %e, NLMAX = %e\n", nrms, nlmax );
+	printf("\tThe two files have mean values %.8e, %.8e.\n", meanA, meanB );
+	printf("\tTheir difference is: %.8e.\n", (meanA - meanB));
 
 
     free( A );
