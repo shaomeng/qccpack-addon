@@ -22,6 +22,7 @@ int main( int argc, char* argv[] )
     string faceMap    = "./HommeMap/faceIdsNeNp304.nc";
     string netcdfInput = "/opt/Research_Data/ensemble_orig/cesm1_1.FC5.ne30_g16.000.cam.h0.0001-01-01-00000.nc";
 	string varname    = "LCLOUD";
+	string rawOutput  = "./Datasets/" + varname + ".float";
 
 	int rc;
 
@@ -90,11 +91,15 @@ int main( int argc, char* argv[] )
 	size_t raw_size = 6 * lev * NX * NY;
 	float* raw_buf  = new float[ raw_size ];
 	handler.cam2raw( homme_buf, homme_size, lev, raw_buf, raw_size );
+	FILE* f = fopen( rawOutput.c_str(), "wb" );
+	assert( f != NULL );
+	fwrite( raw_buf, sizeof(float), raw_size, f );
+	fclose(f);
 	
 
 	/* Evaluation:
 	 * This chunk of code uses SPECK to encode, then decode, and evaluate.
-	 */
+	 *
     int numXYDWTLevels = 4;
     int numZDWTLevels = 2;
 	float targetRate = 8.0;
@@ -137,7 +142,7 @@ int main( int argc, char* argv[] )
 	printf("plus = %lu, minus = %lu\n", pos_count, neg_count );
 
 	delete[] homme_reconstruct;
-	/* End Evaluation */
+	* End Evaluation */
 
 	delete[] homme_buf;
 	delete[] raw_buf;
