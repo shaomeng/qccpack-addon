@@ -12,7 +12,9 @@
 
 #define USG_STRING "%s:input_name_1 %s:input_name_2"
 
-void ImageCube2Arr( QccIMGImageCube* image_cube, double* buf, size_t len )
+#define FLOAT double
+
+void ImageCube2Arr( QccIMGImageCube* image_cube, FLOAT* buf, size_t len )
 {
     size_t npxl = (image_cube->num_cols) * (image_cube->num_rows) * (image_cube->num_frames);
     assert( npxl == len );
@@ -22,10 +24,10 @@ void ImageCube2Arr( QccIMGImageCube* image_cube, double* buf, size_t len )
     for (frame = 0; frame < image_cube->num_frames; frame++)
         for (row = 0; row < image_cube->num_rows; row++)
             for (col = 0; col < image_cube->num_cols; col++)
-                buf[ idx++ ] = image_cube -> volume[frame][row][col];
+                buf[ idx++ ] = (FLOAT)image_cube -> volume[frame][row][col];
 }
 
-void Evaluate2Arrays( const double* A, const double* B, size_t len, 
+void Evaluate2Arrays( const FLOAT* A, const FLOAT* B, size_t len, 
                       double* minmaxA, double* minmaxB, 
                       double* rms, double* nrmse, 
                       double* lmax, double* nlmax,
@@ -99,8 +101,8 @@ int main (int argc, char* argv[] )
     assert( cube1.num_cols == cube2.num_cols );
 
     size_t npxl = cube1.num_cols * cube1.num_rows * cube1.num_frames;
-    double* A = (double*) malloc( sizeof(double) * npxl );
-    double* B = (double*) malloc( sizeof(double) * npxl );
+    FLOAT* A = (FLOAT*) malloc( sizeof(FLOAT) * npxl );
+    FLOAT* B = (FLOAT*) malloc( sizeof(FLOAT) * npxl );
     ImageCube2Arr( &cube1, A, npxl );
     ImageCube2Arr( &cube2, B, npxl );
 
@@ -114,6 +116,11 @@ int main (int argc, char* argv[] )
     printf("\tNRMS = %e, NLMAX = %e\n", nrms, nlmax );
 	printf("\tThe two files have mean values %.8e, %.8e.\n", meanA, meanB );
 	printf("\tTheir difference is: %.8e.\n", (meanA - meanB));
+
+	printf("True Values:\t\tReconstructed:\n");
+	size_t i = 0;
+	for(i = 0; i < npxl; i++ )
+		printf("%e,\t%e\n", A[i], B[i] );
 
 
     free( A );
