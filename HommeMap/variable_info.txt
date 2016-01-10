@@ -1,0 +1,751 @@
+Found variable: lev
+	dimension name: lev,	length: 30
+Found variable: hyam
+	dimension name: lev,	length: 30
+Found variable: hybm
+	dimension name: lev,	length: 30
+Found variable: ilev
+	dimension name: ilev,	length: 31
+Found variable: hyai
+	dimension name: ilev,	length: 31
+Found variable: hybi
+	dimension name: ilev,	length: 31
+Found variable: P0
+Found variable: time
+	dimension name: time,	length: 2
+Found variable: date
+	dimension name: time,	length: 2
+Found variable: datesec
+	dimension name: time,	length: 2
+Found variable: lat
+	dimension name: ncol,	length: 48602
+Found variable: area
+	dimension name: ncol,	length: 48602
+Found variable: lon
+	dimension name: ncol,	length: 48602
+Found variable: time_bnds
+	dimension name: time,	length: 2
+	dimension name: nbnd,	length: 2
+Found variable: date_written
+	dimension name: time,	length: 2
+	dimension name: chars,	length: 8
+Found variable: time_written
+	dimension name: time,	length: 2
+	dimension name: chars,	length: 8
+Found variable: ntrm
+Found variable: ntrn
+Found variable: ntrk
+Found variable: ndbase
+Found variable: nsbase
+Found variable: nbdate
+Found variable: nbsec
+Found variable: mdt
+Found variable: ndcur
+	dimension name: time,	length: 2
+Found variable: nscur
+	dimension name: time,	length: 2
+Found variable: co2vmr
+	dimension name: time,	length: 2
+Found variable: ch4vmr
+	dimension name: time,	length: 2
+Found variable: n2ovmr
+	dimension name: time,	length: 2
+Found variable: f11vmr
+	dimension name: time,	length: 2
+Found variable: f12vmr
+	dimension name: time,	length: 2
+Found variable: sol_tsi
+	dimension name: time,	length: 2
+Found variable: nsteph
+	dimension name: time,	length: 2
+Found variable: ABSORB
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: AEROD_v
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: ANRAIN
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: ANSNOW
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: AODABS
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: AODDUST1
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: AODDUST2
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: AODDUST3
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: AODMODE1
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: AODMODE2
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: AODMODE3
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: AODVIS
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: AQRAIN
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: AQSNOW
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: AREI
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: AREL
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: ATMEINT
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: AWNC
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: AWNI
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: BURDEN1
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: BURDEN2
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: BURDEN3
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: CCN3
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: CDNUMC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: CLDFSNOW
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: CLDHGH
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: CLDICE
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: CLDLIQ
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: CLDLOW
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: CLDMED
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: CLDTOT
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: CLOUD
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: CMFDQ
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: CMFDQR
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: CMFDT
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: CMFMC
+	dimension name: time,	length: 2
+	dimension name: ilev,	length: 31
+	dimension name: ncol,	length: 48602
+Found variable: CMFMCDZM
+	dimension name: time,	length: 2
+	dimension name: ilev,	length: 31
+	dimension name: ncol,	length: 48602
+Found variable: CONCLD
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: DCQ
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: DMS
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: DSTODXC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: DSTSFDRY
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: DSTSFMBL
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: DSTSFWET
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: DTCOND
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: DTV
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: EXTINCT
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: FICE
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: FLDS
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FLNS
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FLNSC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FLNT
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FLNTC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FLUT
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FLUTC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FREQI
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: FREQL
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: FREQR
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: FREQS
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: FREQSH
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FREQZM
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FSDS
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FSDSC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FSNS
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FSNSC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FSNT
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FSNTC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FSNTOA
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FSNTOAC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: FSUTOA
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: H2O2
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: H2SO4
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: ICEFRAC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: ICIMR
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: ICLDIWP
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: ICLDTWP
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: ICWMR
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: IWC
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: KVH
+	dimension name: time,	length: 2
+	dimension name: ilev,	length: 31
+	dimension name: ncol,	length: 48602
+Found variable: KVM
+	dimension name: time,	length: 2
+	dimension name: ilev,	length: 31
+	dimension name: ncol,	length: 48602
+Found variable: LANDFRAC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: LCLOUD
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: LHFLX
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: LND_MBL
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: LWCF
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: NUMICE
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: NUMLIQ
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: OCNFRAC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: OMEGA
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: OMEGAT
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: ORO
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PBLH
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PCONVB
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PCONVT
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PHIS
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PRECC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PRECCDZM
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PRECL
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PRECSC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PRECSH
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PRECSL
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PRECT
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PS
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: PSL
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: Q
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: QC
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: QFLX
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: QREFHT
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: QRL
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: QRS
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: QT
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: QTFLX
+	dimension name: time,	length: 2
+	dimension name: ilev,	length: 31
+	dimension name: ncol,	length: 48602
+Found variable: RELHUM
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: RHREFHT
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SFCLDICE
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SFCLDLIQ
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SFNUMICE
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SFNUMLIQ
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SHFLX
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SL
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: SLFLX
+	dimension name: time,	length: 2
+	dimension name: ilev,	length: 31
+	dimension name: ncol,	length: 48602
+Found variable: SLV
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: SNOWHICE
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SNOWHLND
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SO2
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: SOAG
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: SOLIN
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SRFRAD
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SSAVIS
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SSTODXC
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SSTSFDRY
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SSTSFMBL
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SSTSFWET
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: SWCF
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: T
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: T700
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: T850
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TAUTMSX
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TAUTMSY
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TAUX
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TAUY
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TGCLDCWP
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TGCLDIWP
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TGCLDLWP
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TKE
+	dimension name: time,	length: 2
+	dimension name: ilev,	length: 31
+	dimension name: ncol,	length: 48602
+Found variable: TMQ
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TOT_CLD_VISTAU
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: TOT_ICLD_VISTAU
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: TREFHT
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TREFMNAV
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TREFMXAV
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TROP_P
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TROP_T
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TROP_Z
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TS
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TSMN
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: TSMX
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: U
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: U10
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: UFLX
+	dimension name: time,	length: 2
+	dimension name: ilev,	length: 31
+	dimension name: ncol,	length: 48602
+Found variable: UU
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: V
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: VD01
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: VFLX
+	dimension name: time,	length: 2
+	dimension name: ilev,	length: 31
+	dimension name: ncol,	length: 48602
+Found variable: VQ
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: VT
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: VU
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: VV
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: WGUSTD
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: WSUB
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: WTKE
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: Z3
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: bc_a1
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: dgnd_a01
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: dgnd_a02
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: dgnd_a03
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: dgnw_a01
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: dgnw_a02
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: dgnw_a03
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: dst_a1
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: dst_a1SF
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: dst_a3
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: dst_a3SF
+	dimension name: time,	length: 2
+	dimension name: ncol,	length: 48602
+Found variable: ncl_a1
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: ncl_a2
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: ncl_a3
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: num_a1
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: num_a2
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: num_a3
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: pom_a1
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: so4_a1
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: so4_a2
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: so4_a3
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: soa_a1
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: soa_a2
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: wat_a1
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: wat_a2
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
+Found variable: wat_a3
+	dimension name: time,	length: 2
+	dimension name: lev,	length: 30
+	dimension name: ncol,	length: 48602
