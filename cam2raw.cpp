@@ -91,10 +91,25 @@ int main( int argc, char* argv[] )
 	size_t raw_size = 6 * lev * NX * NY;
 	float* raw_buf  = new float[ raw_size ];
 	handler.cam2raw( homme_buf, homme_size, lev, raw_buf, raw_size );
-	FILE* f = fopen( rawOutput.c_str(), "wb" );
-	assert( f != NULL );
-	fwrite( raw_buf, sizeof(float), raw_size, f );
-	fclose(f);
+
+	/* save the 6 faces separately */
+	for( int face = 0; face < 6; face++ )
+    {
+        /* locate start index for each face */
+        size_t faceOffset = face * NX * NY * lev;
+
+        /* generate filenames for each face */
+        char  tmpName[ 256 ];
+        char suffix[16];
+        sprintf( suffix, ".face%d", face );
+        strcpy( tmpName, rawOutput.c_str());
+        strcat( tmpName, suffix );
+
+		FILE* f = fopen( tmpName, "wb" );
+		assert( f != NULL );
+		fwrite( raw_buf + faceOffset, sizeof(float), NX*NY*lev, f );
+		fclose(f);
+    }
 	
 
 	/* Evaluation:
