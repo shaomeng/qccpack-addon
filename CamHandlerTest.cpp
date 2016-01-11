@@ -39,17 +39,17 @@ int ReadAscii( char* filename, float* buf, size_t len )
 
 int main( int argc, char* argv[] )
 {
-    if( argc != 2 )
+    if( argc != 3 )
     {
-        std::cerr << "please specify target bit rate! " << endl;
+        std::cerr << "please specify variable name, and target bit rate! " << endl;
         exit (1);
     }
-    float targetRate = atof( argv[1] );
+    float targetRate = atof( argv[2] );
+    string varname    = argv[1];
 
     string hommeMap   = "./HommeMap/reorderedCbasedHommeMapping.nc";
     string faceMap    = "./HommeMap/faceIdsNeNp304.nc";
 	string netcdfInput = "/opt/Research_Data/ensemble_orig/cesm1_1.FC5.ne30_g16.000.cam.h0.0001-01-01-00000.nc";
-    string varname    = "LCLOUD";
 
     /* Examine if the file and variable valid */
     VAPoR::NetCDFSimple ncsimple;
@@ -113,6 +113,7 @@ int main( int argc, char* argv[] )
                                numZDWTLevels, targetRate, filename );
     handler.speckDecode3D( filename, homme_size, lev, homme_reconstruct );
 
+	printf("\nBits in use: %f\n", targetRate );
     double rmse, lmax, nrmse, nlmax, minA, maxA, minB, maxB, meanA, meanB;
     handler.evaluate2arrays( homme_buf, homme_reconstruct, homme_size,
                              &rmse, &lmax,
@@ -126,9 +127,10 @@ int main( int argc, char* argv[] )
     printf( "Reconstruction RMS  = %e, LMAX  = %e\n", rmse, lmax );
     printf( "Reconstruction NRMS = %e, NLMAX = %e\n", nrmse, nlmax );
 
-/*
+
 	size_t pos_count = 0;
     size_t neg_count = 0;
+	cout << endl;
     for( size_t i = 0; i < homme_size; i++ )
     {
         if( homme_buf[i] - homme_reconstruct[i] > 0 )
@@ -145,13 +147,13 @@ int main( int argc, char* argv[] )
             printf("%e ,\t%e,\t= \n", homme_buf[i], homme_reconstruct[i]);
     }
     printf("plus = %lu, minus = %lu\n", pos_count, neg_count );
-*/
+
 
     delete[] homme_reconstruct;
     /* End Evaluation */
 
-
 	delete[] homme_buf;
+
 
 /*
     size_t homme_size = _NCOL * LEV;
