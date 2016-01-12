@@ -34,9 +34,9 @@ endif
 QCCPACK_FLAGS=-DQCCCOMPRESS=/bin/gzip -DQCCUNCOMPRESS=/bin/gunzip -DQCCPACK_WAVELET_PATH_DEFAULT=.:${QCCPACK_INSTALL}/share/QccPack/Wavelets -DQCCPACK_CODES_PATH_DEFAULT=.:${QCCPACK_INSTALL}/share/QccPack/Codes  -DHAVE_SPIHT -DHAVE_SPECK
 
 
-QCCPACK_LINK=-Wl,-rpath,${QCCPACK_INSTALL}/lib 
+QCCPACK_LINK=-lm, -Wl,-rpath,${QCCPACK_INSTALL}/lib 
 VAPOR_LINK=-Wl,-rpath,${VAPOR_INSTALL}/lib 
-LINK_LIB=${QCCPACK_LINK} -lQccPack -lpthread  -lm
+LINK_LIB=${QCCPACK_LINK} -lQccPack -lpthread
 
 CAMHANDLER_LINK=-L./bin -lcamhandler -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludunits2 -lproj -lnetcdf -L${QCCPACK_INSTALL}/lib -lQccPack ${VAPOR_LINK} ${QCCPACK_LINK} 
 

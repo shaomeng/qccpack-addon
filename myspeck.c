@@ -130,6 +130,82 @@ static void FillImageComponent_64bit( const double* buf, int X, int Y,
     imagecomponent -> max_val = max;
 }
 
+static void WriteMinPos_32bit( const float* buf,
+							 long len,
+							 const char* filename )
+{
+	int found_0 = 0;
+	float min = 0;
+	long i;
+    for( i = 0; i < len; i++ )
+    {
+        if( fabsf(buf[i]) > 0.0 )
+        {
+            min = fabsf(buf[i]);
+            break;
+        }
+    }
+	for( i = 0; i < len; i++ )
+	{
+		if( fabsf(buf[i]) < min && fabsf(buf[i]) > 0.0 )
+			min = fabsf(buf[i]);
+		if( found_0 == 0 && buf[i] == 0.0 )
+			found_0 = 1;
+	}
+	if( found_0 == 0 )
+		min = -1.0;
+
+	FILE* f = fopen( filename, "wb");
+	if( f!= NULL )
+	{
+		fwrite( &min, sizeof(float), 1, f );
+		fclose (f);
+	}
+	else
+	{
+		printf("file open error: %s\n", filename );
+		exit(1);
+	}
+}  	
+
+static void WriteMinPos_64bit( const double* buf,
+							 long len,
+							 const char* filename )
+{
+	int found_0 = 0;
+	double min = 0;
+	long i;
+    for( i = 0; i < len; i++ )
+    {
+        if( fabs(buf[i]) > 0.0 )
+        {
+            min = fabs(buf[i]);
+            break;
+        }
+    }
+	for( i = 0; i < len; i++ )
+	{
+		if( fabs(buf[i]) < min && fabs(buf[i]) > 0.0 )
+			min = fabs(buf[i]);
+		if( found_0 == 0 && buf[i] == 0.0 )
+			found_0 = 1;
+	}
+	if( found_0 == 0 )
+		min = -1.0;
+
+	FILE* f = fopen( filename, "wb");
+	if( f!= NULL )
+	{
+		fwrite( &min, sizeof(double), 1, f );
+		fclose (f);
+	}
+	else
+	{
+		printf("file open error: %s\n", filename );
+		exit(1);
+	}
+}  	
+
 void myspeckencode3d( const float* srcBuf,
                      int srcX,
                      int srcY,
@@ -138,6 +214,13 @@ void myspeckencode3d( const float* srcBuf,
                      int nLevels,
                      float TargetRate )
 {
+	/* Writes the minimal positive absolute value to disk */
+	char minname[256];
+	strcpy( minname, outputFilename );
+	strcat( minname, ".minfabs");
+	long len = (long)srcX * (long)srcY * (long)srcZ;
+	WriteMinPos_32bit( srcBuf, len, minname );
+
     /*
      * Creates a QccIMGImageCube struct to hold the input data.
      */
@@ -156,7 +239,14 @@ void myspeckencode3d_64bit( const double* srcBuf,
                             const char* outputFilename,
                             int nLevels,
                             float TargetRate )
-        {
+{
+	/* Writes the minimal positive absolute value to disk */
+	char minname[256];
+	strcpy( minname, outputFilename );
+	strcat( minname, ".minfabs");
+	long len = (long)srcX * (long)srcY * (long)srcZ;
+	WriteMinPos_64bit( srcBuf, len, minname );
+
     /*
      * Creates a QccIMGImageCube struct to hold the input data.
      */
@@ -238,7 +328,6 @@ static void encode3d( QccIMGImageCube* imagecube,
     /*
      * Finish up
      */
-    float ActualRate = (double)OutputBuffer.bit_cnt / NumPixels;
     if (QccBitBufferEnd(&OutputBuffer)) 
     {
         QccErrorAddMessage("Error calling QccBitBufferEnd()" );
@@ -251,6 +340,7 @@ static void encode3d( QccIMGImageCube* imagecube,
      * print out info
      */
     /*
+    float ActualRate = (double)OutputBuffer.bit_cnt / NumPixels;
     printf("3D-SPECK encoding to output file: %s:\n", outputFilename );
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
@@ -266,6 +356,13 @@ void myspeckencode2p1d( const float* srcBuf,
                      int ZNumLevels,
                      float TargetRate )
 {
+	/* Writes the minimal positive absolute value to disk */
+	char minname[256];
+	strcpy( minname, outputFilename );
+	strcat( minname, ".minfabs");
+	long len = (long)srcX * (long)srcY * (long)srcZ;
+	WriteMinPos_32bit( srcBuf, len, minname );
+
     /*
      * Creates a QccIMGImageCube struct to hold the input data.
      */
@@ -286,6 +383,13 @@ void myspeckencode2p1d_64bit( const double* srcBuf,
                               int ZNumLevels,
                               float TargetRate )
 {
+	/* Writes the minimal positive absolute value to disk */
+	char minname[256];
+	strcpy( minname, outputFilename );
+	strcat( minname, ".minfabs");
+	long len = (long)srcX * (long)srcY * (long)srcZ;
+	WriteMinPos_64bit( srcBuf, len, minname );
+
     /*
      * Creates a QccIMGImageCube struct to hold the input data.
      */
@@ -365,7 +469,6 @@ static void encode2p1d( QccIMGImageCube* imagecube,
     /*
      * Finish up
      */
-    float ActualRate = (double)OutputBuffer.bit_cnt / NumPixels;
     if (QccBitBufferEnd(&OutputBuffer)) {
         QccErrorAddMessage("Error calling QccBitBufferEnd()" );
         QccErrorExit();
@@ -376,6 +479,7 @@ static void encode2p1d( QccIMGImageCube* imagecube,
      * Print out info
      */
     /*
+    float ActualRate = (double)OutputBuffer.bit_cnt / NumPixels;
     printf("3D-SPECK encoding to output file: %s:\n", outputFilename );
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
@@ -504,6 +608,13 @@ void myspeckencode2d( const float* srcBuf,
                       int nLevels,
                       float TargetRate )
 {
+	/* Writes the minimal positive absolute value to disk */
+	char minname[256];
+	strcpy( minname, outputFilename );
+	strcat( minname, ".minfabs");
+	long len = (long)srcX * (long)srcY;
+	WriteMinPos_32bit( srcBuf, len, minname );
+
     /*
      * Creates a QccIMGImageComponent struct to hold the input data.
      */
@@ -522,6 +633,13 @@ void myspeckencode2d_64bit( const double* srcBuf,
                             int nLevels,
                             float TargetRate )
 {
+	/* Writes the minimal positive absolute value to disk */
+	char minname[256];
+	strcpy( minname, outputFilename );
+	strcat( minname, ".minfabs");
+	long len = (long)srcX * (long)srcY;
+	WriteMinPos_64bit( srcBuf, len, minname );
+
     /*
      * Creates a QccIMGImageComponent struct to hold the input data.
      */
@@ -596,7 +714,6 @@ static void encode2d( QccIMGImageComponent* imagecomponent,
     /*
      * Finish up
      */
-    float ActualRate = (double)OutputBuffer.bit_cnt / NumPixels;
     if (QccBitBufferEnd(&OutputBuffer))
     {
         QccErrorAddMessage("Error calling QccBitBufferEnd()" );
@@ -607,11 +724,12 @@ static void encode2d( QccIMGImageComponent* imagecomponent,
     /* 
      * print out info
      */
-/*
+	/*
+    float ActualRate = (double)OutputBuffer.bit_cnt / NumPixels;
     printf("2D-SPECK encoding to output file: %s:\n", outputFilename );
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
-*/
+	*/
 }
 
 

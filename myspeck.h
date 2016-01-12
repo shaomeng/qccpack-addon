@@ -69,6 +69,24 @@ static void FillImageComponent_64bit( const double* buf, int X, int Y,
                                QccIMGImageComponent* imagecomponent );
 
 /*
+ * Find the smallest non-zero absolutely value: minfabs.
+ * If zero exists in the input array, writes minfabs to file.
+ * If no zero exists, writes -1.
+ *
+ * Input:
+ *		buf			: array to examine
+ *		len			: length of the input array
+ * Output:
+ *		filename	: filename to write onto disk
+ */
+static void WriteMinPos_32bit( const float* buf,
+                             long len,
+                             const char* filename );
+static void WriteMinPos_64bit( const double* buf,
+                             long len,
+                             const char* filename );
+
+/*
  * Modified API to apply SPECK encoding.
  *
  * Input: 
