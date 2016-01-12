@@ -177,6 +177,8 @@ class CamHandler
      *      maxB         
      *      meanA         
      *      meanB         
+	 *		lmaxA			: 	value from A that results in the lmax
+	 *		lmaxB			: 	value from B that results in the lmax
      *      rms             :   absolute RMSE between the two.
      *      nrms            :   normalized RMSE (normalized by the range of A)
      *      lmax            :   maximum difference between the two.
@@ -189,7 +191,8 @@ class CamHandler
                           double* nrmse, double* nlmax, 
                           double* minA,  double* maxA, 
                           double* minB,  double* maxB,
-						  double* meanA, double* meanB )
+						  double* meanA, double* meanB,
+						  double* lmaxA, double* lmaxB )
 {
     double sum = 0.0;
     double c = 0.0;
@@ -213,7 +216,12 @@ class CamHandler
 
         /* Collect min, max */
         if (tmp < 0)        tmp *= -1.0;
-        if (tmp > max)      max = tmp;
+        if (tmp > max) 
+		{      
+			max = tmp;
+			*lmaxA = A[i];
+			*lmaxB = B[i];
+		}
         if( A[i] < *minA )   *minA = A[i];
         if( A[i] > *maxA )   *maxA = A[i];
         if( B[i] < *minB )   *minB = B[i];

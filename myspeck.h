@@ -73,6 +73,8 @@ static void FillImageComponent_64bit( const double* buf, int X, int Y,
  * If zero exists in the input array, writes minfabs to file.
  * If no zero exists, writes -1.
  *
+ * Note: the saved values is always in 64bit.
+ *
  * Input:
  *		buf			: array to examine
  *		len			: length of the input array
@@ -85,6 +87,17 @@ static void WriteMinPos_32bit( const float* buf,
 static void WriteMinPos_64bit( const double* buf,
                              long len,
                              const char* filename );
+
+/*
+ * Reads a single floating point from disk.
+ *
+ * Input:
+ *		filename	: filename to write onto disk
+ * Output:
+ *		val			: value to read
+ */
+static void ReadDouble( const char* filename,
+                        double* val );
 
 /*
  * Modified API to apply SPECK encoding.

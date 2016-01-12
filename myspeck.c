@@ -155,15 +155,17 @@ static void WriteMinPos_32bit( const float* buf,
 	if( found_0 == 0 )
 		min = -1.0;
 
+	/* Note: even input array is in 32bit, we save 64bit here. */
 	FILE* f = fopen( filename, "wb");
 	if( f!= NULL )
 	{
-		fwrite( &min, sizeof(float), 1, f );
+		double min2 = min;
+		fwrite( &min2, sizeof(double), 1, f );
 		fclose (f);
 	}
 	else
 	{
-		printf("file open error: %s\n", filename );
+		printf("file write open error: %s\n", filename );
 		exit(1);
 	}
 }  	
@@ -201,10 +203,26 @@ static void WriteMinPos_64bit( const double* buf,
 	}
 	else
 	{
-		printf("file open error: %s\n", filename );
+		printf("file write open error: %s\n", filename );
 		exit(1);
 	}
 }  	
+
+static void ReadDouble( const char* filename,
+                        double* val )
+{
+	FILE* f = fopen( filename, "rb" );
+	if( f != NULL )
+	{
+		fread( val, sizeof(double), 1, f );
+		fclose(f);
+	}
+	else
+	{
+		printf("file read open error: %s\n", filename );
+		exit(0);
+	}
+}
 
 void myspeckencode3d( const float* srcBuf,
                      int srcX,
@@ -214,7 +232,7 @@ void myspeckencode3d( const float* srcBuf,
                      int nLevels,
                      float TargetRate )
 {
-	/* Writes the minimal positive absolute value to disk */
+	/* Writes the minimal positive absolute value to disk given that zero exists */
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
@@ -240,7 +258,7 @@ void myspeckencode3d_64bit( const double* srcBuf,
                             int nLevels,
                             float TargetRate )
 {
-	/* Writes the minimal positive absolute value to disk */
+	/* Writes the minimal positive absolute value to disk given that zero exists */
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
@@ -356,7 +374,7 @@ void myspeckencode2p1d( const float* srcBuf,
                      int ZNumLevels,
                      float TargetRate )
 {
-	/* Writes the minimal positive absolute value to disk */
+	/* Writes the minimal positive absolute value to disk given that zero exists */
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
@@ -383,7 +401,7 @@ void myspeckencode2p1d_64bit( const double* srcBuf,
                               int ZNumLevels,
                               float TargetRate )
 {
-	/* Writes the minimal positive absolute value to disk */
+	/* Writes the minimal positive absolute value to disk given that zero exists */
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
@@ -599,6 +617,21 @@ void myspeckdecode3d_64bit( const char*  inputFilename,
 
     QccIMGImageCubeFree( &imagecube );
     QccWAVWaveletFree( &Wavelet );
+
+	/* Zero out values below a threshold, if the threshold is a positive value. */
+	double minfabs;
+	char minname[256];
+    strcpy( minname, inputFilename );
+    strcat( minname, ".minfabs");
+	ReadDouble( minname, &minfabs );
+	int i;
+	if( minfabs > 0.0 )
+	{
+		minfabs /= 2.0;
+		for( i = 0; i < outSize; i++ )
+			if( fabs(dstBuf[i]) < minfabs )		
+				dstBuf[i] = 0.0;
+	}
 }
 
 void myspeckencode2d( const float* srcBuf, 
@@ -608,7 +641,7 @@ void myspeckencode2d( const float* srcBuf,
                       int nLevels,
                       float TargetRate )
 {
-	/* Writes the minimal positive absolute value to disk */
+	/* Writes the minimal positive absolute value to disk given that zero exists */
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
@@ -633,7 +666,7 @@ void myspeckencode2d_64bit( const double* srcBuf,
                             int nLevels,
                             float TargetRate )
 {
-	/* Writes the minimal positive absolute value to disk */
+	/* Writes the minimal positive absolute value to disk given that zero exists */
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
@@ -835,6 +868,21 @@ void myspeckdecode2d_64bit( const char*  inputFilename,
                     
     QccIMGImageComponentFree( &imagecomponent );
     QccWAVWaveletFree( &Wavelet );
+
+	/* Zero out values below a threshold, if the threshold is a positive value. */
+	double minfabs;
+	char minname[256];
+    strcpy( minname, inputFilename );
+    strcat( minname, ".minfabs");
+	ReadDouble( minname, &minfabs );
+	int i;
+	if( minfabs > 0.0 )
+	{
+		minfabs /= 2.0;
+		for( i = 0; i < outSize; i++ )
+			if( fabs(dstBuf[i]) < minfabs )		
+				dstBuf[i] = 0.0;
+	}
 }
 
 void evaluate2arrays( const float* A, const float* B, 

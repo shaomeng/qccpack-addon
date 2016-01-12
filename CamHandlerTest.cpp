@@ -115,18 +115,20 @@ int main( int argc, char* argv[] )
     handler.speckDecode3D( filename, homme_size, lev, homme_reconstruct );
 
 	printf("\nBits in use: %f\n", targetRate );
-    double rmse, lmax, nrmse, nlmax, minA, maxA, minB, maxB, meanA, meanB;
+    double rmse, lmax, nrmse, nlmax, minA, maxA, minB, maxB, meanA, meanB, lmaxA, lmaxB;
     handler.evaluate2arrays( homme_buf, homme_reconstruct, homme_size,
                              &rmse, &lmax,
                              &nrmse, &nlmax,
                              &minA, &maxA,
                              &minB, &maxB,
-                             &meanA, &meanB );
+                             &meanA, &meanB, 
+                             &lmaxA, &lmaxB );
     printf("Groud truth: mean = %.8e, min = %e, max = %e\n", meanA, minA, maxA );
     printf("Reconstruct: mean = %.8e, min = %e, max = %e\n", meanB, minB, maxB );
     printf("Mean Difference: %e\n", meanA - meanB );
-    printf( "Reconstruction RMS  = %e, LMAX  = %e\n", rmse, lmax );
-    printf( "Reconstruction NRMS = %e, NLMAX = %e\n", nrmse, nlmax );
+    printf("Reconstruction RMSE  = %e, LMAX  = %e\n", rmse, lmax );
+    printf("Reconstruction NRMSE = %e, NLMAX = %e\n", nrmse, nlmax );
+	printf("LMAX occurs with A[i] = %e, B[i] = %e.\n", lmaxA, lmaxB );
 
 
 	size_t pos_count = 0;
