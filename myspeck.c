@@ -1,6 +1,6 @@
 #include "myspeck.h"
 
-void FillImageCube( const float* buf,
+static void FillImageCube( const float* buf,
                     int X, int Y, int Z,
                     QccIMGImageCube* imagecube )
 {
@@ -34,7 +34,7 @@ void FillImageCube( const float* buf,
     imagecube -> max_val = max;
 }
 
-void FillImageCube_64bit( const double* buf,
+static void FillImageCube_64bit( const double* buf,
                     int X, int Y, int Z,
                     QccIMGImageCube* imagecube )
 {
@@ -68,7 +68,7 @@ void FillImageCube_64bit( const double* buf,
     imagecube -> max_val = max;
 }
 
-void FillImageComponent( const float* buf, int X, int Y,
+static void FillImageComponent( const float* buf, int X, int Y,
                          QccIMGImageComponent* imagecomponent )
 {
     QccIMGImageComponentInitialize( imagecomponent );
@@ -99,7 +99,7 @@ void FillImageComponent( const float* buf, int X, int Y,
     imagecomponent -> max_val = max;
 }
 
-void FillImageComponent_64bit( const double* buf, int X, int Y,
+static void FillImageComponent_64bit( const double* buf, int X, int Y,
                                QccIMGImageComponent* imagecomponent )
 {
     QccIMGImageComponentInitialize( imagecomponent );
@@ -168,7 +168,7 @@ void myspeckencode3d_64bit( const double* srcBuf,
     QccIMGImageCubeFree( &imagecube );
 }
 
-void encode3d( QccIMGImageCube* imagecube,
+static void encode3d( QccIMGImageCube* imagecube,
                const char* outputFilename,
                int nLevels,
                float TargetRate )
@@ -297,7 +297,7 @@ void myspeckencode2p1d_64bit( const double* srcBuf,
     QccIMGImageCubeFree( &imagecube );
 }
 
-void encode2p1d( QccIMGImageCube* imagecube,
+static void encode2p1d( QccIMGImageCube* imagecube,
                  const char* outputFilename,
                  int XYNumLevels,
                  int ZNumLevels,
@@ -533,7 +533,7 @@ void myspeckencode2d_64bit( const double* srcBuf,
     QccIMGImageComponentFree( &imagecomponent );
 }
 
-void encode2d( QccIMGImageComponent* imagecomponent,
+static void encode2d( QccIMGImageComponent* imagecomponent,
                const char* outputFilename,
                int nLevels,
                float TargetRate )

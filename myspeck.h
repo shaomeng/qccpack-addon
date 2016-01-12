@@ -44,10 +44,10 @@ void ImageCube2Array_64bit( QccIMGImageCube* imagecube,
  *      
  * Note: buf should have length X*Y*Z.
  */
-void FillImageCube( const float* buf, 
+static void FillImageCube( const float* buf, 
                     int X, int Y, int Z,
                     QccIMGImageCube* imagecube );
-void FillImageCube_64bit( const double* buf, 
+static void FillImageCube_64bit( const double* buf, 
                           int X, int Y, int Z,
                           QccIMGImageCube* imagecube );
 
@@ -63,9 +63,9 @@ void FillImageCube_64bit( const double* buf,
  *
  * Note: buf should have length X*Y.
  */
-void FillImageComponent( const float* buf, int X, int Y,
+static void FillImageComponent( const float* buf, int X, int Y,
                          QccIMGImageComponent* imagecomponent );
-void FillImageComponent_64bit( const double* buf, int X, int Y,
+static void FillImageComponent_64bit( const double* buf, int X, int Y,
                                QccIMGImageComponent* imagecomponent );
 
 /*
