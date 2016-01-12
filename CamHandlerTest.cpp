@@ -39,17 +39,18 @@ int ReadAscii( char* filename, float* buf, size_t len )
 
 int main( int argc, char* argv[] )
 {
-    if( argc != 3 )
+    if( argc != 4 )
     {
-        std::cerr << "please specify variable name, and target bit rate! " << endl;
+        std::cerr << "please specify NetCDF file, variable name, and target bit rate! " << endl;
         exit (1);
     }
-    float targetRate = atof( argv[2] );
-    string varname    = argv[1];
+	string netcdfInput = argv[1];
+    string varname    = argv[2];
+    float targetRate = atof( argv[3] );
 
     string hommeMap   = "./HommeMap/reorderedCbasedHommeMapping.nc";
     string faceMap    = "./HommeMap/faceIdsNeNp304.nc";
-	string netcdfInput = "/opt/Research_Data/ensemble_orig/cesm1_1.FC5.ne30_g16.000.cam.h0.0001-01-01-00000.nc";
+	//string netcdfInput = "/opt/Research_Data/ensemble_orig/cesm1_1.FC5.ne30_g16.000.cam.h0.0001-01-01-00000.nc";
 
     /* Examine if the file and variable valid */
     VAPoR::NetCDFSimple ncsimple;
@@ -107,7 +108,7 @@ int main( int argc, char* argv[] )
 	VAPoR::CamHandler handler( hommeMap, faceMap );
     int numXYDWTLevels = 4;
     int numZDWTLevels = 2;
-    char filename[] = "./dump/bit.stream";
+    char filename[] = "/flash_buffer/Sam/bit.stream";
     float* homme_reconstruct = new float[ homme_size ];
     handler.speckEncode2Dp1D ( homme_buf, homme_size, lev, numXYDWTLevels, 
                                numZDWTLevels, targetRate, filename );

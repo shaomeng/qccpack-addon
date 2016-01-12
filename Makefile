@@ -65,6 +65,9 @@ CamHandlerTest:
 cam2raw: 
 	${CXX} -I${VAPOR_INSTALL}/include  cam2raw.cpp -o bin/cam2raw ${CAMHANDLER_LINK}
 
+findminfabs: 
+	${CXX} -I${VAPOR_INSTALL}/include  findminfabs.cpp -o bin/findminfabs ${CAMHANDLER_LINK}
+
 bov2imgcube: bov2imgcube.c
 	${CC} ${CC_FLAGS} -I${QCCPACK_INSTALL}/include ${QCCPACK_FLAGS} -o bin/bov2imgcube bov2imgcube.c -L${QCCPACK_INSTALL}/lib ${LINK_LIB}
 
