@@ -45,7 +45,8 @@ CAMHANDLER_LINK=-L./bin -lcamhandler -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludu
 endif
 
 
-
+rmsz: rmsz.cpp
+	${CXX} -I${VAPOR_INSTALL}/include rmsz.cpp -o bin/rmsz -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludunits2 -lproj -L${LINK_WILDCARD} -lnetcdf ${VAPOR_LINK} 
 
 myspeck.o: myspeck.h myspeck.c
 	${CC} ${CC_FLAGS} -I${QCCPACK_INSTALL}/include ${QCCPACK_FLAGS} -c -o bin/myspeck.o myspeck.c 
