@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 #define LEN2D   48602
 #define LEN3D  (48602*30)
@@ -54,7 +55,7 @@ struct myvar
 
 bool mycomp( const struct myvar &v1, const struct myvar &v2 )
 {
-	return v1.z > v2.z;
+	return fabs(v1.z) > fabs(v2.z);
 }
 
 int main (int argc, char* argv[])
