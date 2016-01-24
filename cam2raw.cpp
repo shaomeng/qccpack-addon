@@ -18,11 +18,11 @@ const size_t NCOL = 48602;
 int main( int argc, char* argv[] )
 {
 
+	string varname    = argv[1];
     string hommeMap   = "./HommeMap/reorderedCbasedHommeMapping.nc";
     string faceMap    = "./HommeMap/faceIdsNeNp304.nc";
     string netcdfInput = "/opt/Research_Data/ensemble_orig/cesm1_1.FC5.ne30_g16.000.cam.h0.0001-01-01-00000.nc";
-	string varname    = "LCLOUD";
-	string rawOutput  = "./Datasets/" + varname + ".float";
+	string rawOutput  = "./Datasets/faces/" + varname + ".float";
 
 	int rc;
 
@@ -62,24 +62,46 @@ int main( int argc, char* argv[] )
 		cout << "\tdimension name: " << varDimNames[j] 
 			 << ",\tlength: " << ncsimple.DimLen(varDimNames[j]) << endl;
 
-	/* make sure this is a normal 3D variable by testing it's dimension names */
-	/* 2D variables are not supported here */
-	assert( varDimNames.size() == 3 );
-	assert( varDimNames[0].compare( "time" ) == 0 );
-	assert( varDimNames[1].compare( "lev" ) == 0 );
-	assert( varDimNames[2].compare( "ncol" ) == 0 );
-	
-	size_t lev = ncsimple.DimLen( "lev" );
-	size_t ncol = ncsimple.DimLen( "ncol" );	
-	size_t start[] = {1, 0, 0};
-	size_t count[] = {1, lev, ncol};
+	/* make sure this is a normal variable by testing it's dimension names */
+	size_t lev, ncol, homme_size;
+	float* homme_buf = NULL;
+	if( varDimNames.size() == 3 )
+	{
+		assert( varDimNames[0].compare( "time" ) == 0 );
+		assert( varDimNames[1].compare( "lev" ) == 0 );
+		assert( varDimNames[2].compare( "ncol" ) == 0 );
+		
+		lev = ncsimple.DimLen( "lev" );
+		ncol = ncsimple.DimLen( "ncol" );	
+		size_t start[] = {1, 0, 0};
+		size_t count[] = {1, lev, ncol};
+		homme_size = lev * ncol;
+		homme_buf = new float[ homme_size ];
+		ncsimple.OpenRead( vars[varIdx] );
+		rc = ncsimple.Read( start, count, homme_buf );
+		ncsimple.Close();
+	}
+	else if( varDimNames.size() == 2 )
+	{
+		assert( varDimNames[0].compare( "time" ) == 0 );
+		assert( varDimNames[1].compare( "ncol" ) == 0 );
+		
+		lev = 1;
+		ncol = ncsimple.DimLen( "ncol" );	
+		size_t start[] = {1, 0};
+		size_t count[] = {1, ncol};
+		homme_size = lev * ncol;
+		homme_buf = new float[ homme_size ];
+		ncsimple.OpenRead( vars[varIdx] );
+		rc = ncsimple.Read( start, count, homme_buf );
+		ncsimple.Close();
+	}
+	else
+	{
+		cerr << "ERROR: variable dimension not supported: " << vars[varIdx] << endl;
+		exit(1);
+	}
 
-	size_t homme_size = lev * ncol;
-	float* homme_buf = new float[ homme_size ];
-
-	ncsimple.OpenRead( vars[varIdx] );
-	rc = ncsimple.Read( start, count, homme_buf );
-	ncsimple.Close();
 	if( rc < 0 )
 	{
 		cerr << "ncsimple.Read() error: " << endl;
