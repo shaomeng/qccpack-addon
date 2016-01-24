@@ -36,7 +36,7 @@ QCCPACK_FLAGS=-DQCCCOMPRESS=/bin/gzip -DQCCUNCOMPRESS=/bin/gunzip -DQCCPACK_WAVE
 
 QCCPACK_LINK=-Wl,-rpath,${QCCPACK_INSTALL}/lib -lm
 VAPOR_LINK=-Wl,-rpath,${VAPOR_INSTALL}/lib 
-LINK_LIB=${QCCPACK_LINK} -lQccPack -lpthread 
+LINK_LIB=-lQccPack -lpthread ${QCCPACK_LINK} 
 
 CAMHANDLER_LINK=-L./bin -lcamhandler -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludunits2 -lproj -lnetcdf -L${QCCPACK_INSTALL}/lib -lQccPack ${VAPOR_LINK} ${QCCPACK_LINK} 
 
@@ -45,8 +45,11 @@ CAMHANDLER_LINK=-L./bin -lcamhandler -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludu
 endif
 
 
-rmsz: rmsz.cpp
-	${CXX} -O3 -I${VAPOR_INSTALL}/include rmsz.cpp -o bin/rmsz -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludunits2 -lproj -L${LINK_WILDCARD} -lnetcdf ${VAPOR_LINK} 
+calcrmsz: CalcRMSZ.cpp
+	${CXX} -O3 -I${VAPOR_INSTALL}/include CalcRMSZ.cpp -o bin/calcrmsz -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludunits2 -lproj -L${LINK_WILDCARD} -lnetcdf ${VAPOR_LINK} 
+
+printcam: PrintCAM.cpp
+	${CXX} -O3 -I${VAPOR_INSTALL}/include PrintCAM.cpp -o bin/printcam -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludunits2 -lproj -L${LINK_WILDCARD} -lnetcdf ${VAPOR_LINK} 
 
 myspeck.o: myspeck.h myspeck.c
 	${CC} ${CC_FLAGS} -I${QCCPACK_INSTALL}/include ${QCCPACK_FLAGS} -c -o bin/myspeck.o myspeck.c 
@@ -64,7 +67,7 @@ CamHandlerTest:
 	${CXX} -I${VAPOR_INSTALL}/include  CamHandlerTest.cpp -o bin/camtest ${CAMHANDLER_LINK}
 
 cam2raw: 
-	${CXX} -I${VAPOR_INSTALL}/include  cam2raw.cpp -o bin/cam2raw ${CAMHANDLER_LINK}
+	${CXX} -O3 -I${VAPOR_INSTALL}/include  cam2raw.cpp -o bin/cam2raw ${CAMHANDLER_LINK}
 
 findminfabs: 
 	${CXX} -I${VAPOR_INSTALL}/include  findminfabs.cpp -o bin/findminfabs ${CAMHANDLER_LINK}

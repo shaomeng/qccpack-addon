@@ -60,6 +60,10 @@ bool mycomp( const struct myvar &v1, const struct myvar &v2 )
 
 int main (int argc, char* argv[])
 {
+	string var;
+	if( argc == 2 )
+		var = argv[1];
+
 	string varlist = "results/rmsz/varlist";
 	std::ifstream file (varlist.c_str());
 	if( !file.is_open())
@@ -71,19 +75,25 @@ int main (int argc, char* argv[])
 	std::vector<struct myvar> myvars;
 	long len = 101;			// 101 variables 
 	double orig[len], comp[len];
-	while( std::getline( file, line ) )
+	while( std::getline( file, line )) 
 	{
-		string origName = GetOrigName( line );	
-		string compName = GetCompName( line );	
-		ReadDouble( origName, orig, len );
-		ReadDouble( compName, comp, len );
-		double diff = 0;
-		for( long i = 0; i < len; i++ )
-			diff += orig[i] - comp[i];
-		struct myvar v;
-		v.name = line;
-		v.z = diff;
-		myvars.push_back(v);
+		if( line.compare(var) == 0 )
+		{
+			string origName = GetOrigName( line );	
+			string compName = GetCompName( line );	
+			ReadDouble( origName, orig, len );
+			ReadDouble( compName, comp, len );
+			double diff = 0;
+			for( long i = 0; i < len; i++ )
+			{
+				diff += orig[i] - comp[i];
+				printf("%e - %e = %e\n", orig[i], comp[i], orig[i] - comp[i]);
+			}
+			struct myvar v;
+			v.name = line;
+			v.z = diff;
+			myvars.push_back(v);
+		}
 	}
 
 	std::sort( myvars.begin(), myvars.end(), mycomp );

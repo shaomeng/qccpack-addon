@@ -141,6 +141,8 @@ void CalcZ( float** data_buf,
 			double* z )					// Output. len(1) == z_len.
 {
 	float xi[m_len - 1];					// 101 - 1
+	double tol = 1e-12;
+	vector< double > largeZ;
 	for( long i = 0; i < z_len; i++ )		// z_len = 48k
 	{
 		int idx = 0;
@@ -165,20 +167,52 @@ void CalcZ( float** data_buf,
 			variance += pow((mean -xi[j]), 2);
 		variance /= (m_len-1);
 		double stddev = sqrt( variance );
-		if( stddev != 0 )	
+		if( stddev > tol )	
 			z[i] = (data_buf[m][i] - mean) / stddev;
 		else
 			z[i] = 0;
 
+		/* print debug mean and sd
+		printf("mean=%e, stddev=%e, z=%e\n", mean, stddev, z[i] );
+		*/
+
 		/*
-		if( z[i] > 10 )
+		 * Print out enormous big z scores
+	 	 */
+		/*
+		if( z[i] > 1e5 )
 		{
-			printf("z[%ld] = %e, x[%ld] = %e, mean = %e, stddev = %e\n", 
+			largeZ.push_back( z[i] );
+			printf("z[%ld]=%e, x[%ld]=%e, mean=%e, stddev=%e\n", 
 					i, z[i], i, data_buf[m][i], mean, stddev );
+			printf("\t%e\n", data_buf[m][i] );
 			for( int j = 0; j < m_len-1; j++ )
 				printf("\t%e\n", xi[j] );
 		}
 		*/
+		/* Print out raw numbers at certain positions */
+		/*
+		if( i==442645 || i==517793 || i==517794 || i==518061 || i==518329 ||
+			i==567162 || i==628129 || i==628393 || i==697155 || i==705207 ||
+			i==705215 || i==713228 || i==713229 || i==713230 || i==713236)
+		{
+			printf("z[%ld]=%e, x[%ld]=%e, mean=%e, stddev=%e\n", 
+					i, z[i], i, data_buf[m][i], mean, stddev );
+			printf("\t%e\n", data_buf[m][i] );
+			for( int j = 0; j < m_len-1; j++ )
+				printf("\t%e\n", xi[j] );
+		}
+		*/
+	}
+	if( largeZ.size() > 0 )
+	{
+		double rmsz = 0;
+		for( long i = 0; i < largeZ.size(); i++ )
+			rmsz += pow(largeZ[i], 2.0);
+		rmsz /= (double)largeZ.size();
+		rmsz = sqrt( rmsz );
+		printf("%ld out of %ld z scores are above 1e+5, their rmsz is %e\n", 
+				largeZ.size(), z_len, rmsz );
 	}
 }
 
@@ -186,42 +220,28 @@ double CalcRMSZ( double* arr, long len )
 {
 	double sum = 0;
 	double c = 0.0;
+	long cnt = 0;		// non-zero counts
 	for( long i = 0; i < len; i ++ )
-	{
-		double y = arr[i] * arr[i] - c;
-		double t = sum + y;
-		c = t - sum - y;
-		sum = t;
-		//if( arr[i] * arr[i] > 10 )
-		//	cout << "Alert: arr[i] = " << arr[i] << endl;
-		/*
-		if( sum > 10000000000 )
-			cout << "10000000000: i = " << i << endl;
-		else if( sum > 1000000000 )
-			cout << "1000000000: i = " << i << endl;
-		else if( sum > 100000000 )
-			cout << "100000000: i = " << i << endl;
-		else if( sum > 10000000 )
-			cout << "10000000: i = " << i << endl;
-		else if( sum > 1000000 )
-			cout << "1000000: i = " << i << endl;
-		else if( sum > 100000 )
-			cout << "100000: i = " << i << endl;
-		else if( sum > 10000 )
-			cout << "10000: i = " << i << endl;
-		else if( sum > 1000 )
-			cout << "1000: i = " << i << endl;
-		else if( sum > 100 )
-			cout << "100: i = " << i << endl;
-		*/
-	}
-	sum /= (double)len;
+		if( arr[i] != 0.0 )
+		{
+			cnt++;
+			double y = arr[i] * arr[i] - c;
+			double t = sum + y;
+			c = t - sum - y;
+			sum = t;
+			//if( arr[i] * arr[i] > 10 )
+			//	cout << "Alert: arr[i] = " << arr[i] << endl;
+		}
+	sum /= (double)cnt;
+	/* print cnt for debug 
+	printf("non-zero z count = %ld\n", cnt );
+	*/
 	return sqrt( sum );
 }
 
 void WriteRMSZ( double* rmsz, long len, const string &variable )
 {
-	string filename = "/home/users/samuelli/Git/qccpack-addon/results/rmsz/"
+	string filename = "/home/users/samuelli/Git/qccpack-addon/results/rmsz/bin/"
 					  + variable + ".orig.bin";
 	FILE* f = fopen( filename.c_str(), "wb" );
 	fwrite(rmsz, sizeof(double), len, f );
@@ -231,7 +251,7 @@ void WriteRMSZ( double* rmsz, long len, const string &variable )
 
 int main( int argc, char* argv[] )
 {
-	string var = "ANSNOW";
+	string var = "NUMLIQ";
 	if( argc == 2 )
 		var = argv[1];
 	vector<string> names;
@@ -258,30 +278,35 @@ int main( int argc, char* argv[] )
 	}
 
 	/* calculate z score */
+	/*
 	double** z_buf = new double*[ ENS_SIZE ];
 	double rmsz[ ENS_SIZE ];
 	for( int m = 0; m < ENS_SIZE; m++ )
 	{
-		cerr << "iteration m = " << m << endl;
+		//cerr << "iteration m = " << m << endl;
 		z_buf[m] = new double[buf_size];
 		CalcZ( data_buf, ENS_SIZE, buf_size, m, z_buf[m] );
 		rmsz[m] = CalcRMSZ( z_buf[m], buf_size );
 		printf("%.10e\n", rmsz[m] );
 	}
-	/*
-	double* z0 = new double[ buf_size ];
-	CalcZ(data_buf, ENS_SIZE, buf_size, 0, z0 );
-	double rmsz0 = CalcRMSZ( z0, buf_size );
-	printf("rmsz for 000 is: %9e\n", rmsz0 );
-	delete[] z0;
-	*/
 	WriteRMSZ( rmsz, ENS_SIZE, var );
+	*/
+
+
+	/* For debug: calculate only 1 member */
+	int m = 0;	
+	double* z0 = new double[ buf_size ];
+	CalcZ( data_buf, ENS_SIZE, buf_size, m, z0 );
+	double rmsz0 = CalcRMSZ( z0, buf_size );
+	printf("%.9e\n", rmsz0 );
+	delete[] z0;
+	
 	
 	for( int m = 0; m < ENS_SIZE; m++ )
 	{
-		delete[] z_buf[m];
+		//delete[] z_buf[m];
 		delete[] data_buf[m];
 	}
-	delete[] z_buf;
+	//delete[] z_buf;
 	delete[] data_buf;
 }
