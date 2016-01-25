@@ -51,7 +51,7 @@ void CamHandler::cam2raw( float* homme_buf,
 		float mymin = 0.0, mymax = 0.0;
 		for (int z = 0; z < LEV; z++) 
         {
-			for (int i = 0; i<faceIndices.size(); i++) {
+			for (size_t i = 0; i<faceIndices.size(); i++) {
 				float t = homme_buf[z*_NCOL + faceIndices[i]];
 		        if (first) {
 				    mymin = min = t;
@@ -88,7 +88,7 @@ void CamHandler::raw2cam( float* orig_buf,
 		float mymin = 0.0, mymax = 0.0;
 		for (int z = 0; z<LEV; z++) 
         {
-			for (int i = 0; i<faceIndices.size(); i++) {
+			for (size_t i = 0; i<faceIndices.size(); i++) {
                 float t = orig_buf[ faceOffset + z*_NX*_NY + i ];
                 if( first ) {
                     mymin = min = t;
@@ -174,7 +174,7 @@ int getNeighborMap(string facefile, vector <neighbors_t> &neighbormap) {
 	(void) ncsimple.Close();
 
 	neighbors_t neighbors;
-	for (int i = 0; i<ncenters; i++) {
+	for (size_t i = 0; i<ncenters; i++) {
 		neighbors.n0 = buf[i*4+0];
 		neighbors.n1 = buf[i*4+1];
 		neighbors.n2 = buf[i*4+2];
@@ -217,7 +217,7 @@ int getFaceMap(string file, vector <int> &facemap) {
 
 	(void) ncsimple.Close();
 
-	for (int i = 0; i<ncol; i++) {
+	for (size_t i = 0; i<ncol; i++) {
 		facemap.push_back(buf[i]);
 	}
 
@@ -252,7 +252,7 @@ int getFirstCenter(
 ) {
 
 	int center = -1;
-	for (int c=0; c<neighbormap.size(); c++) {
+	for (size_t c=0; c<neighbormap.size(); c++) {
 		neighbors_t neighbors = neighbormap[c];
 
 		// is this a corner node
@@ -294,7 +294,7 @@ int getCell(
 	int face
 ) {
 	if (p==0) {
-		for (int c=0; c<neighbormap.size(); c++) {
+		for (size_t c=0; c<neighbormap.size(); c++) {
 			neighbors_t neighbors = neighbormap[c];
 			if (neighbors.n0 == node && 
 				isOnFace(facemap[neighbors.n0], face) &&
@@ -307,7 +307,7 @@ int getCell(
 		}
 	}
 	else if (p==1) {
-		for (int c=0; c<neighbormap.size(); c++) {
+		for (size_t c=0; c<neighbormap.size(); c++) {
 			neighbors_t neighbors = neighbormap[c];
 			if (neighbors.n1 == node  && 
 				isOnFace(facemap[neighbors.n0], face) &&
@@ -320,7 +320,7 @@ int getCell(
 		}
 	}
 	else if (p==2) {
-		for (int c=0; c<neighbormap.size(); c++) {
+		for (size_t c=0; c<neighbormap.size(); c++) {
 			neighbors_t neighbors = neighbormap[c];
 			if (neighbors.n2 == node  && 
 				isOnFace(facemap[neighbors.n0], face) &&
@@ -333,7 +333,7 @@ int getCell(
 		}
 	}
 	else if (p==3) {
-		for (int c=0; c<neighbormap.size(); c++) {
+		for (size_t c=0; c<neighbormap.size(); c++) {
 			neighbors_t neighbors = neighbormap[c];
 			if (neighbors.n3 == node  && 
 				isOnFace(facemap[neighbors.n0], face) &&
@@ -479,7 +479,7 @@ int CamHandler::InitializeFaceIndicesAll( string &mapfile,
         return (1);
 
 	vector <int> facecount(6);
-	for (int i=0; i<facemap.size(); i++) 
+	for (size_t i=0; i<facemap.size(); i++) 
 		for (int face=0; face<6; face++) 
 			if (isOnFace(facemap[i],face)) 
 				facecount[face]++;
@@ -500,6 +500,8 @@ int CamHandler::InitializeFaceIndicesAll( string &mapfile,
             return (1);
 		assert(faceIndices.size() == nx*ny);
 	}
+
+	return 0;
 }
             
 /*
