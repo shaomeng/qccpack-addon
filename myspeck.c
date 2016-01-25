@@ -387,7 +387,15 @@ void myspeckencode2p1d( const float* srcBuf,
     QccIMGImageCube imagecube;
     FillImageCube( srcBuf, srcX, srcY, srcZ, &imagecube );
 
-    encode2p1d( &imagecube, outputFilename, XYNumLevels, ZNumLevels, TargetRate );
+	const QccString waveletname = "CohenDaubechiesFeauveau.9-7.lft";
+	const QccString boundaryname = "symmetric";
+	/*
+	const QccString waveletname = "Haar.fbk";
+	const QccString boundaryname = "boundary";
+	*/
+
+    encode2p1d( &imagecube, outputFilename, XYNumLevels, ZNumLevels, TargetRate,
+				&waveletname, &boundaryname );
 
     QccIMGImageCubeFree( &imagecube );
 }
@@ -414,7 +422,10 @@ void myspeckencode2p1d_64bit( const double* srcBuf,
     QccIMGImageCube imagecube;
     FillImageCube_64bit( srcBuf, srcX, srcY, srcZ, &imagecube );
 
-    encode2p1d( &imagecube, outputFilename, XYNumLevels, ZNumLevels, TargetRate );
+	const QccString waveletname = "CohenDaubechiesFeauveau.9-7.lft";
+	const QccString boundaryname = "symmetric";
+    encode2p1d( &imagecube, outputFilename, XYNumLevels, ZNumLevels, TargetRate,
+				&waveletname, &boundaryname );
 
     QccIMGImageCubeFree( &imagecube );
 }
@@ -423,7 +434,9 @@ static void encode2p1d( QccIMGImageCube* imagecube,
                  const char* outputFilename,
                  int XYNumLevels,
                  int ZNumLevels,
-                 float TargetRate )
+                 float TargetRate,
+				 const QccString *waveletname,
+				 const QccString *boundaryname )
 {
     /*
      * Sets up parameters for DWT and SPECK encoding.
@@ -434,8 +447,13 @@ static void encode2p1d( QccIMGImageCube* imagecube,
     int TemporalNumLevels = ZNumLevels;
     QccWAVWavelet Wavelet;
     QccWAVWaveletInitialize(&Wavelet);
+	/*
     QccString WaveletFilename = QCCWAVWAVELET_DEFAULT_WAVELET;
     QccString Boundary = "symmetric";
+	*/
+	QccString WaveletFilename, Boundary;
+	QccStringCopy( WaveletFilename, waveletname );
+	QccStringCopy( Boundary, boundaryname );
     if (QccWAVWaveletCreate(&Wavelet, WaveletFilename, Boundary)) 
     {
       QccErrorAddMessage("Error calling QccWAVWaveletCreate()");
@@ -494,14 +512,14 @@ static void encode2p1d( QccIMGImageCube* imagecube,
     QccWAVWaveletFree( &Wavelet );
 
     /*
-     * Print out info
-     */
-    /*
+     * Print out bitrate info
+     *
     float ActualRate = (double)OutputBuffer.bit_cnt / NumPixels;
-    printf("3D-SPECK encoding to output file: %s:\n", outputFilename );
+    printf("%s encodes %d pixels:\n", outputFilename, NumPixels );
+	printf("  TargetBitCnt=%d, OutputBitCnt=%d\n", TargetBitCnt, OutputBuffer.bit_cnt );
     printf("  Target rate: %f bpv\n", TargetRate);
     printf("  Actual rate: %f bpv\n", ActualRate);
-    */
+	*/
 }
 
 void myspeckdecode3d( const char*  inputFilename,

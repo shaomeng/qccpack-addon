@@ -169,7 +169,9 @@ static void encode2p1d( QccIMGImageCube* imagecube,
                  const char* outputFilename,
                  int XYNumLevels,
                  int ZNumLevels,
-                 float TargetRate );
+                 float TargetRate,
+				 const QccString *waveletname,
+				 const QccString *boundaryname );
 
 /*
  * Modified API to apply 3D SPECK decoding.
