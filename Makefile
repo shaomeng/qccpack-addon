@@ -1,6 +1,6 @@
 
 CC_FLAGS=-O3 -Wall -g -fPIC
-CXX_FLAGS=-O3 -std=c89 -Wall -g -fPIC -shared
+CXX_FLAGS=-O3 -Wall -g -fPIC -shared
 
 INC_WILDCARD=
 LINK_WILDCARD=
@@ -48,8 +48,8 @@ endif
 calcrmsz: CalcRMSZ.cpp
 	${CXX} -O3 -I${VAPOR_INSTALL}/include CalcRMSZ.cpp -o bin/calcrmsz -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludunits2 -lproj -L${LINK_WILDCARD} -lnetcdf ${VAPOR_LINK} 
 
-printcam: PrintCAM.cpp
-	${CXX} -O3 -I${VAPOR_INSTALL}/include PrintCAM.cpp -o bin/printcam -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludunits2 -lproj -L${LINK_WILDCARD} -lnetcdf ${VAPOR_LINK} 
+comparecams: CompareTwoCAMs.cpp
+	${CXX} -O3 -I${VAPOR_INSTALL}/include CompareTwoCAMs.cpp -o bin/comparecams -L${VAPOR_INSTALL}/lib -lvdf -lcommon -ludunits2 -lproj -L${LINK_WILDCARD} -lnetcdf ${VAPOR_LINK} 
 
 myspeck.o: myspeck.h myspeck.c
 	${CC} ${CC_FLAGS} -I${QCCPACK_INSTALL}/include ${QCCPACK_FLAGS} -c -o bin/myspeck.o myspeck.c 

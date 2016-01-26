@@ -131,6 +131,9 @@ int main( int argc, char* argv[] )
 	printf("LMAX occurs with A[i] = %e, B[i] = %e.\n", lmaxA, lmaxB );
 
 
+	/* 
+	 * Debug info: output every data point
+ 	 *
 	size_t pos_count = 0;
     size_t neg_count = 0;
 	cout << endl;
@@ -150,7 +153,7 @@ int main( int argc, char* argv[] )
             printf("%e ,\t%e,\t= \n", homme_buf[i], homme_reconstruct[i]);
     }
     printf("plus = %lu, minus = %lu\n", pos_count, neg_count );
-
+	*/
 
     delete[] homme_reconstruct;
     /* End Evaluation */

@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "vapor/NetCDFSimple.h"
+#include <cmath>
 
 #define LEN2D   48602
 #define LEN3D  (48602*30)
@@ -150,14 +151,6 @@ void CalcZ( float** data_buf,
 			if( j != m )
 				xi[idx++] = data_buf[j][i];
 
-		//if( m == m_len - 1 && i == z_len - 1)
-		//{
-		//	cout << "m = " << m << endl;
-		//	for( int j = 0; j < m_len-1; j++ )
-		//		cout << xi[j] << endl;
-		//	cout << x << endl;
-		//}
-
 		double mean = 0;
 		double variance = 0;
 		for( int j = 0; j < m_len-1; j++ )
@@ -172,13 +165,9 @@ void CalcZ( float** data_buf,
 		else
 			z[i] = 0;
 
-		/* print debug mean and sd
-		printf("mean=%e, stddev=%e, z=%e\n", mean, stddev, z[i] );
-		*/
-
 		/*
 		 * Print out enormous big z scores
-	 	 */
+	 	 *
 		if( z[i] > 1e5 )
 		{
 			largeZ.push_back( z[i] );
@@ -188,17 +177,7 @@ void CalcZ( float** data_buf,
 			for( int j = 0; j < m_len-1; j++ )
 				printf("\t%e\n", xi[j] );
 		}
-		/* Print out raw numbers at certain positions */
-		if( i==442645 || i==517793 || i==517794 || i==518061 || i==518329 ||
-			i==567162 || i==628129 || i==628393 || i==697155 || i==705207 ||
-			i==705215 || i==713228 || i==713229 || i==713230 || i==713236)
-		{
-			printf("z[%ld]=%e, x[%ld]=%e, mean=%e, stddev=%e\n", 
-					i, z[i], i, data_buf[m][i], mean, stddev );
-			printf("\t%e\n", data_buf[m][i] );
-			for( int j = 0; j < m_len-1; j++ )
-				printf("\t%e\n", xi[j] );
-		}
+		*/
 	}
 	if( largeZ.size() > 0 )
 	{
@@ -225,8 +204,6 @@ double CalcRMSZ( double* arr, long len )
 			double t = sum + y;
 			c = t - sum - y;
 			sum = t;
-			//if( arr[i] * arr[i] > 10 )
-			//	cout << "Alert: arr[i] = " << arr[i] << endl;
 		}
 	sum /= (double)cnt;
 	/* print cnt for debug 
@@ -235,15 +212,67 @@ double CalcRMSZ( double* arr, long len )
 	return sqrt( sum );
 }
 
-void WriteRMSZ( double* rmsz, long len, const string &variable )
+void Evaluate2Arrays( const float* A, const float* B, long len, 
+                      double* minmaxA, double* minmaxB, 
+                      double* rmse, double* nrmse, 
+                      double* lmax, double* nlmax,
+                      double* lmaxAB,	// lmaxAB[0] from A, lmaxAB[1] from B
+					  double* relativeLMax, 
+					  double* relativeLMaxAB )	// [0] from A, [1] from B.
 {
-	string filename = "/home/users/samuelli/Git/qccpack-addon/results/rmsz/bin/"
-					  + variable + ".orig.bin";
-	FILE* f = fopen( filename.c_str(), "wb" );
-	fwrite(rmsz, sizeof(double), len, f );
-	fclose(f);
-}
+    double sum = 0.0;
+    double c = 0.0;
+    double max = 0.0;
+    double tmp;
+    double minA = A[0];
+    double maxA = A[0];
+    double minB = B[0];
+    double maxB = B[0];
+	double sum_A = 0.0;
+	double sum_B = 0.0;
+	*relativeLMax = 0.0;
+    for( long i = 0; i < len; i++)
+	{
+		sum_A += A[i];	
+		sum_B += B[i];	
+        tmp = A[i] - B[i];
+        if (tmp < 0)        tmp *= -1.0;
+        if (tmp > max)
+		{
+			max = tmp;
+			lmaxAB[0] = A[i];
+			lmaxAB[1] = B[i];
+		}
+		if( A[i] != 0.0 && fabs( (B[i]-A[i])/A[i] ) > *relativeLMax )
+		{
+			*relativeLMax = fabs( (B[i]-A[i])/A[i] );
+			relativeLMaxAB[0] = A[i];
+			relativeLMaxAB[1] = B[i];
+		}
+        double y = tmp * tmp - c;
+        double t = sum + y;
+        c = (t - sum) - y;
+        sum = t;
 
+        /* Collect min, max */
+        if( A[i] < minA )   minA = A[i];
+        if( A[i] > maxA )   maxA = A[i];
+        if( B[i] < minB )   minB = B[i];
+        if( B[i] > maxB )   maxB = B[i];
+    }
+    sum /= (double)len;
+    sum = sqrt( sum );
+
+    *rmse = sum;
+    *lmax = max;
+    minmaxA[0] = minA;
+    minmaxA[1] = maxA;
+    minmaxB[0] = minB;
+    minmaxB[1] = maxB;
+
+    *nrmse = sum / (maxA - minA);
+    *nlmax = max / (maxA - minA);
+}
 
 int main( int argc, char* argv[] )
 {
@@ -269,8 +298,9 @@ int main( int argc, char* argv[] )
 		cerr << "ERROR: variable dimension error! " << var << endl;
 		exit(1);
 	}
-
+	cout << "Looking at ensemple member " << member << endl;
 	/* read in original ensemble data */
+	cout << "Reading original ensemble members..." << endl;
 	float** orig_data_buf = new float*[ ENS_SIZE ];
 	for( int m = 0; m < ENS_SIZE; m++ )
 	{
@@ -279,6 +309,7 @@ int main( int argc, char* argv[] )
 	}
 
 	/* read in compressed ensemble data */
+	cout << "Reading reconstructed ensemble members..." << endl;
 	float** comp_data_buf = new float*[ ENS_SIZE ];
 	for( int m = 0; m < ENS_SIZE; m++ )
 	{
@@ -286,11 +317,21 @@ int main( int argc, char* argv[] )
 		ReadVar( compNames[m], var, comp_data_buf[m], buf_size );
 	}
 
-	/* print *member* of *variable* */
-	for( long i = 0; i < buf_size; i++ )
-		printf("%.8e,  %.8e\n", orig_data_buf[member][i], comp_data_buf[member][i] );
-
-	
+	/* compare **member** from ensemble  */
+	cout << "Doing simple math..." << endl;
+	double minmaxA[2], minmaxB[2], lmaxAB[2], relativeLMaxAB[2];
+	double rmse, nrmse, lmax, nlmax, relativeLMax;
+	Evaluate2Arrays( orig_data_buf[member], comp_data_buf[member], buf_size,
+					 minmaxA, minmaxB, &rmse, &nrmse, 
+					 &lmax, &nlmax, lmaxAB,
+					 &relativeLMax, relativeLMaxAB );
+	printf("Original:    min=%e, max=%e\n", minmaxA[0], minmaxA[1] );
+	printf("Reconstruct: min=%e, max=%e\n", minmaxB[0], minmaxB[1] );
+	printf("RMSE=%e, after normalization: %e\n", rmse, nrmse );
+	printf("LMAX=%e, after normalization: %e, \n\tit happend when A[i]=%e, B[i]=%e\n",
+		   lmax, nlmax, lmaxAB[0], lmaxAB[1] );
+	printf("Relative LMAX=%e, \n\tit happend when A[i]=%e, B[i]=%e\n",
+		   relativeLMax, relativeLMaxAB[0], relativeLMaxAB[1] );
 	
 	for( int m = 0; m < ENS_SIZE; m++ )
 	{
