@@ -66,6 +66,9 @@ libcamhandler.a: CamHandler.o myspeck.o
 CamHandlerTest: 
 	${CXX} -I${VAPOR_INSTALL}/include  CamHandlerTest.cpp -o bin/camtest ${CAMHANDLER_LINK}
 
+Cam2DDWT: 
+	${CXX} -O3 -I${VAPOR_INSTALL}/include  Cam2DDWT.cpp -o bin/cam2ddwt ${CAMHANDLER_LINK}
+
 cam2raw: 
 	${CXX} -O3 -I${VAPOR_INSTALL}/include  cam2raw.cpp -o bin/cam2raw ${CAMHANDLER_LINK}
 
