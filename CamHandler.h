@@ -128,6 +128,12 @@ class CamHandler
                         float targetRate,
                         char* outputFilename );
                         
+	void speckEncodeMany2D( float* homme_buf,
+							size_t homme_size,
+							int LEV,
+							int XYNumDWTLevels,
+							float targetRate,
+							char* outputFilename );
 
     /*
      * Reads in SIX speck encoded files, performs 3D decoding into a raw array, 
@@ -147,6 +153,10 @@ class CamHandler
                         int LEV,
                         float* homme_buf );
 
+    void speckDecodeMany2D( char*  inputFilename,
+							size_t homme_size,
+							int LEV,
+							float* homme_buf );
 
     /*
      * Reads in SIX speck encoded files, performs 2D decoding into a raw array, 
@@ -183,7 +193,7 @@ class CamHandler
      *      nrms            :   normalized RMSE (normalized by the range of A)
      *      lmax            :   maximum difference between the two.
      *      nlmax           :   normalized LMAX (normalized by the range of A)
-	 *		
+	 *	 	maxRE			: 	max relative error (relative to that value of A)	
      */
     template <typename T> inline
     void evaluate2arrays( const T* A,    const T* B, size_t len,
@@ -192,7 +202,8 @@ class CamHandler
                           double* minA,  double* maxA, 
                           double* minB,  double* maxB,
 						  double* meanA, double* meanB,
-						  double* lmaxA, double* lmaxB )
+						  double* lmaxA, double* lmaxB,
+						  double* maxRE )
 {
     double sum = 0.0;
     double c = 0.0;
@@ -205,6 +216,7 @@ class CamHandler
     *maxA = A[0];
     *minB = B[0];
     *maxB = B[0];
+	*maxRE = 0.0;
     for( i = 0; i < len; i++) {
 		mean_a += A[i];
 		mean_b += B[i];
@@ -222,6 +234,8 @@ class CamHandler
 			*lmaxA = A[i];
 			*lmaxB = B[i];
 		}
+		if( (A[i] != 0) && fabs(tmp / A[i]) > *maxRE )
+			*maxRE = fabs(tmp / A[i]);
         if( A[i] < *minA )   *minA = A[i];
         if( A[i] > *maxA )   *maxA = A[i];
         if( B[i] < *minB )   *minB = B[i];

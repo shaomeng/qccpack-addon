@@ -695,6 +695,84 @@ void CamHandler::speckEncode2D( float* homme_buf,
     delete[] raw_buf;
 }
 
+void CamHandler::speckEncodeMany2D( float* homme_buf,
+                                    size_t homme_size,
+                                    int LEV,
+                                    int XYNumDWTLevels,
+                                    float targetRate,
+                                    char* outputFilename )
+{
+    /* sanity check on dimensions */
+    assert( homme_size % _NCOL == 0 );
+    assert( homme_size / _NCOL == LEV );
+
+    /* convert homme array to raw array */
+    size_t raw_size = 6 * _NX * _NY * LEV ;
+    float* raw_buf = new float[ raw_size ];
+    cam2raw( homme_buf, homme_size, LEV, raw_buf, raw_size );
+
+    /* speck encoding on each of the 6 faces */
+    for( int face = 0; face < 6; face++ )
+    {
+        /* locate start index for each face */
+        size_t faceOffset = face * LEV * _NX * _NY;
+
+		for( int l = 0; l < LEV; l++ )
+		{
+			size_t levelOffset = _NX * _NY * l;
+			/* generate filenames for each layer */
+			char  tmpName[ 256 ];
+			char suffix[64];
+			sprintf( suffix, ".face%d.level%d", face, l );
+			strcpy( tmpName, outputFilename );
+			strcat( tmpName, suffix );
+
+        	myspeckencode2d( raw_buf + faceOffset + levelOffset, 
+					_NX, _NY, tmpName, XYNumDWTLevels, targetRate );
+		}
+
+    }
+
+    delete[] raw_buf;
+}
+
+void CamHandler::speckDecodeMany2D( char*  inputFilename,
+                            size_t homme_size,
+                            int LEV,
+                            float* homme_buf )
+{
+	/* sanity check on dimensions */
+    assert( homme_size % _NCOL == 0 );
+    assert( homme_size / _NCOL == LEV );
+
+    size_t raw_size = 6 * _NX * _NY * LEV ;
+    float* raw_buf = new float[ raw_size ];
+
+    /* speck decoding on each of the 6 faces */
+    for( int face = 0; face < 6; face++ )
+    {
+        /* locate start index for each face */
+        size_t faceOffset = face * _NX * _NY * LEV;
+
+		for( int l = 0; l < LEV; l++ )
+		{
+			size_t levelOffset = _NX*_NY*l;
+			char  tmpName[ 256 ];
+            char suffix[64];
+            sprintf( suffix, ".face%d.level%d", face, l );
+            strcpy( tmpName, inputFilename );
+            strcat( tmpName, suffix );
+		
+			myspeckdecode2d( tmpName, raw_buf + faceOffset + levelOffset,
+							 _NX * _NY );
+		}
+    }
+
+    raw2cam( raw_buf, raw_size, homme_buf, homme_size, LEV );
+
+    delete[] raw_buf;
+}
+
 void CamHandler::speckDecode2D( char*  inputFilename,
                                 size_t homme_size,
                                 float* homme_buf )

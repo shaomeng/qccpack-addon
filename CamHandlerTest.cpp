@@ -14,28 +14,6 @@ const size_t _NX = 91;
 const size_t _NY = 91;
 const size_t _NCOL = 48602;
 
-//using namespace VAPoR;
-
-int ReadAscii( char* filename, float* buf, size_t len )
-{
-    std::ifstream ifs( filename, std::ifstream::in );
-    char arr[256];
-
-    size_t i = 0;
-    for( i = 0; i < len && ifs.getline( arr, 256 ); i++ )
-        buf[i] = (float) atof( arr );
-    
-    ifs.close();
-
-    if( i != len )
-    {
-        cerr << "file length doesn't match buffer size! " << endl;
-        return 1;
-    }
-    
-    return 0;
-}
-
 
 int main( int argc, char* argv[] )
 {
@@ -74,12 +52,17 @@ int main( int argc, char* argv[] )
     }
     assert( varIdx != -1 );
     vector< string > varDimNames = vars[varIdx].GetDimNames();
-    for( int j = 0; j < varDimNames.size(); j++ )
-        cout << "\tdimension name: " << varDimNames[j]
-             << ",\tlength: " << ncsimple.DimLen(varDimNames[j]) << endl;
+    //for( int j = 0; j < varDimNames.size(); j++ )
+    //   cout << "\tdimension name: " << varDimNames[j]
+    //       << ",\tlength: " << ncsimple.DimLen(varDimNames[j]) << endl;
 
     /* make sure this is a normal 3D variable by testing it's dimension names */
     /* 2D variables are not supported here */
+	if(  varDimNames.size() == 2 )
+	{
+		cout << " Var in 2D, not supported yet..." << endl;
+		exit(1);
+	}
     assert( varDimNames.size() == 3 );
     assert( varDimNames[0].compare( "time" ) == 0 );
     assert( varDimNames[1].compare( "lev" ) == 0 );
@@ -108,28 +91,32 @@ int main( int argc, char* argv[] )
 	VAPoR::CamHandler handler( hommeMap, faceMap );
     int numXYDWTLevels = 4;
     int numZDWTLevels = 2;
-    char filename[] = "/flash_buffer/Sam/bit.stream";
+    char filename[] = "/flash_buffer/Sam/bitM.stream";
     float* homme_reconstruct = new float[ homme_size ];
-    handler.speckEncode2Dp1D ( homme_buf, homme_size, lev, numXYDWTLevels, 
-                               numZDWTLevels, targetRate, filename );
-    handler.speckDecode3D( filename, homme_size, lev, homme_reconstruct );
+	handler.speckEncodeMany2D( homme_buf, homme_size, lev,
+							   numXYDWTLevels, targetRate, filename );
+	handler.speckDecodeMany2D( filename, homme_size, lev, homme_reconstruct );
 
-	printf("\nBits in use: %f\n", targetRate );
-    double rmse, lmax, nrmse, nlmax, minA, maxA, minB, maxB, meanA, meanB, lmaxA, lmaxB;
+    double rmse, lmax, nrmse, nlmax, minA, maxA, minB, maxB, meanA, meanB, lmaxA, lmaxB, maxRE;
     handler.evaluate2arrays( homme_buf, homme_reconstruct, homme_size,
                              &rmse, &lmax,
                              &nrmse, &nlmax,
                              &minA, &maxA,
                              &minB, &maxB,
                              &meanA, &meanB, 
-                             &lmaxA, &lmaxB );
+                             &lmaxA, &lmaxB,
+							 &maxRE );
+	/*
     printf("Groud truth: mean = %.8e, min = %e, max = %e\n", meanA, minA, maxA );
     printf("Reconstruct: mean = %.8e, min = %e, max = %e\n", meanB, minB, maxB );
     printf("Mean Difference: %e\n", meanA - meanB );
     printf("Reconstruction RMSE  = %e, LMAX  = %e\n", rmse, lmax );
     printf("Reconstruction NRMSE = %e, NLMAX = %e\n", nrmse, nlmax );
 	printf("LMAX occurs with A[i] = %e, B[i] = %e.\n", lmaxA, lmaxB );
-
+	*/
+	printf("\t%e, %e\n", rmse, lmax );
+	printf("\t%e, %e, %e\n", nrmse, nlmax, maxRE );
+	printf("\t%e, %e\n", minA, maxA );
 
 	/* 
 	 * Debug info: output every data point
