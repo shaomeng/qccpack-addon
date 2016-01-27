@@ -130,6 +130,7 @@ static void FillImageComponent_64bit( const double* buf, int X, int Y,
     imagecomponent -> max_val = max;
 }
 
+#ifdef MINFABS
 static void WriteMinPos_32bit( const float* buf,
 							 long len,
 							 const char* filename )
@@ -223,6 +224,7 @@ static void ReadDouble( const char* filename,
 		exit(0);
 	}
 }
+#endif
 
 void myspeckencode3d( const float* srcBuf,
                      int srcX,
@@ -233,11 +235,13 @@ void myspeckencode3d( const float* srcBuf,
                      float TargetRate )
 {
 	/* Writes the minimal positive absolute value to disk given that zero exists */
+    #ifdef MINFABS
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
 	long len = (long)srcX * (long)srcY * (long)srcZ;
 	WriteMinPos_32bit( srcBuf, len, minname );
+    #endif
 
     /*
      * Creates a QccIMGImageCube struct to hold the input data.
@@ -259,11 +263,13 @@ void myspeckencode3d_64bit( const double* srcBuf,
                             float TargetRate )
 {
 	/* Writes the minimal positive absolute value to disk given that zero exists */
+    #ifdef MINFABS
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
 	long len = (long)srcX * (long)srcY * (long)srcZ;
 	WriteMinPos_64bit( srcBuf, len, minname );
+    #endif
 
     /*
      * Creates a QccIMGImageCube struct to hold the input data.
@@ -375,11 +381,13 @@ void myspeckencode2p1d( const float* srcBuf,
                      float TargetRate )
 {
 	/* Writes the minimal positive absolute value to disk given that zero exists */
+    #ifdef MINFABS
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
 	long len = (long)srcX * (long)srcY * (long)srcZ;
 	WriteMinPos_32bit( srcBuf, len, minname );
+    #endif
 
     /*
      * Creates a QccIMGImageCube struct to hold the input data.
@@ -410,11 +418,13 @@ void myspeckencode2p1d_64bit( const double* srcBuf,
                               float TargetRate )
 {
 	/* Writes the minimal positive absolute value to disk given that zero exists */
+    #ifdef MINFABS
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
 	long len = (long)srcX * (long)srcY * (long)srcZ;
 	WriteMinPos_64bit( srcBuf, len, minname );
+    #endif
 
     /*
      * Creates a QccIMGImageCube struct to hold the input data.
@@ -637,6 +647,7 @@ void myspeckdecode3d_64bit( const char*  inputFilename,
     QccWAVWaveletFree( &Wavelet );
 
 	/* Zero out values below a threshold, if the threshold is a positive value. */
+    #ifdef MINFABS
 	double minfabs;
 	char minname[256];
     strcpy( minname, inputFilename );
@@ -650,6 +661,7 @@ void myspeckdecode3d_64bit( const char*  inputFilename,
 			if( fabs(dstBuf[i]) < minfabs )		
 				dstBuf[i] = 0.0;
 	}
+    #endif
 }
 
 void myspeckencode2d( const float* srcBuf, 
@@ -660,11 +672,13 @@ void myspeckencode2d( const float* srcBuf,
                       float TargetRate )
 {
 	/* Writes the minimal positive absolute value to disk given that zero exists */
+    #ifdef MINFABS
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
 	long len = (long)srcX * (long)srcY;
 	WriteMinPos_32bit( srcBuf, len, minname );
+    #endif
 
     /*
      * Creates a QccIMGImageComponent struct to hold the input data.
@@ -685,11 +699,13 @@ void myspeckencode2d_64bit( const double* srcBuf,
                             float TargetRate )
 {
 	/* Writes the minimal positive absolute value to disk given that zero exists */
+    #ifdef MINFABS
 	char minname[256];
 	strcpy( minname, outputFilename );
 	strcat( minname, ".minfabs");
 	long len = (long)srcX * (long)srcY;
 	WriteMinPos_64bit( srcBuf, len, minname );
+    #endif
 
     /*
      * Creates a QccIMGImageComponent struct to hold the input data.
@@ -888,6 +904,7 @@ void myspeckdecode2d_64bit( const char*  inputFilename,
     QccWAVWaveletFree( &Wavelet );
 
 	/* Zero out values below a threshold, if the threshold is a positive value. */
+    #ifdef MINFABS
 	double minfabs;
 	char minname[256];
     strcpy( minname, inputFilename );
@@ -901,6 +918,7 @@ void myspeckdecode2d_64bit( const char*  inputFilename,
 			if( fabs(dstBuf[i]) < minfabs )		
 				dstBuf[i] = 0.0;
 	}
+    #endif
 }
 
 void evaluate2arrays( const float* A, const float* B, 
