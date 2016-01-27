@@ -81,12 +81,14 @@ static void FillImageComponent_64bit( const double* buf, int X, int Y,
  * Output:
  *		filename	: filename to write onto disk
  */
+#ifdef MINFABS
 static void WriteMinPos_32bit( const float* buf,
                              long len,
                              const char* filename );
 static void WriteMinPos_64bit( const double* buf,
                              long len,
                              const char* filename );
+#endif
 
 /*
  * Reads a single floating point from disk.
@@ -96,8 +98,10 @@ static void WriteMinPos_64bit( const double* buf,
  * Output:
  *		val			: value to read
  */
+#ifdef MINFABS
 static void ReadDouble( const char* filename,
                         double* val );
+#endif
 
 /*
  * Modified API to apply SPECK encoding.
