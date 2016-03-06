@@ -540,7 +540,30 @@ extern "C"
     void myspeckdecode2d( const char*  inputFilename,
                          float* dstBuf,
                          int    outSize );
+	
+	void mySpeck3DEncodeOnly( double* coeff_buf,
+				  long nx, long ny, long nz,
+				  double image_mean,
+				  int num_levels,
+				  int target_bit_cnt,
+				  const char* output_name );
 };
+
+void CamHandler::Speck3DEncodeOnly( double* coeff_buf,
+				  long nx, long ny, long nz,
+				  double image_mean,
+				  int num_levels,
+				  int target_bit_cnt,
+				  const char* output_name )
+{
+	mySpeck3DEncodeOnly( coeff_buf,
+				  		 nx, ny, nz,
+				  		 image_mean,
+				  		 num_levels,
+				  		 target_bit_cnt,
+				  		 output_name );
+
+}
 
 // super simple test functions
 void CamHandler::testencode2d( const float* srcBuf, int srcX, int srcY,

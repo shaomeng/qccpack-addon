@@ -253,6 +253,17 @@ class CamHandler
 	*meanB = mean_b;
 }
 
+	/* 
+	 * Only performs SPECK encoding, but not including wavelets.
+	 */
+	void Speck3DEncodeOnly( double* coeff_buf,
+				  long nx, long ny, long nz,
+				  double image_mean,
+				  int num_levels,
+				  int target_bit_cnt,
+				  const char* output_name );
+
+
 /* 
  * super simple functions for test use only
  */
@@ -269,7 +280,6 @@ class CamHandler
     int InitializeFaceIndicesAll( string &mapfile, 
                                   string &facefile );
     
-
 
 };  // finish class CamHandler
 

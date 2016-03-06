@@ -457,13 +457,9 @@ static void encode2p1d( QccIMGImageCube* imagecube,
     int TemporalNumLevels = ZNumLevels;
     QccWAVWavelet Wavelet;
     QccWAVWaveletInitialize(&Wavelet);
-	/*
-    QccString WaveletFilename = QCCWAVWAVELET_DEFAULT_WAVELET;
-    QccString Boundary = "symmetric";
-	*/
 	QccString WaveletFilename, Boundary;
-	QccStringCopy( WaveletFilename, waveletname );
-	QccStringCopy( Boundary, boundaryname );
+	QccStringCopy( WaveletFilename, *waveletname );
+	QccStringCopy( Boundary, *boundaryname );
     if (QccWAVWaveletCreate(&Wavelet, WaveletFilename, Boundary)) 
     {
       QccErrorAddMessage("Error calling QccWAVWaveletCreate()");
@@ -968,3 +964,151 @@ void evaluate2arrays_64bit( const double* A, const double* B,
     *rms = sum;
     *lmax = max;
 }
+
+
+void mySpeck3DEncodeOnly( double* coeff_buf,
+				  long nx, long ny, long nz,
+				  double image_mean,
+				  int num_levels,
+				  int target_bit_cnt,
+				  const char* output_name )
+				  
+{
+  int frame, row, col;
+  QccBitBuffer OutputBuffer;
+  QccBitBufferInitialize(&OutputBuffer);
+  OutputBuffer.type = QCCBITBUFFER_OUTPUT;
+  QccConvertToQccString( OutputBuffer.filename, output_name );
+  if (QccBitBufferStart(&OutputBuffer))
+    {
+      QccErrorAddMessage("%s: Error calling QccBitBufferStart()", OutputBuffer.filename);
+      QccErrorExit();
+    }
+
+  /* create subband_pyramid structure */
+  QccWAVSubbandPyramid3D subband;
+  QccWAVSubbandPyramid3DInitialize(&subband);
+  subband.temporal_num_levels = num_levels;
+  subband.spatial_num_levels = num_levels;
+  subband.num_frames = nz;
+  subband.num_rows = ny;
+  subband.num_cols = nx;
+  subband.transform_type = 0;	/* is QCCWAVSUBBANDPYRAMID3D_DYADIC */
+  if (QccWAVSubbandPyramid3DAlloc( &subband ))
+    {
+		QccErrorAddMessage("(Only3DSPECK): Error calling QccWAVSubbandPyramid3DAlloc()");
+    }
+  
+  /* Fill subband_pyramid */
+  long i = 0;
+  for( frame = 0; frame < nz; frame++ )
+	for( row = 0; row < ny; row++ )
+	  for( col = 0; col < nx; col++ )
+		subband.volume[frame][row][col] = coeff_buf[i++];
+
+  /* create state_array structure */
+  unsigned char ***state_array = NULL;
+  if ((state_array =
+       (unsigned char ***)malloc(sizeof(unsigned char **) *
+                                 (subband.num_frames))) == NULL)
+    {
+      QccErrorAddMessage("(Only3DSPECK): Error allocating memory");
+    }
+  for (frame = 0; frame < subband.num_frames; frame++)
+    {
+      if ((state_array[frame] =
+           (unsigned char **)malloc(sizeof(unsigned char *) *
+                                    (subband.num_rows))) == NULL)
+        {
+          QccErrorAddMessage("(Only3DSPECK): Error allocating memory");
+        }
+      for (row = 0; row < subband.num_rows; row++)
+        if ((state_array[frame][row] =
+             (unsigned char *)malloc(sizeof(unsigned char) *
+                                     (subband.num_cols))) == NULL)
+          {
+            QccErrorAddMessage("(Only3DSPECK): Error allocating memory");
+          }
+    }
+  for (frame = 0; frame < (subband.num_frames); frame++)
+    for (row = 0; row < (subband.num_rows); row++)
+      for (col = 0; col < (subband.num_cols); col++)
+        state_array[frame][row][col] = 0;
+
+  /* Fill subband_pyramid */
+  double max_coefficient = -MAXFLOAT;
+  double coefficient_magnitude;
+  for (frame = 0; frame < subband.num_frames; frame++)
+    for (row = 0; row < subband.num_rows; row++)
+      for (col = 0; col < subband.num_cols; col++)
+        {
+          coefficient_magnitude =
+            fabs(subband.volume[frame][row][col]);
+          if (subband.volume[frame][row][col] !=
+              coefficient_magnitude)
+            {
+              subband.volume[frame][row][col] =
+                coefficient_magnitude;
+              QccSPECK3DPutSign(&state_array[frame][row][col],
+                                1);		/* #define QCCSPECK3D_NEGATIVE 1 */
+            }
+          else
+            QccSPECK3DPutSign(&state_array[frame][row][col],
+                              0);		/* #define QCCSPECK3D_POSITIVE 0 */
+          if (coefficient_magnitude > max_coefficient)
+            max_coefficient = coefficient_magnitude;
+        }
+  int max_coefficient_bits = (int)floor(QccMathLog2(max_coefficient));
+
+  printf("max_coefficient=%f\n", max_coefficient );
+  printf("--> myspeck.c: calling (QccSPECK3DEncodeOnly)\n" );
+  QccSPECK3DEncodeOnly( &subband, 
+				  state_array,
+				  image_mean,
+				  max_coefficient_bits,
+				  subband.transform_type,
+				  num_levels,
+				  num_levels,
+				  &OutputBuffer,
+				  target_bit_cnt );
+
+  float ActualRate = (double)OutputBuffer.bit_cnt / (double)(nx*ny*nz);
+  printf("  Actual bit_cnt: %d \n", OutputBuffer.bit_cnt);
+  printf("  Actual rate: %f bpv\n", ActualRate);
+
+  if (QccBitBufferEnd(&OutputBuffer))
+    {
+      QccErrorAddMessage("%s: Error calling QccBitBufferEnd()", OutputBuffer.filename );
+      QccErrorExit();
+    }
+
+  QccWAVSubbandPyramid3DFree( &subband );
+  if (state_array != NULL) 
+    { 
+      for (frame = 0; frame < subband.num_frames; frame++) 
+        if (state_array[frame] != NULL) 
+          { 
+            for (row = 0; row < subband.num_rows; row++) 
+              if (state_array[frame][row] != NULL) 
+                free(state_array[frame][row]); 
+            free(state_array[frame]); 
+          } 
+      free(state_array); 
+    } 
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

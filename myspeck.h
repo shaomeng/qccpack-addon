@@ -270,5 +270,15 @@ void evaluate2arrays_64bit( const double* A,
                             double* rms, 
                             double* lmax );
 
+/* 
+ * Only performs SPECK encoding, but not including wavelets.
+ */
+void mySpeck3DEncodeOnly( double* coeff_buf,
+				  long nx, long ny, long nz,
+				  double image_mean,
+				  int num_levels,
+				  int target_bit_cnt,
+				  const char* output_name );
+
 #endif
 
