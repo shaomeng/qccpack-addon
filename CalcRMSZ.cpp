@@ -4,6 +4,7 @@
 #include <cassert>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "vapor/NetCDFSimple.h"
 
 #define LEN2D   48602
@@ -31,7 +32,7 @@ void FillOrigNames( vector<string> &names )
 
 void FillCompNames( vector<string> &names )
 {
-	string path = "/home/users/samuelli/Datasets/cam42_32";
+	string path = "/home/users/samuelli/Datasets/cam42_32_always_2D";
 	string prefix = "/cesm1_1.FC5.ne30_g16."; 
 	string suffix = ".cam.h0.0001-01-01-00000.nc";
 	char idx[64];
@@ -66,8 +67,7 @@ void ReadVar( const string &ncname, const string &varname,
 	{
 		size_t ncol = ncsimple.DimLen( varDimNames[1] );
 		assert( ncol == len );
-		size_t start[] = {1, 0};			// RAW data start from 1
-											// RECONSTRUCTED starts from 0
+		size_t start[] = {1, 0};			// 0th time slice is the initial condition
 		size_t count[] = {1, ncol};
 		ncsimple.OpenRead( vars[varIdx] );
 		rc = ncsimple.Read( start, count, buf );
@@ -110,7 +110,7 @@ int GetVarDims( const string &ncname, const string &varname )
     {
         if( vars[i].GetName().compare( varname ) == 0 )
         {
-            cout << "Found variable: " << vars[i].GetName() << endl;
+            //cout << "Found variable: " << vars[i].GetName();
             varIdx = i;
             break;
         }
@@ -123,9 +123,15 @@ int GetVarDims( const string &ncname, const string &varname )
 
     vector< string > varDimNames = vars[varIdx].GetDimNames();
     if( varDimNames.size() == 2 )
+	{
+		//cout << ",\t2D" << endl;
 		return 2;
+	}
     else if( varDimNames.size() == 3 )
+	{
+		//cout << ",\t3D" << endl;
 		return 3;
+	}
 	else 
 		return -1;
 }
@@ -135,15 +141,16 @@ int GetVarDims( const string &ncname, const string &varname )
  * See equation (6) from Baker paper. 
  */
 void CalcZ( float** data_buf, 
-			long m_len, 				// Input. 
+			long m_len, 				// Input. 101
 			long z_len,					// Input. data_buf[m_len][z_len]
 			int m,						// Input. the mth member to calculate 
-			double* z )					// Output. len(1) == z_len.
+			double* z )					// Output. len(z) == z_len.
 {
 	float xi[m_len - 1];					// 101 - 1
 	double tol = 1e-12;
 	vector< double > largeZ;
-	for( long i = 0; i < z_len; i++ )		// z_len = 48k
+	double threshold = 1e+05;				// threshold to print out larger values
+	for( long i = 0; i < z_len; i++ )		// z_len = LEN2D or LEN3D
 	{
 		int idx = 0;
 		for( int j = 0; j < m_len; j++ )
@@ -172,33 +179,26 @@ void CalcZ( float** data_buf,
 		else
 			z[i] = 0;
 
-		/* print debug mean and sd
-		printf("mean=%e, stddev=%e, z=%e\n", mean, stddev, z[i] );
-		*/
+		/* print debug mean and sd */
+		printf("x=%e, mean=%e, stddev=%e, z=%e\n", data_buf[m][i], mean, stddev, z[i] );
 
 		/*
 		 * Print out enormous big z scores
-	 	 */
-		/*
-		if( z[i] > 1e5 )
+	 	 *
+		if( z[i] > threshold )
 		{
 			largeZ.push_back( z[i] );
 			printf("z[%ld]=%e, x[%ld]=%e, mean=%e, stddev=%e\n", 
 					i, z[i], i, data_buf[m][i], mean, stddev );
-			printf("\t%e\n", data_buf[m][i] );
 			for( int j = 0; j < m_len-1; j++ )
 				printf("\t%e\n", xi[j] );
 		}
 		*/
-		/* Print out raw numbers at certain positions */
 		/*
-		if( i==442645 || i==517793 || i==517794 || i==518061 || i==518329 ||
-			i==567162 || i==628129 || i==628393 || i==697155 || i==705207 ||
-			i==705215 || i==713228 || i==713229 || i==713230 || i==713236)
+		if( i == 1437024 )
 		{
 			printf("z[%ld]=%e, x[%ld]=%e, mean=%e, stddev=%e\n", 
 					i, z[i], i, data_buf[m][i], mean, stddev );
-			printf("\t%e\n", data_buf[m][i] );
 			for( int j = 0; j < m_len-1; j++ )
 				printf("\t%e\n", xi[j] );
 		}
@@ -211,8 +211,8 @@ void CalcZ( float** data_buf,
 			rmsz += pow(largeZ[i], 2.0);
 		rmsz /= (double)largeZ.size();
 		rmsz = sqrt( rmsz );
-		printf("%ld out of %ld z scores are above 1e+5, their rmsz is %e\n", 
-				largeZ.size(), z_len, rmsz );
+		printf("%ld out of %ld z scores are above %f, their rmsz is %e\n", 
+				largeZ.size(), z_len, threshold, rmsz );
 	}
 }
 
@@ -222,6 +222,7 @@ double CalcRMSZ( double* arr, long len )
 	double c = 0.0;
 	long cnt = 0;		// non-zero counts
 	for( long i = 0; i < len; i ++ )
+	{
 		if( arr[i] != 0.0 )
 		{
 			cnt++;
@@ -232,10 +233,10 @@ double CalcRMSZ( double* arr, long len )
 			//if( arr[i] * arr[i] > 10 )
 			//	cout << "Alert: arr[i] = " << arr[i] << endl;
 		}
+	}
 	sum /= (double)cnt;
-	/* print cnt for debug 
-	printf("non-zero z count = %ld\n", cnt );
-	*/
+	/* print cnt for debug */
+	//printf("non-zero z count = %ld\n", cnt );
 	return sqrt( sum );
 }
 
@@ -248,16 +249,35 @@ void WriteRMSZ( double* rmsz, long len, const string &variable )
 	fclose(f);
 }
 
+struct point
+{
+	long idx;
+	float orig_val;
+	float comp_val;
+};
+
+bool mycomp( const struct point &v1, const struct point &v2 )
+{
+	return fabs(v1.orig_val - v1.comp_val) > fabs(v2.orig_val - v2.comp_val);
+}
+
 
 int main( int argc, char* argv[] )
 {
-	string var = "NUMLIQ";
-	if( argc == 2 )
+	string var = "TS";
+	int member = 100;
+	if( argc == 3 )
+	{
 		var = argv[1];
-	vector<string> names;
-	FillOrigNames( names );
+		member = atoi( argv[2] );
+	}
+	vector<string> orig_names;
+	vector<string> comp_names;
+	FillOrigNames( orig_names );
+	FillCompNames( comp_names );
+
 	long buf_size = 0;		
-	int dims = GetVarDims( names[0], var );
+	int dims = GetVarDims( orig_names[0], var );
 	if( dims == 2 )
 		buf_size = LEN2D;
 	else if( dims == 3 )
@@ -268,45 +288,82 @@ int main( int argc, char* argv[] )
 		exit(1);
 	}
 
-	/* read in ensemble data */
-	float** data_buf = new float*[ ENS_SIZE ];
+	/* read in original ensemble data */
+	float** orig_data_buf = new float*[ ENS_SIZE ];
 	for( int m = 0; m < ENS_SIZE; m++ )
 	{
-		data_buf[m] = new float[buf_size];
-		ReadVar( names[m], var, data_buf[m], buf_size );
-		//cout << data_buf[m][buf_size-1] << endl;
+		orig_data_buf[m] = new float[buf_size];
+		ReadVar( orig_names[m], var, orig_data_buf[m], buf_size );
 	}
+	/* read in compressed ensemble data */
+	float** comp_data_buf = new float*[ ENS_SIZE ];
+	for( int m = 0; m < ENS_SIZE; m++ )
+	{
+		comp_data_buf[m] = new float[buf_size];
+		ReadVar( comp_names[m], var, comp_data_buf[m], buf_size );
+	}
+	/* print out min, max 
+	double min = data_buf[0][0];
+	double max = data_buf[0][0];
+	for( long i = 0; i < buf_size; i++ )
+		if( data_buf[0][i] < min )		min = data_buf[0][i];
+		else if( data_buf[0][i] > max)	max = data_buf[0][i];
+	printf("member 000: min=%e, max=%e\n", min, max );
+	*/
 
-	/* calculate z score */
-	/*
+
+	/* calculate z score 
 	double** z_buf = new double*[ ENS_SIZE ];
 	double rmsz[ ENS_SIZE ];
 	for( int m = 0; m < ENS_SIZE; m++ )
 	{
-		//cerr << "iteration m = " << m << endl;
+		//cerr << "ensemble member = " << m << endl;
 		z_buf[m] = new double[buf_size];
 		CalcZ( data_buf, ENS_SIZE, buf_size, m, z_buf[m] );
 		rmsz[m] = CalcRMSZ( z_buf[m], buf_size );
 		printf("%.10e\n", rmsz[m] );
 	}
-	WriteRMSZ( rmsz, ENS_SIZE, var );
+	for( int m = 0; m < ENS_SIZE; m++ )
+		delete[] z_buf[m];
+	delete[] z_buf;
 	*/
+	//WriteRMSZ( rmsz, ENS_SIZE, var );
 
 
 	/* For debug: calculate only 1 member */
-	int m = 0;	
-	double* z0 = new double[ buf_size ];
-	CalcZ( data_buf, ENS_SIZE, buf_size, m, z0 );
-	double rmsz0 = CalcRMSZ( z0, buf_size );
-	printf("%.9e\n", rmsz0 );
-	delete[] z0;
+	int m = member;	
+	std::vector<struct point> points;
+	double* orig_z0 = new double[ buf_size ];
+	double* comp_z0 = new double[ buf_size ];
+	cout << "Start original results: " << endl;
+	CalcZ( orig_data_buf, ENS_SIZE, buf_size, m, orig_z0 );
+	cout << "Start compressed results: " << endl;
+	CalcZ( comp_data_buf, ENS_SIZE, buf_size, m, comp_z0 );
+	double orig_rmsz0 = CalcRMSZ( orig_z0, buf_size );
+	double comp_rmsz0 = CalcRMSZ( comp_z0, buf_size );
+	printf("orignal rmsz=%.9e, compressed rmsz=%.9e\n", orig_rmsz0, comp_rmsz0 );
+	for( long i = 0; i < buf_size; i++ )
+	{
+		struct point p;
+		p.idx = i;
+		p.orig_val = orig_z0[i];
+		p.comp_val = comp_z0[i];
+		points.push_back(p);
+	}
+	std::sort( points.begin(), points.end(), mycomp );
+	for( long i = 0; i < 10; i++ )
+		printf("%ld:   %e - %e = %e\n", points[i].idx,
+									    points[i].orig_val,  points[i].comp_val,
+								 		points[i].orig_val - points[i].comp_val );
+	delete[] orig_z0;
+	delete[] comp_z0;
 	
 	
 	for( int m = 0; m < ENS_SIZE; m++ )
 	{
-		//delete[] z_buf[m];
-		delete[] data_buf[m];
+		delete[] orig_data_buf[m];
+		delete[] comp_data_buf[m];
 	}
-	//delete[] z_buf;
-	delete[] data_buf;
+	delete[] orig_data_buf;
+	delete[] comp_data_buf;
 }
