@@ -52,38 +52,50 @@ int main( int argc, char* argv[] )
     }
     assert( varIdx != -1 );
     vector< string > varDimNames = vars[varIdx].GetDimNames();
-    //for( int j = 0; j < varDimNames.size(); j++ )
-    //   cout << "\tdimension name: " << varDimNames[j]
-    //       << ",\tlength: " << ncsimple.DimLen(varDimNames[j]) << endl;
 
-    /* make sure this is a normal 3D variable by testing it's dimension names */
-    /* 2D variables are not supported here */
-	if(  varDimNames.size() == 2 )
+	size_t lev, homme_size;
+	float* homme_buf = NULL;
+	if(  varDimNames.size() == 3 )
 	{
-		cout << " Var in 2D, not supported yet..." << endl;
-		exit(1);
+		assert( varDimNames[0].compare( "time" ) == 0 );
+		assert( varDimNames[1].compare( "lev" ) == 0 );
+		assert( varDimNames[2].compare( "ncol" ) == 0 );
+
+		lev = ncsimple.DimLen( "lev" );
+		size_t ncol = ncsimple.DimLen( "ncol" );
+		size_t start[] = {1, 0, 0};
+		size_t count[] = {1, lev, ncol};
+		homme_size = lev * ncol;
+		homme_buf = new float[ homme_size ];
+
+		ncsimple.OpenRead( vars[varIdx] );
+		rc = ncsimple.Read( start, count, homme_buf );
+		ncsimple.Close();
+		if( rc < 0 ) {
+			cerr << "ncsimple.Read() error: " << endl;
+			exit(1);
+		}
 	}
-    assert( varDimNames.size() == 3 );
-    assert( varDimNames[0].compare( "time" ) == 0 );
-    assert( varDimNames[1].compare( "lev" ) == 0 );
-    assert( varDimNames[2].compare( "ncol" ) == 0 );
+	else if( varDimNames.size() == 2)
+	{
+		assert( varDimNames[0].compare( "time" ) == 0 );
+        assert( varDimNames[1].compare( "ncol" ) == 0 );
+		
+		lev = 1;
+		size_t ncol = ncsimple.DimLen( "ncol" );
+		size_t start[] = {1, 0};            
+        size_t count[] = {1, ncol};
+        homme_size = lev * ncol;
+        homme_buf = new float[ homme_size ];
 
-    size_t lev = ncsimple.DimLen( "lev" );
-    size_t ncol = ncsimple.DimLen( "ncol" );
-    size_t start[] = {1, 0, 0};
-    size_t count[] = {1, lev, ncol};
-
-    size_t homme_size = lev * ncol;
-    float* homme_buf = new float[ homme_size ];
-
-    ncsimple.OpenRead( vars[varIdx] );
-    rc = ncsimple.Read( start, count, homme_buf );
-    ncsimple.Close();
-    if( rc < 0 )
-    {
-        cerr << "ncsimple.Read() error: " << endl;
-        exit(1);
-    }
+        ncsimple.OpenRead( vars[varIdx] );
+        rc = ncsimple.Read( start, count, homme_buf );
+        ncsimple.Close();
+        if( rc < 0 ) {
+            cerr << "ncsimple.Read() error: " << endl;
+            exit(1);
+        }
+	}
 
     /* Evaluation:
      * This chunk of code uses SPECK to encode, then decode, and evaluate.
@@ -91,11 +103,23 @@ int main( int argc, char* argv[] )
 	VAPoR::CamHandler handler( hommeMap, faceMap );
     int numXYDWTLevels = 4;
     int numZDWTLevels = 2;
-    char filename[] = "/flash_buffer/Sam/bitM.stream";
+    char filename[] = "/flash_buffer/Sam/bit.stream";
     float* homme_reconstruct = new float[ homme_size ];
-	handler.speckEncodeMany2D( homme_buf, homme_size, lev,
+
+	if(  varDimNames.size() == 3 ) {
+		cerr << "start 2D+1D DWT and SPECK encoding... " << endl;
+		handler.speckEncode2Dp1D( homme_buf, homme_size, lev,
+							   numXYDWTLevels, numZDWTLevels, targetRate, filename );
+		cerr << "start 3D decoding... " << endl;
+		handler.speckDecode3D( filename, homme_size, lev, homme_reconstruct ); 
+	}
+	else if (  varDimNames.size() == 2 ) {
+		cerr << "start 2D SPECK encoding... " << endl;
+		handler.speckEncode2D( homme_buf, homme_size, 
 							   numXYDWTLevels, targetRate, filename );
-	handler.speckDecodeMany2D( filename, homme_size, lev, homme_reconstruct );
+		cerr << "start 2D decoding... " << endl;
+		handler.speckDecode2D( filename, homme_size, homme_reconstruct );
+	}
 
     double rmse, lmax, nrmse, nlmax, minA, maxA, minB, maxB, meanA, meanB, lmaxA, lmaxB, maxRE;
     handler.evaluate2arrays( homme_buf, homme_reconstruct, homme_size,
@@ -106,17 +130,17 @@ int main( int argc, char* argv[] )
                              &meanA, &meanB, 
                              &lmaxA, &lmaxB,
 							 &maxRE );
-	/*
     printf("Groud truth: mean = %.8e, min = %e, max = %e\n", meanA, minA, maxA );
     printf("Reconstruct: mean = %.8e, min = %e, max = %e\n", meanB, minB, maxB );
     printf("Mean Difference: %e\n", meanA - meanB );
     printf("Reconstruction RMSE  = %e, LMAX  = %e\n", rmse, lmax );
     printf("Reconstruction NRMSE = %e, NLMAX = %e\n", nrmse, nlmax );
 	printf("LMAX occurs with A[i] = %e, B[i] = %e.\n", lmaxA, lmaxB );
-	*/
+	/*
 	printf("\t%e, %e\n", rmse, lmax );
 	printf("\t%e, %e, %e\n", nrmse, nlmax, maxRE );
 	printf("\t%e, %e\n", minA, maxA );
+	*/
 
 	/* 
 	 * Debug info: output every data point
@@ -149,10 +173,6 @@ int main( int argc, char* argv[] )
 
 
 /*
-    size_t homme_size = _NCOL * LEV;
-    float* homme_buf = new float[ homme_size ];
-    cerr << "start reading input... " << endl;
-    ReadAscii( asciiInput, homme_buf, homme_size );
 
     cerr << "start building map... " << endl;
     VAPoR::CamHandler handler( hommeMap, faceMap );
@@ -163,19 +183,7 @@ int main( int argc, char* argv[] )
     handler.speckEncode3D( homme_buf, homme_size, LEV,
                            numZDWTLevels, targetRate, filename );
 
-    cerr << "start 2D+1D DWT and SPECK encoding... " << endl;
-    handler.speckEncode2Dp1D( homme_buf, homme_size, LEV,
-                           numXYDWTLevels, numZDWTLevels, targetRate, filename );
 
-
-    cerr << "start 3D decoding... " << endl;
-    handler.speckDecode3D( filename, homme_size, LEV, homme_buf_comp ); 
-
-    cerr << "start 2D SPECK encoding... " << endl;
-    handler.speckEncode2D( homme_buf, homme_size, 
-                           numXYDWTLevels, targetRate, filename );
-    cerr << "start 2D decoding... " << endl;
-    handler.speckDecode2D( filename, homme_size, homme_buf_comp );
 
     delete[] homme_buf;
     delete[] homme_buf_comp;

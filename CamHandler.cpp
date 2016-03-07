@@ -549,6 +549,10 @@ extern "C"
 				  const char* output_name );
 };
 
+/* 
+ * Only performs SPECK encoding, but not including wavelets.
+ * For research only.
+ */
 void CamHandler::Speck3DEncodeOnly( double* coeff_buf,
 				  long nx, long ny, long nz,
 				  double image_mean,
@@ -637,11 +641,29 @@ void CamHandler::speckEncode2Dp1D( float* homme_buf,
         size_t faceOffset = face * _NX * _NY * LEV;
 
         /* generate filenames for each face */
-        char  tmpName[ 1024 ];
+        char  tmpName[ 256 ];
         char suffix[64];
         sprintf( suffix, ".face%d", face );
         strcpy( tmpName, outputFilename );
         strcat( tmpName, suffix );
+
+		/* save min max values separately */
+		float minmax[2];
+		minmax[0] = *(raw_buf+faceOffset);
+		minmax[1] = *(raw_buf+faceOffset);
+		for( size_t i = 0; i < _NX*_NY*LEV; i++ )
+		{
+			if( *(raw_buf+faceOffset+i) < minmax[0] )
+				minmax[0] = *(raw_buf+faceOffset+i);
+			if( *(raw_buf+faceOffset+i) > minmax[1] )
+				minmax[1] = *(raw_buf+faceOffset+i);
+		}
+		char minmaxName[256];
+		strcpy( minmaxName, tmpName );
+		strcat( minmaxName, ".minmax" );
+		FILE* f = fopen( minmaxName, "wb" );
+		fwrite( minmax, sizeof(float), 2, f );
+		fclose(f);
 
         myspeckencode2p1d( raw_buf + faceOffset, _NX, _NY, LEV,
                            tmpName, XYNumDWTLevels, ZNumDWTLevels, targetRate );
@@ -677,6 +699,23 @@ void CamHandler::speckDecode3D( char*  inputFilename,
         strcat( tmpName, suffix );
 
         myspeckdecode3d( tmpName, raw_buf + faceOffset, _NX * _NY * LEV );
+
+		/* read min max values separately,
+		   and clamp reconstructed values to original range. */
+		float minmax[2];
+		char minmaxName[256];
+		strcpy( minmaxName, tmpName );
+		strcat( minmaxName, ".minmax" );
+		FILE* f = fopen( minmaxName, "rb" );
+		fread( minmax, sizeof(float), 2, f );
+		fclose(f);
+		for( size_t i = 0; i < _NX*_NY*LEV; i++ )
+		{
+			if( *(raw_buf+faceOffset+i) < minmax[0] )
+				*(raw_buf+faceOffset+i) = minmax[0];
+			if( *(raw_buf+faceOffset+i) > minmax[1] )
+				*(raw_buf+faceOffset+i) = minmax[1];
+		}
     }
 
     raw2cam( raw_buf, raw_size, homme_buf, homme_size, LEV );
@@ -710,6 +749,24 @@ void CamHandler::speckEncode2D( float* homme_buf,
         sprintf( suffix, ".face%d", face );
         strcpy( tmpName, outputFilename );
         strcat( tmpName, suffix );
+
+		/* save min max values separately */
+		float minmax[2];
+		minmax[0] = *(raw_buf+faceOffset);
+		minmax[1] = *(raw_buf+faceOffset);
+		for( size_t i = 0; i < _NX*_NY; i++ )
+		{
+			if( *(raw_buf+faceOffset+i) < minmax[0] )
+				minmax[0] = *(raw_buf+faceOffset+i);
+			if( *(raw_buf+faceOffset+i) > minmax[1] )
+				minmax[1] = *(raw_buf+faceOffset+i);
+		}
+		char minmaxName[256];
+		strcpy( minmaxName, tmpName );
+		strcat( minmaxName, ".minmax" );
+		FILE* f = fopen( minmaxName, "wb" );
+		fwrite( minmax, sizeof(float), 2, f );
+		fclose(f);
 
         myspeckencode2d( raw_buf + faceOffset, _NX, _NY,
                          tmpName, numDWTLevels, targetRate );
@@ -820,6 +877,23 @@ void CamHandler::speckDecode2D( char*  inputFilename,
         strcat( tmpName, suffix );
 
         myspeckdecode2d( tmpName, raw_buf + faceOffset, _NX * _NY );
+
+		/* read min max values separately,
+		   and clamp reconstructed values to original range. */
+		float minmax[2];
+		char minmaxName[256];
+		strcpy( minmaxName, tmpName );
+		strcat( minmaxName, ".minmax" );
+		FILE* f = fopen( minmaxName, "rb" );
+		fread( minmax, sizeof(float), 2, f );
+		fclose(f);
+		for( size_t i = 0; i < _NX*_NY; i++ )
+		{
+			if( *(raw_buf+faceOffset+i) < minmax[0] )
+				*(raw_buf+faceOffset+i) = minmax[0];
+			if( *(raw_buf+faceOffset+i) > minmax[1] )
+				*(raw_buf+faceOffset+i) = minmax[1];
+		}
     }
 
     raw2cam( raw_buf, raw_size, homme_buf, homme_size, 1 );

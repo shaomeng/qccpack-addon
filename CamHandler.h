@@ -255,6 +255,7 @@ class CamHandler
 
 	/* 
 	 * Only performs SPECK encoding, but not including wavelets.
+	 * This function is intended for research only.
 	 */
 	void Speck3DEncodeOnly( double* coeff_buf,
 				  long nx, long ny, long nz,
